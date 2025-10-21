@@ -1,0 +1,191 @@
+<h1>影刀RPA自动采集小红书对标店铺商品（保姆级教程-附源码） </h1>
+<blockquote>来源：<a href="https://vind9redwd.feishu.cn/docx/Tr5zdjgYWoKRNCxktExcXixEn1f">https://vind9redwd.feishu.cn/docx/Tr5zdjgYWoKRNCxktExcXixEn1f</a></blockquote>
+<p>各位星球的小伙伴大家好，我是黄大路。目前在专注于用 RPA 来做一些业务解决方案。结合影刀 RPA ，已经搭建了 150 + 自动化流程。也合作了一些小红书MCN、电商团队/个人。帮助他们运营提效。</p>
+<p>今天带来的实战项目。是一个小红书商家比较常见的业务场景：自动采集小红书店铺商品数据。</p>
+
+<p>之前我在星球分享了采集小红书低粉爆款商品的流程。有很多朋友跟着搭建出来了。然后我这边客户后续还提了一个场景，就是采集对标店铺的商品。</p>
+
+<p>这个业务场景大概是：</p>
+
+<p>发现了一些销量不错的商品，同时发现对应店铺多数商品都很不错。于是想把对标店铺，满足一定销量要求的商品，全部采集下来，然后监控商品销量。</p>
+
+<p>主要是用来做以下判断：</p>
+<p>1、“24 加购的人数情况”，“3个月内商品购买人数”。通过3个月内的商品购买人数，来判断商品近期的销量情况。然后通过看商品 24 小时加购人数情况，数据不错可以迅速跟品。</p>
+<p>2、每天监控商品销量，如果发现有些商品销量，每天都是逐步上涨的趋势，判断估计这款商品是潜在爆款，可以提前行动，寻找货源；</p>
+<p>3、查看同行店铺上新情况，可以判断同行商品的迭代趋势、方向。</p>
+<p>4、通过拿到对标店铺每日的商品销量、商品价格，就可以大概计算得到对标店铺每日销售额、客单价。</p>
+
+<p>想着和之前分享的场景，有些类似。于是还是在星球分享出来。</p>
+
+<p>本篇教程，主要介绍下自动采集对标店铺商品的流程。监控商品的流程，之前的文章有介绍过，可以看看。</p>
+
+<p>这套流程是用的影刀 RPA。需要在 Win 系统 + Android 手机设备下运行。</p>
+
+<p>还是先看下实现效果和采集的字段说明。</p>
+<h3>一、实现效果</h3>
+<h4>1.1 视频演示</h4>
+<p>（1）采集商品演示</p>
+<p>可以看看视频采集商品的演示视频。需要提前给出对标店铺的小红书号，我为了视频演示方便，填的一个，这里是可以填多个店铺的小红书号，同时多个店铺的商品。</p>
+<p>除了填写小红书号，还需要填写下商品销量的数值，那么在采集的时候，是采集 「大于等于」 该值的商品数据。</p>
+<p>如果你需要采集全店的商品数据，那么这里填写“0”就可以了。</p>
+
+<h4>1.2 采集的商品字段说明</h4>
+<p>（1）应用运行完成后，会采集到商品以下字段。分别是：商品标题、商品链接、商品销量、商品原价、到手价、3个月内购买人数、24小时加购。</p>
+<p><img src="img/9fdf980fc775b6325f26a4e42bc16306.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HmGgbW5YiokBsXxGe0ocMWC6nEg/"/></p>
+<h4>1.3 产品流程图</h4>
+<p>整个流程是模拟人工操作，在小红书首页去输入小红书 ID，然后去到对标的店铺首页。然后按照设置的商品销量要求，来依次获取商品数据。</p>
+<p><img src="img/18e1e0b53b741424b960ca9a0a2fe297.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WVuRbIZxCo3HYoxM9VmcqMKpnWe/"/></p>
+<p>然后说一下，RPA 工具，使用上没有其他任何限制。没有采集店铺数、商品数等等限制。</p>
+
+<h3>二、RPA指令编排</h3>
+<h4>2.1 前期配置</h4>
+<p>因为是手机自动化应用。如果你没有 Android 手机，也可以考虑使用 Android 模拟器。</p>
+<p>本文 RPA 流程的运行环境。</p>
+<ul><li>影刀 RPA 版本：影刀 5.28.34 创业版(32位)</li></ul>
+<ul><li>Android 手机版本：Redmi Note 10，MIUI 14.0.10</li></ul>
+<ul><li>小红书版本：v.8.88.0.be5f430</li></ul>
+
+<p>这里说下环境配置。整个手机自动化流程，会受到影刀 RPA 版本、Android 机型以及系统、小红书 App 版本影响。不同的版本，细节上会有差异，这部分自行调整。</p>
+
+<p>配置教程：</p>
+<ul><li>影刀客户端配置-官方说明</li></ul>
+<ul><li>手机端自动化配置-官方说明</li></ul>
+
+<p>电脑客户端、Android 手机端的配置流程。这部分建议按照影刀 RPA 官方文档进行配置。实在不会，可以问问影刀官方，或者问问我。</p>
+<p><img src="img/134e9d815ef89f58e7219b8279db4ed0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I4FGbvYZmoTx1zx72BgcUhWknTe/"/></p>
+<p>连接成功后，就会看见手机已经投屏到电脑上了。如果连接未成功，请仔细按照影刀RPA官方配置教程核对。</p>
+
+<h4>2.2 指令流程解释（主流程）</h4>
+<p>如果不太熟悉 RPA 指令，可以先看看上面的业务流程图，以及最后的完整指令截图。再来根据流程图，看指令逻辑。</p>
+<p>1、初始化信息，并且连接手机。先写入表头数据到数据表格。</p>
+<p>表头字段：</p>
+<pre>["商品标题","商品链接","商品销量","商品原价","到手价","3个月内购买人数","24小时内加购"]</pre>
+<p><img src="img/bc0722202543e701fee078c51d21fad2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DEt8baHseoEWgNxOSlycBHcinOb/"/></p>
+<p>第 1 行指令的自定义对话框信息，分别是「小红书号」、销量要求。销量要求我是设置的全局变量。</p>
+<p><img src="img/4005b787412018a1bd203e65d7f9178a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MPpkb8v0pobwVcxUMcMc3ygEnPg/"/></p>
+<p><img src="img/1bad6857e75b1137b4b9580de2bd0943.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SaBbbbP8JoxfdIx95wHcGVtgn0g/"/></p>
+<p>第 6 行指令的「文本分割列表」，可以直接用换行符分割。用户在输入小红书号时，有多个小红书号，就换行输入。</p>
+<p><img src="img/f7073b947a6a9a40744c7eb1ee21815e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZbK4bY61WoJM1SxjH0kcvua2nIp/"/></p>
+<p>2、默认打开小红书首页，然后搜索“小红书号”，从搜索结果页，去到小红书号主页。</p>
+<p>从小红书首页开始运行。开始搜索小红书号。</p>
+<p><img src="img/ef8e05b811999163377fff779ca42baa.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WcxfbKIeBoLfS9xWaCac4d9jntg/"/></p>
+<p>在第 1 部分指令截图里，连接到手机后，获取到搜索框，然后开始循环输入小红书号（因为支持多个小红书号的店铺商品采集，所以这里是循环输入。）</p>
+<p>搜索按钮、输入框的的 xpath 路径：</p>
+<pre># 搜索_按钮
+//*[@content-desc='搜索']
+
+# 搜索_输入框
+//android.widget.EditText[@text="搜索, "]
+
+# 搜索_输入框
+//*[@text='搜索']</pre>
+<p><img src="img/17c04049b7af81c454e5d2a6a5ac43a2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ff8Hb30uioIAmgxhDI9cjijcnDd/"/></p>
+<p>第 2 部分，从搜索结果页，去到小红书号主页</p>
+<ul><li>正常流程：从小红书号-搜索结果页，去小红书主页；</li></ul>
+<ul><li>异常处理：没有搜索到账号/没有开店。忽略循环。</li></ul>
+<p>这部分的逻辑，就是点击搜索结果页的小红书头像，然后进入小红书主页，从主页去小红书店铺首页。</p>
+<p><img src="img/87f7cc201f04dfd589c839eca0f2fd58.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CXtMb9H7Ao3kytxUYsdcP6h1nbg/"/></p>
+<p>这部分几个元素的 xpath 路径：</p>
+<pre># 搜索结果_账号头像
+//android.widget.FrameLayout[@resource-id='com.xingin.xhs:id/avatarLayout']
+
+# 店铺_元素
+//*[@text='店铺']</pre>
+<p>为了流程清晰，把获取店铺商品的逻辑，单独拆分出来，成为一个子流程。</p>
+<p>其他的应该不难理解，获取完商品数据后，就一直循环获取下一个店铺的商品数据。</p>
+<p><img src="img/9175963f9124a419823223804a2d5757.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FEj5bouWCoIGbHxQ660c7PocnHg/"/></p>
+<p><img src="img/e55b879c33fdbd9ad669e380c95a1a28.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/V11GbJoJfoSSRqxCO7jcY7FQn9g/"/></p>
+<h4>2.3 指令流程解释（获取店铺商品）</h4>
+<p>下面是获取店铺商品的整体逻辑，业务流程是：</p>
+<ol><li>进入店铺后，按照商品销量排序；</li></ol>
+<ol><li>循环获取商品列表的商品销量。如果销量满足要求，就进入商详页获取商品数据。如果不满足要求，就退出循环，然后退出店铺页面。证明这个店铺的商品数据获取完成。</li></ol>
+<p><img src="img/41a9e6714e20343c440468ed355645c6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Jqbfbv4u9oAhR5x8Eq7cArESnC3/"/></p>
+<p>元素 xpath 路径：</p>
+<pre># 销量
+//*[@text='销量']</pre>
+<p>了解完正常业务流程。再来看循环获取商品信息的流程。因为商品列表的商品信息，如果商品销量=0，则销量信息不会在商品列表显示，所以这里需要判断下。</p>
+<p><img src="img/7ac31175a446675dcf91d0b4af1601fa.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/J8BJbRRRWoS25RxTRm8cBH0dnte/"/></p>
+<p>为了流程清晰，获取商品数据，还是单独放了一个子流程。</p>
+<p>另外，商品销量的数据处理，是写了一个数据函数。如下，直接复制使用就可以。</p>
+<pre>import re
+def convert_chinese_number(text):
+    # 定义中文数字单位映射
+    units = {
+        '十': 10,
+        '百': 100,
+        '千': 1000,
+        '万': 10000,
+        '亿': 100000000
+    }
+    
+    # 正则表达式匹配数字和中文单位
+    pattern = r'(\d*\.?\d+)([十百千万亿]?)'
+    match = re.search(pattern, text)
+    
+    if not match:
+        return 0
+    
+    number = float(match.group(1))
+    unit = match.group(2)
+    
+    if unit:
+        return int(number * units[unit])
+    return int(number)
+
+# 示例用法
+# print(convert_chinese_number("1万"))    # 输出: 10000
+# print(convert_chinese_number("2.5亿"))  # 输出: 250000000
+# print(convert_chinese_number("点赞"))   # 输出: 0
+# print(convert_chinese_number("3千5百")) # 输出: 3500</pre>
+<h4>2.4 指令流程解释（获取商品数据）</h4>
+<p>第 1 部分，获取商品标题、价格。</p>
+<p><img src="img/488d41c7caeb3752e37d4d078525375a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QqRcb3dGso6HOUxnZLZcMiu8nRb/"/></p>
+<p>这部分元素的 xpath 路径：</p>
+<pre># 商品标题
+//android.widget.TextView[@long-clickable="true" and string-length(@text)&gt;10]
+
+# 商品原价
+//android.widget.TextView[starts-with(@text, '已售')]/../../following-sibling::android.view.ViewGroup//android.widget.TextView[starts-with(@text, '¥')]
+
+# 商品到手价
+//*[starts-with(@text,"到手价")]</pre>
+
+<p>第 2 部分，获取商品 3 个月购买数据、24 小时加购数据。因为这两个字段，有的商品是没有的，所以需要做下异常处理。</p>
+<p><img src="img/d16284fa9ae7d0e61bc84fb36416c756.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OHNvbku4RoBQNQxbs6pc6eOXncz/"/></p>
+<p>这部分元素的 xpath 路径：</p>
+<pre># 三个月购买_元素
+//android.widget.TextView[contains(@text, '3个月内') and contains(@text, '人购买')]
+
+# 加购_元素
+//android.widget.TextView[contains(@text, '24小时内') and contains(@text, '人加购')]</pre>
+<p>第 3 部分，获取商品链接，并把获取的商品数据，写入到数据表格。</p>
+<p>有个细节，「复制链接」的元素，这里我是用图像捕获的，这里你可以看下视频演示里的「复制链接」元素。可以和我一样图像捕获下，或者捕获元素，都可以。</p>
+<p><img src="img/285307f159ba6e1f21dc7123cafd4fcd.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/If52bHyGYoNCvUxlDDWcZifnnRh/"/></p>
+<p>这部分元素的 xpath 路径：</p>
+<pre># 分享商品
+//*[contains(@content-desc,"分享商品")]
+
+# 弹窗_滑动容器
+(//androidx.recyclerview.widget.RecyclerView)[3]
+
+# 复制链接
+//*[@content-desc='复制链接']</pre>
+<p>获取完商品信息后，然后写入数据表格，以下是数据表格写入的字段，供参考。</p>
+<p><img src="img/e0a64548b42fa6657cbb8fcd3545581a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TBQubyBYfocs6LxIoOZcJM42n4e/"/></p>
+<h4>2.5 完整源码</h4>
+<p>（1）主流程</p>
+<p><img src="img/6ff41ce30de0fb006072ceaafe4afb39.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WVwxbxZIiosAGZx4gZVcWv9lnVg/"/></p>
+<p>（2）获取店铺商品</p>
+<p><img src="img/35c9cbe3fbe9b7d657f24bb0ebe0a31b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VgINbyU8to293pxHKKdctOuyn4b/"/></p>
+<p>（3）获取商品数据</p>
+<p><img src="img/b3e630c59ff71967207b6e7cb5063aad.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/By2lbI7mwoj3PLx4klqcmXIfnBe/"/></p>
+<h4>三、总结</h4>
+<p>自动采集小红书号店铺商品数据的流程，都分享完成。如果你是做小红书电商业务，有类似选品方式的需求，可以按照流程来实现。</p>
+<p>然后，因为手机自动化需要考虑的因素有很多（手机系统、硬件、App版本等）。所以在一些细节上，还是可以结合自己的情况，灵活考虑。</p>
+<p>如果觉得有帮助，欢迎点赞 ~</p>
+
+<h3>其他文章</h3>
+
+
+
+
