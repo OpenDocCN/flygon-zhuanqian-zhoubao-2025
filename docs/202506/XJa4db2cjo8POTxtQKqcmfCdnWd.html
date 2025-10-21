@@ -1,0 +1,100 @@
+<h1>出海网站航海感悟以及Flux-Kontext模版项目的学习历程与技术实践</h1>
+<blockquote>来源：<a href="https://iqa21iualv.feishu.cn/docx/XJa4db2cjo8POTxtQKqcmfCdnWd">https://iqa21iualv.feishu.cn/docx/XJa4db2cjo8POTxtQKqcmfCdnWd</a></blockquote>
+<p>目前没有看到任何仓库，同时接入了stripe和creem 出自 @良辰美 大佬的 FLUX KONTEXT</p>
+<p>每一个出海的做网站的人都跟我一样，总一些很难跨过去的大山 出自 @林悦己 大佬的Creem支付配置</p>
+<p>这次教练分享了一个带有支付相关内容的开源模版，赶紧拿来学习学习。</p>
+<p>学习实践这个模版可以获得：</p>
+<p>快速构建MVP（最小可行产品），避免在技术选型和架构设计上消耗过多时间</p>
+<p>通过研究模版源码，能够学习到AI SaaS产品的最佳实践和设计模式</p>
+<p>结合航海手册的指导⁠⁠，可以更系统地规划产品开发路线，减少试错成本</p>
+
+<p>接下来我会从三月航海先回顾一下，然后是模版项目的实践</p>
+<h2>项目开发历程与经验总结</h2>
+<p>在3月Web网站出海航海中，我从单页游戏站起步，完成GSC、GC集成和AdSense申请，随后转向AI站开发。</p>
+<p>我个人过于急于求成，忽视了社群资源的重要性。</p>
+<p>在AI站开发过程中，我完成了ChatGPT和Gemini API的整合，但在支付系统选择上遇到了瓶颈：</p>
+<ul><li>Stripe和Lemon Squeezy因严格的注册要求未能实施</li></ul>
+<ul><li>错过了团队成员推荐的Creem支付方案</li></ul>
+<p>最终，项目转型为导航站：https://generateghibli.org/en</p>
+<h2>关键启示</h2>
+<ol><li>保持开放心态，善于利用社群资源和寻求帮助</li></ol>
+<ol><li>项目开发需要系统规划和持续迭代优化</li></ol>
+<ol><li>重视经验总结，从失败中汲取教训</li></ol>
+<p>通过这些经历，我有幸接触到了@良辰美 教练分享的https://scys.com/articleDetail/xq_topic/1524141251441252开源模版。这个模版包含了完整的AISaaS基础架构：</p>
+<p>多语言、登录鉴权、用户权限管理、积分管理、支付安全、多支付平台、AI生成模块等</p>
+<p>掌握这个项目的设计理念，结合航海手册的指导，将为AI站开发打下坚实基础。</p>
+<p>可以避免从零开始搭建AI SaaS平台的大量技术踩坑，因为它已经集成了完整的基础架构⁠⁠，包括用户系统、支付体系和AI模块等核心功能</p>
+<p>从实践经验来看，没有使用成熟模版会在支付系统选择等关键环节遇到严重瓶颈⁠⁠，这些都是可以通过学习模版来规避的问题</p>
+<p>模版不仅提供了技术框架，更重要的是体现了完整的商业思维 - 从用户体验到变现路径都有系统性考虑⁠⁠</p>
+<p>接下来，让我详细分享这个模版项目的实践经验</p>
+<h1>项目实践（把项目跑起来）</h1>
+<h2>1、拉取项目</h2>
+<p>首先从GitHub上克隆项目，在终端运行：</p>
+<pre>git clone <https:/></pre>
+<h2>2、熟悉项目结构、安装依赖</h2>
+<p>在编辑器中打开项目，先通过README文档了解项目概况。</p>
+<p>项目中还包含docs目录，其中有详细的学习文档和项目配置说明。</p>
+<p>浏览完这些文档后，我发现了一个重要问题：</p>
+<p>项目原本计划使用bun作为包管理工具，</p>
+<p>但项目中存在 package-lock.json</p>
+<p>这表明项目中混用了npm和bun两种包管理工具。</p>
+<p>为了统一管理，我决定遵循文档建议使用bun，因此删除了 package-lock.json，然后执行：</p>
+<pre>npm i -g bun #如果没有安装bun，第一步先全局安装一下
+
+#安装依赖
+bun i</pre>
+<p>完成后，项目中会自动生成 bun.lock</p>
+<h2>3、本地环境变量填写</h2>
+<p>我是按照示例当中提供的链接一个一个去申请获取的。</p>
+<p>superbase相关值获取的页面</p>
+<p>1、</p>
+<p><img src="img/86a428151ad7fccf3ed3b8032409a588.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Lq7hbfwddoZdirxhTiucLQ0gnSd/"/></p>
+<p>2、</p>
+<p><img src="img/4d8f3b5c8f32b4d519b964b7617ac213.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OZuub7y2UoPR6KxraIbc9DdYnPt/"/></p>
+<p><img src="img/1af8a62996a465e813045eb538973cdf.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Li63bHrgmoOlMgxNUfkcKI96nle/"/></p>
+<p>2、Goole OAuth</p>
+<p><img src="img/1d197f186c442bc0fc0bda6c24eea907.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HjM2b6hHYo06kIxd6JCcZcUhnjf/"/></p>
+<p><img src="img/d6c164fd4371e288ae52d3181a9b91f5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZDGeb1wUGonUpPxdHJlcJeBRn4c/"/></p>
+<p>然后第一个选择web应用，其他信息根据你的项目内容去调整，我都是让ai给的信息</p>
+<p><img src="img/3a3112a3a9154c6ff12b8e87f57a7194.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EeL9bdDunoijr3xHb6RcJDI2nLb/"/></p>
+<h3>Cloudflare R2</h3>
+<p>这个R2的创建第一步需要先绑定一下支付账户，可能算是一个卡点</p>
+<p>第二个卡点就是api token相关的值在哪个地方，我找了半天才发现藏在api按钮下面，管理API令牌就是了</p>
+<p><img src="img/d614e815d8892b94bb3bf3eb830ffeef.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FYpsbHrzjobADfx6QOhcewfLnA5/"/></p>
+<h3>接下来先说Turnstile</h3>
+<p>还是在cloudflare上, 大致填写情况如下：填写时根据你本地情况来填写</p>
+<p><img src="img/20cc8f1fcbad4dcca2b6c75d5d2322f5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PwNibgdDAoA4Rax12YMcw38mnHe/"/></p>
+<h3>Creem支付（测试环境）</h3>
+<p>我的creem账户只是注册了账号还没有开通收款账号，我这次本地测试调整主要参考了  @Cheer林悦己大佬的creem的注册教程</p>
+<p>https://scys.com/articleDetail/xq_topic/8852488525882522</p>
+<p>还有就是Creem官方的说明文档</p>
+<p>以及api文档</p>
+<p>首先就是测试环境的API_URL是https://test-api.creem.io，然后在Creem后台内：</p>
+<p>先去开启 Test mode，然后测试模式下去创建几个产品</p>
+<p><img src="img/1e6ff35cd32adba910948e32d018dc5a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BdkdbMHkBosxaVxhZTRc9WgKnth/"/></p>
+<p>然后点击测试模式开关旁边的Developers,就可以看到apikeys、webhooks了，api key直接复制即可</p>
+<p><img src="img/844334041bd05b4e6a4a7c8dcb83848c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QfjBbbUDVo0LQ6x2NYNccAVWn4d/"/></p>
+<p>webhook需要先创建，然后如图：</p>
+<p><img src="img/7e6f8e98fa2bdbe7e77c55012379165b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BDq2bBqZTo6uRJx9yasc9otenob/"/></p>
+<p>点击之后就可以看到密钥了。</p>
+<p>记得关闭stripe，开启creem</p>
+<p>基本凑齐也填的差不多了。</p>
+<h2>4、调试Creem的时候踩的坑了</h2>
+<p>由于未仔细阅读文档，我最初直接使用了生产环境的 api-url 进行实际支付测试。</p>
+<p>系统立即报错 product not found，表明无法找到相关产品。</p>
+<p>经过排查，发现问题源于链接配置不当。解决此问题后，</p>
+<p>又出现了新的错误：项目内的产品 ID 与 Creem 平台上的产品 ID 不一致。</p>
+<p>尽管尝试借助 AI 修改代码，但问题依然存在。</p>
+<p>随后我转向 Creem 官网进行测试，确认了 API 密钥确实可用。</p>
+<p>最后，通过仔细对照官方说明文档和 API 文档重新配置，成功完成了 Creem 的支付测试。但修改后的代码还需要进一步测试以确保其稳定性。</p>
+<p><img src="img/10d23521d494bf9ba0bdb221b8f5496e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SRfwbq71vo9qgHx5YmZcti4Un5c/"/></p>
+<p><img src="img/18a1231c34c68f833e366e6b265293a3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Tke7bgAHBoy9u6xUGyec5JZDnpb/"/></p>
+<p><img src="img/beecc35a3facc794aacb1491f77284b4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LJXcbVv5eoj1WvxCbIicWBqWnvb/"/></p>
+<p>到这里就基本测试结束了，项目内还有goole登录、github登录、ai生图很多地方大家可以配置好密钥自己上手体验体验哇</p>
+<p>总结这次项目实践以及web航海回顾的经验：</p>
+<p>关键收获：</p>
+<ul><li>开源模版的重要性：提供了完整的AISaaS基础架构，包含用户系统、支付体系等核心功能</li></ul>
+<ul><li>技术实践价值：避免重复踩坑，加快MVP构建速度</li></ul>
+<ul><li>团队协作意识：重视社群资源，善于寻求帮助</li></ul>
+<p>未来展望：</p>
+<p>虽然目前项目还未获得实质性收益，但通过持续学习和实践，相信终将实现预期目标。这次的技术实践经验为后续AI站开发打下了坚实基础，将继续保持开放心态，注重经验总结，推动项目稳步发展。</p>
