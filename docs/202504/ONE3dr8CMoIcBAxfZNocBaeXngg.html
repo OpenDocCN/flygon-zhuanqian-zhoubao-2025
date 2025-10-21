@@ -1,0 +1,75 @@
+<h1>如何用ComfyUI工作流生成原创无缝贴图</h1>
+<blockquote>来源：<a href="https://aa5a24dduio.feishu.cn/docx/ONE3dr8CMoIcBAxfZNocBaeXngg">https://aa5a24dduio.feishu.cn/docx/ONE3dr8CMoIcBAxfZNocBaeXngg</a></blockquote>
+<h2>0、前言</h2>
+<p>最近参加了AI赋能电商的航海，在20号直播前的工作流问题接龙中，来来教练抛了个“批量制作无缝图案”的课题，正好我之前搭建过这类工作流，所以给大家分享下思路和成品文件。</p>
+
+<p>无缝图案的核心是，同一张图不论怎么复制拼接，接缝处的图案都能完美匹配，因此需要将原图分成四块并打散排布，然后通过采样进行局部重绘处理。</p>
+
+<p>详细步骤请移步飞书，成品工作流文件也作为附件上传了，欢迎有需要的圈友自取。</p>
+<p><img src="img/4685b0b181ef5b53d5ac60b0f9512b5f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HaiSbVdrsozw5Nx71lYc0CbYnrh/"/></p>
+<p><img src="img/66beb500c61209cdd33ae89c0126c935.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZNgpb6QKSoggHPx9Ypjcwsppn8g/"/></p>
+
+<h2>1、基础模型选择</h2>
+<p>为了兼顾出图质量与出图速度，本工作流使用sdxl作为底模，选用的模型为juggernautXL_v9-Lightning_4S，为了方便，直接使用了全局输入节点，省去后续连线的麻烦。</p>
+<p><img src="img/78a6c05f4d54ad53e17f49570a42ee15.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/K1cmbPNz2oSWC4xd36wcPCTanlf/"/></p>
+<h2>2、文生图</h2>
+<p>生成无缝接图，可以通过文生图方式（输入文字生成图片），也可以通过图生图方式（输入图片生成新的图片）。</p>
+<p>这里先演示文生图——</p>
+<h3>2.1 提示词生成图片</h3>
+<p>①首先通过CLIP文本编码节点，输入正面提示词和负面提示词：</p>
+<p>正面提示词：texture,dogs,patterns,vector</p>
+<p>负面提示词：这里直接偷懒，用了一个embedding文件，也可以自己填入常用的负面提示词，比如low quality等等</p>
+
+<p>②因为有两个采样生图过程，提示词条件也需要连接两次，这里也是使用了一个变量节点用于输入输出。</p>
+<p>（小问题：这里为什么不能使用上面模型加载时的全局输入方式？欢迎评论区交流）</p>
+<p><img src="img/0fd4e68d5de802e8c5eb6983037194bb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XKihbSehbobuNuxTEGPcUJLNnJd/"/></p>
+<p>③文生图及其结果</p>
+<p><img src="img/b01271f4142f34d5683d19b3171b913b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/C5dHbu5tCosoj0xpY0jcF71Fnve/"/></p>
+<p><img src="img/824e61131f8a24503ba9b363c12e098d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ExUybOvRaowomaxD45TcrnGfnhh/"/></p>
+<p>到这里，工作流的第一部分就完成了，先使用模型和提示词控制，生成一张图片。</p>
+<p>可以看到，这张图片并非四方连续图案，接下来要通过工作流的第二部分，将这张图片变为四方连续图案方便拼接。</p>
+<h3>2.2 制作四方连续</h3>
+<p>①在第二部分，需要对图片做预处理，需要用到的是 Image Tile Offset 这个核心节点</p>
+<p><img src="img/3ed718ac3bc68aaac743fac0d1a34506.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FOd3bWwqyo9Q9txJbD4cFc01nig/"/></p>
+<p>这个节点的作用是将原本的图片分为4块，并打散排布，具体示意如下</p>
+<p><img src="img/df85ac1d1afd8164cebf9267dff7e5b0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/F7KybDwCDoIut9xLVuycgyOFnDb/"/></p>
+<p>将原图切割为4块，并打散排布，如右图所示，通过这样的方式使得外侧各边相连时，就变成了无缝贴图。</p>
+<p>但是图片的中间，即红线十字部位，是有明显接缝的，所以需要通过再一次采样，进行重绘处理。</p>
+
+<p>②制作重绘蒙版</p>
+<p>通过外补画板节点，将图片向外扩图，然后同样使用Image Tiles Offset节点将扩图后的图片分块打散，然后对蒙版做模糊增长处理，这一步是为了在模型重绘时，使模型能够参考到原图内容，不至于生成和原图差异很大的内容，导致图案无法使用。</p>
+<p><img src="img/9d09c4856632c55e48b799d5c6c2cb03.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DR9JbXRCJo6Jwqxg0m7cB8rLnPh/"/></p>
+<p>③重绘消除接缝</p>
+<p><img src="img/6f66bdad502eb53af275e5d2d38716d6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NcJWbx5hooWYjmxWcV6c1Klmnyf/"/></p>
+<p>接下来就是使用模型，进行局部重绘，消除内部接缝。</p>
+<p>在重绘模型这里，为了得到更好的重绘效果，这里使用fooocus模型进行重绘。</p>
+<p>fooocus模型在重绘和扩图上的表现比直接使用sdxl模型重绘的效果要更好一些。</p>
+<p>最终生成的结果如下所示，有心的话可以看到，已经成功消除了接缝！</p>
+<p><img src="img/545d5c53c76d46e94a53321837d23898.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SvNCbibWnomOe3xBg6XcTtJRn4b/"/></p>
+<p>④多图拼接效果</p>
+<p>为了验证是否是四方连续图案，可以通过多图拼接功能来看一看拼接后的效果。</p>
+<p>如图所示，4张图案拼接后，可以看到拼接处是没有缝隙的，这样，一张四方无缝图案就制作好了~</p>
+<p><img src="img/18008b7ffbac5babfa10e10c2595fd92.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TjhVb2nSIo0fQVxj91DcDtuVnEf/"/></p>
+
+<h2>3、图生图</h2>
+<p>回顾前面的流程，重点在于第二部分，将一张图片制作成四方连续图案。</p>
+<p>文生图、图生图的区别就在于，这张图片是使用文字生成的，还是已有的图案。</p>
+<p>如果要将已有的图片制作成四方连续图案，其实也非常简单，</p>
+<p>只需要上传已有图片，并将反推图片内容，将反推出来的文本连接到正面提示词就可以了。</p>
+<p>另外别忘了，还需要将上传的图片，连接到第二部分的图片输入。</p>
+<p><img src="img/f7aff49889b199712b4897aa83abac82.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OTwIb7quDopG4wxmJXRcFF7anKc/"/></p>
+
+<h2>4、工作流分享</h2>
+<p>最后是工作流分享，文生图和图生图两套工作流，我是直接做出来了，分享给大家，如果有疑问也欢迎交流~</p>
+
+
+
+<h2>5、一键套产品图</h2>
+<p>在生成完无缝贴图后，大部分情况下还需要将图案套到产品上去，以前这个操作需要用到ps。</p>
+<p>但既然大家都要用comfyui了，那最好的方式还是把生图、套图都放在一个流程里完成。</p>
+<p>这个功能我也已经开发出来了，给大家看下效果，有需要欢迎沟通。</p>
+<p><img src="img/6ac95d0401a95627a1f6ec95f5a2e22f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/F9GNbl5FwoElQGxem4xckVb1nLf/"/></p>
+<p><img src="img/4dede98c4b703d2271da5915a67824ff.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VUVFbKOXFoG1fQxnLDzcYrYSnug/"/></p>
+<p><img src="img/0b850ec0faf2539f25f9a74b5b543215.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JHfFbqWTKoRLL3xHe3XcrpkqnLg/"/></p>
+<p><img src="img/2295a623bf3d515917070b510a1b193b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OfasbtsQnoDkfvxclpVckOE0nSb/"/></p>
+<p><img src="img/e49a808664580d6ffaca9f21ba180499.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FAUbbDI74oAZbyxKZJcciTY0nfg/"/></p>
