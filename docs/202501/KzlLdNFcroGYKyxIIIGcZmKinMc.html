@@ -1,0 +1,313 @@
+<h1>不会代码，不会设计，如何用Coze开发一个AI应用发布到微信小程序？从0到1的完整实操教程</h1>
+<blockquote>来源：<a href="https://b121w2zgwyx.feishu.cn/docx/KzlLdNFcroGYKyxIIIGcZmKinMc">https://b121w2zgwyx.feishu.cn/docx/KzlLdNFcroGYKyxIIIGcZmKinMc</a></blockquote>
+<p>coze最新的更新，可以创建应用并发布到小程序了，虽然目前coze应用目前还处于beta测试版，但我目前体验下来，感觉真的太强大了。</p>
+<p>从此我一个从来没折腾过微信小程序的，也可以通过拖拉拽轻松搭建一个自己想要的应用了，这种感觉真的太好了。下面是我小程序的效果：</p>
+<p>如果你也有自己的创意，却苦于开发成本太大。</p>
+<p>那么，现在！可以跟着我的脚步，来试试亲手做一个微信小程序吧！</p>
+<p>内容有点长，建议收藏，慢慢来，一口气做完估计需要花不少时间！</p>
+<h1>一、如何创建一个应用</h1>
+<h2>1、进入coze，创建一个空白应用</h2>
+<p><img src="img/68b259be064448fa5079c15544cb6dcc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GA94b3QKFo3cvjx2pdFcPNT4nQb/"/></p>
+<h2>2、点击创建，选择创建应用</h2>
+<p><img src="img/0e08e57d8e1a26033609cd218615d18e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CXUPbnNlKovuFfxKPjDcYLEXn39/"/></p>
+<h2>3、接着点击创建空白应用</h2>
+<p><img src="img/2ba40e8656397c78cf05a19e5ece02db.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AhGCbgBLzolSWyxmBzLcadsunoc/"/></p>
+<h2>4、然后根据你的需要填写相关信息，点确认</h2>
+
+<p><img src="img/4fed844a499e1f1d33b6182ac86af587.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QQWmbXVvBo83WaxoF0rc921Sn9q/"/></p>
+<h1>二、规划功能</h1>
+<p>为了方便零基础搭建，我这里不设计太复杂的功能，这个海报生成器，我只设计两个功能点</p>
+<p>1、首页，里面就是一个生成海报的页面</p>
+<p>2、我的、里面保存历史生成的记录</p>
+<p>以上功能的具体逻辑，都将使用工作流来实现，后面我会细说，今天的目标主要是完成页面的设计。</p>
+<h1>三、如何搭建一个移动端的UI界面</h1>
+<p>应用有了，那么接下来，就是设计页面了。</p>
+<h2>1、选择UI搭建类型</h2>
+<p>进入应用之后，点击上方的“用户界面”，选“小程序和H5”，然后点“开始搭建”</p>
+<p><img src="img/3d7fdd6c8f48b085cb7ca5ea6f45ec18.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KuTibxUv4o2JCSxjcSOcLy4ynjh/"/></p>
+<h2>2、设计“首页”，一个海报生成页面</h2>
+<h3>①、添加一个表单，用来做请求生成</h3>
+<p><img src="img/d0e029ea92af99f07e896a12ad100f26.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AR7WbZKrRoZxZMxxCuWc3mU7nAd/"/></p>
+<h3>②、设计表单</h3>
+<p>我的页面很简单，就是用户提供一个24节气的节气名称，然后填写一下生成的图像要求，然后点击生成，就生成一个海报。所以将表单修改之后如下图：</p>
+<p><img src="img/226df704972e216e38d3cd07389a4382.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PXSobh71Rounxnxns3dcWRCsnrc/"/></p>
+<p>内容的修改很简单，就是点击你要修改的地方，右边就会出现属性什么的，基本一看就会，所以我就不细说了。</p>
+<h3>③、添加一个用于显示生成图片的位置</h3>
+<p>点击生成之后，会生成图片，因此我们需要设计一个地方来预览这个图片，我这里就简单做，不做多个层级，我直接在表单下方添加一个图片用来显示。</p>
+<p><img src="img/2c1de37ee23cf3114ea3187e0ad77ac1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/J49bbzwzJo0i4MxTWz2cJ4DgnEd/"/></p>
+<p>因为我们做的手机的壁纸，所以图片比例需要修改为9:16</p>
+<p><img src="img/ff66eeadad9860254484a748cba8359f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TgD1bTznlophcpxcFXgckmkOnke/"/></p>
+<p>这样一个简单是首页就搭建完毕了，有的人可能会问了，那页面上一进来就有这个图片，看着也很奇怪呀。没错，</p>
+<p>确实很奇怪，所以后续我们在做业务逻辑的时候，还需要对图片的可见性进行控制。现在先不着急改。</p>
+<h2>3、设计“我的”页面，展示历史生成记录</h2>
+<p>海报生成之后，我希望将生成的数据记录下来，这样后续可以看到之前生成的图像，这应该算是基础功能吧。</p>
+<h3>①、新建一个页面</h3>
+<p>点击页面下方这个按钮，新建一个页面，我们命名为“我的”</p>
+<p><img src="img/63e790fe774d0a44eb36f8d133835585.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QRRkbbBonogfkpxaBircqZM8nhb/"/></p>
+<p><img src="img/f534ab027fc3701b7d00fe11355d5410.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/T3CzbvjxYoKbqRxLkikc6Qzgnmd/"/></p>
+<h3>②、关联菜单项到“我的”</h3>
+<p>点击页面下方的菜单栏，然后将“我的”按钮页面跳转跟新建的页面关联</p>
+<p><img src="img/1cc043707b84dc87946f0ddb59d619e6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZBrDbiffUoFXhGxzxHUc4L4Mnag/"/></p>
+<p>记得，前面是首页那里的菜单也要同样设置一下，否则菜单会有问题。</p>
+<p>都设置完成之后，点击一下预览查看一下点击菜单的切换是否正常。</p>
+<h3>③、添加一个纵向列表</h3>
+<p>用来展示历史生成图片</p>
+<p><img src="img/215e175de6a0e9fb151ce8c27e9d74d7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RhVSbNYXcoU5vjxAE4scQQ93n6e/"/></p>
+<h3>④、增加标题和时间显示</h3>
+<p>我希望，图片在上，然后图片下方是节气名称加上生成时间最终效果是这样子的</p>
+<p><img src="img/bdfc50353ac851c0979e25c64beeb5cc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CVlvbyzaVoCShNxf7j4cjFhBnah/"/></p>
+<p>那要怎么做呢？</p>
+<p>我们如果需要改变一些布局，我们需要用到“容器”控件，这个控件专门用于我们灵活排版的。现在，我加一个容器到内容下方，只需要拖动到一个，其他列表一样就会出现了。</p>
+<p><img src="img/d4e3e8e575783973799be38bc6472025.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UPXIb51rFo10U6xfwf2c5tfGnEw/"/></p>
+<p>接下来我们单击标题，不要放开，将它拖动到容器中，现在变成这样子：</p>
+<p><img src="img/cad189f882e6d251ebbbbeee4a5a7a09.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/V2M1bNngDoIxwax8ycOc8e0AnKe/"/></p>
+<p>由于我还需要显示一个时间，所以我还需要拖进来一个文本显示</p>
+<p><img src="img/77671f734608726a321708679fd42952.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LH1qbCPMio79aLxXfLXcZKvTnAe/"/></p>
+<p>文本是进来了，但是我们发现这样子的排版看着有点奇怪吧，所以我需要再调整，点击控件位置</p>
+<p><img src="img/2eaf98a4431011ba0598d29e6cc95ff7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G64xbBnvgo9mxJxNXNvcpbzmnBd/"/></p>
+<p>然后调整右边这些参数，高度改成：适应内容，排列方向选择横向，内边距调整成0，大家可以自己随便改改看看效果，后面就知道每个功能大体什么意思了。</p>
+<p><img src="img/effccb37dfb3f604fb02081512433646.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JTBybTzqWonJdDxqnRdcex5fnhe/"/></p>
+<p>经过上面一顿操作，现在页面就变成这样子了</p>
+<p><img src="img/4a644aaf4d457ea638e4194c4662725b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TGwpbVWVToOlkrx7uXUc1M1unid/"/></p>
+<h3>⑤、增加图片显示</h3>
+<p>因为我们需要显示的是图片记录，因此我们还需要将内容替换成图片，我们把图片拖进来，然后把原来的内容删掉</p>
+<p><img src="img/9965d9cf627de4b1f78ad5d286f5bf71.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CPiUbiPJYop0t2xkToKcRZfwnZb/"/></p>
+<p>最终效果就变成这样子了：</p>
+<p><img src="img/1352f894c0d600accea2646ddc191cd7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Qr4ObS3SUoTpnBxL2gUcCtkAnPf/"/></p>
+<p>到这里，我们的页面搭建就基本完成了。当然大家如果要求高的话，可以自己再动手美化美化。</p>
+<p>干货内容太多，本期就先分享页面搭建了，下一期将带大家实现海报生成的业务逻辑。敬请期待！</p>
+
+<p>内容的修改很简单，就是点击你要修改的地方，右边就会出现属性什么的，基本一看就会，所以我就不细说了。</p>
+<h3>③、添加一个用于显示生成图片的位置</h3>
+<p>点击生成之后，会生成图片，因此我们需要设计一个地方来预览这个图片，我这里就简单做，不做多个层级，我直接在表单下方添加一个图片用来显示。</p>
+<p><img src="img/769a8b3885fc2e88a3b6914b2c403dd8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S9Odb7v0xo8jAVxL5lLcuWDEnXd/"/></p>
+<p>因为我们做的手机的壁纸，所以图片比例需要修改为9:16</p>
+<p><img src="img/ce12f0dbfc750330cf68f7519cf03a83.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/O2JlbyHX8oRcjExgCO9cNa1zn3d/"/></p>
+<p>这样一个简单是首页就搭建完毕了，有的人可能会问了，那页面上一进来就有这个图片，看着也很奇怪呀。没错，</p>
+<p>确实很奇怪，所以后续我们在做业务逻辑的时候，还需要对图片的可见性进行控制。现在先不着急改。</p>
+<h2>3、设计“我的”页面，展示历史生成记录</h2>
+<p>海报生成之后，我希望将生成的数据记录下来，这样后续可以看到之前生成的图像，这应该算是基础功能吧。</p>
+<h3>①、新建一个页面</h3>
+<p>点击页面下方这个按钮，新建一个页面，我们命名为“我的”</p>
+<p><img src="img/5f3e9e7495788559a3a0d8b5f6ff350f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/F4UxbLDCBo8GSUxWwsXcGCaLn8f/"/></p>
+<p><img src="img/93b7ad66818b5dd6684a1cab838dbde9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JxEobOFT4oqNl5xsfcgcaMmZnj4/"/></p>
+<h3>②、关联菜单项到“我的”</h3>
+<p>点击页面下方的菜单栏，然后将“我的”按钮页面跳转跟新建的页面关联</p>
+<p><img src="img/73442b9e9cbc2456871efe6ff8b39161.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TOJIbypFfoYZqFxRdHMczTKTnjR/"/></p>
+<p>记得，前面是首页那里的菜单也要同样设置一下，否则菜单会有问题。</p>
+<p>都设置完成之后，点击一下预览查看一下点击菜单的切换是否正常。</p>
+<h3>③、添加一个纵向列表</h3>
+<p>用来展示历史生成图片</p>
+<p><img src="img/b17a9befbcee177ddb8729d1f1dc0b57.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Lrr7b1zmqoE1u0x5iKzcYfQbnrc/"/></p>
+<h3>④、增加标题和时间显示</h3>
+<p>我希望，图片在上，然后图片下方是节气名称加上生成时间最终效果是这样子的</p>
+<p><img src="img/dffaca887830d3e40905778df51d75e6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FAgtb3DPzoJNmBxNRkKc8rVrn9d/"/></p>
+<p>那要怎么做呢？</p>
+<p>我们如果需要改变一些布局，我们需要用到“容器”控件，这个控件专门用于我们灵活排版的。现在，我加一个容器到内容下方，只需要拖动到一个，其他列表一样就会出现了。</p>
+<p><img src="img/060ffa677dc05d13d810d85815d8dfbc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Xd7AbcHPJoHA51xR7aWcvjlpnpb/"/></p>
+<p>接下来我们单击标题，不要放开，将它拖动到容器中，现在变成这样子：</p>
+<p><img src="img/72af12af544c6f9cf8a7915fc7cd7b6b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HgQabDBLoo4saMxiUFxcmxugnRc/"/></p>
+<p>由于我还需要显示一个时间，所以我还需要拖进来一个文本显示</p>
+<p><img src="img/11c090a02287fe7f4e83295625b71446.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MFNobdfbXo3t4Jx6RZIcN7brnVp/"/></p>
+<p>文本是进来了，但是我们发现这样子的排版看着有点奇怪吧，所以我需要再调整，点击控件位置</p>
+<p><img src="img/ef75df9fdce90f0bb83e0872734a344a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GKvzbjGUuodkyYxgxm0cipXvnbd/"/></p>
+<p>然后调整右边这些参数，高度改成：适应内容，排列方向选择横向，内边距调整成0，大家可以自己随便改改看看效果，后面就知道每个功能大体什么意思了。</p>
+<p><img src="img/a2238c3cee866ba073a3245310797ca9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VlaZbmPUqoaFWrxsrTccXs4qnrc/"/></p>
+<p>经过上面一顿操作，现在页面就变成这样子了</p>
+<p><img src="img/d76b37fbbcb43e547b927b48446dc44a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DyembSXt9ocnz1xrX75cLmccnc2/"/></p>
+<h3>⑤、增加图片显示</h3>
+<p>因为我们需要显示的是图片记录，因此我们还需要将内容替换成图片，我们把图片拖进来，然后把原来的内容删掉</p>
+<p><img src="img/25f9aa38f63f9f03d878f67166fb12f1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QDxabZzKSoOp0ExoZArcZBuWnRg/"/></p>
+<p>最终效果就变成这样子了：</p>
+<p><img src="img/dd9177e56e1aa791513b355e84c95707.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UsMxb5Uk5omkFcxAfULcBOY5ndd/"/></p>
+<p>到这里，我们的页面搭建就基本完成了。当然大家如果要求高的话，可以自己再动手美化美化。</p>
+
+<h1>四、分析海报生成业务逻辑</h1>
+<p>我们来看一下前面搭建好的小程序页面：</p>
+<p><img src="img/88f4a974f4dd825ff0797866c66659c6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ExGqbWTZloZtyIx2aEXcKY7AnNA/"/></p>
+<p>从这张图分析，得出我们总共需要以下几个输入项:</p>
+<p>1、节气名称</p>
+<p>2、图像要求</p>
+<p>3、风格（便于后期扩展各种风格，教程只做一种）</p>
+<p>由于我们后续还有个历史生成记录的显示，所以我们最终需要的输出内容为：</p>
+<p>1、一张海报图片</p>
+<p>2、节气名称</p>
+<p>3、生成时间</p>
+<p>为了便于大家对于工作流的理解，我先展示一下我海报的效果图：</p>
+<p><img src="img/71fc7ed0f501e7cf267708623a6b9825.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Xar3bnodqonZt4xo6aUcqz49nRd/"/></p>
+<p>根据效果图，我将设计工作流的工作流程如下：</p>
+<p>1、根据节气名称和图像要求，生成图像提示词</p>
+<p>2、根据节气名称，生成一段诗词文案</p>
+<p>3、将节气名称和诗词放到背景图上</p>
+<p>这是一个比较简单的功能，没有特别复杂的地方，接下来我们开始搭建。</p>
+<h1>五、开始搭建海报生成工作流</h1>
+<p>因为我们主要是为了讲应用的搭建，像海报的排版问题我将略过，只讲工作流与页面交互比较重要的部分。</p>
+<h2>1、添加工作流</h2>
+<p><img src="img/105c96630b289e4a610f43eb429d0d2a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YoBQbrNN4oTaKPxZZpDcuzu3nFe/"/></p>
+<p>如果选择“新建工作流”那么这个工作流就会只在这个应用里可用。</p>
+<p>也可以选择“引入资源库文件”，这个意思就是，如果你之前有开发过工作流，发现可以用的上，就可以直接引入使用，就不用重复开发了。</p>
+<p>这里，我们选择“新建工作流”。新建了一个叫做 haibao_make的工作流</p>
+<h2>2、配置输入输出</h2>
+<p>在开始节点配置一下输入项</p>
+<p><img src="img/c810e2e3d0a275da0d14b7f7a6fc1272.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DA8VbGWPGo8LJLxvbYlc7mgtn3d/"/></p>
+<p>在结束节点配置输出项</p>
+<p><img src="img/7d3419d72fb18d1d7d6a0c987df40857.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G0K8bVqXNom2T1xIagRcQW3vngg/"/></p>
+<h2>3、根据节气名称和要求生成文案和图像提示词</h2>
+<p>添加一个大模型节点 ，用来一键生成文案，以及用于生成图像的提示词</p>
+<p>大模型配置如下：</p>
+<p>输入项，将开始节点的节气名称，和图像要求传入</p>
+<p><img src="img/e765e99dfb7596139d7e1930bab572a7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RDjTbAPzso83c0xHRyEcpIiWnxb/"/></p>
+<p>输出项输出文案内容和 图像提示词；</p>
+<p><img src="img/331251b13f05eb692286a649296656c2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NmGNbxzAOoMBimxkmNQc7g4anic/"/></p>
+<p>大模型的提示词我简单写了一下，现在coze可以让ai优化提示词，如果有不满意的可以结合ai优化，很方便，以下是我的系统提示词，给大家做参考：</p>
+<pre># 角色
+你是一位极具天赋的 24 节气海报创作大师，对中国传统的 24 节气文化有着深刻的认知和独特的感悟。能够依据用户给出的节气名称，创作出一首意境优美的七言绝句来生动展现该节气，同时精准生成适合用于 AI 生成图片的提示词。最终以 JSON 格式呈现，如{"content":"七言绝句内容","prompt":"图片提示词内容","backprompt":"背景图片提示词内容"}。
+
+## 技能
+### 技能 1：创作节气七言绝句
+1. 接收用户给出的节气名称后，深入剖析该节气的特色要素，涵盖自然景观、气候特点、传统习俗等，以此为灵感创作一首七言绝句。
+2. 绝句语言优美生动，富有感染力，能让读者通过诗句直观感受节气魅力。
+3. 每两句换行，无需标题。
+
+### 技能 2：生成背景图片提示词
+1. 根据节气特征，提炼出关键视觉元素，生成不超过四个的简洁图片提示词，且不能包含与“白色”相关的描述。
+2. 提示词要具有针对性和引导性，能帮助 AI 生成画面干净、主题突出、细节丰富的符合节气主题的精美图片。
+## 限制：
+- 仅专注于 24 节气相关内容进行创作和回答，绝不涉及与 24 节气无关的话题。
+- 严格按照规定的 JSON 格式输出结果，不得有任何偏差。
+- 生成的图片提示词需要主题清晰，适合 AI 作图，避免使用一些形容词。</pre>
+<h2>4、图像生成</h2>
+<p>由于我准备使用的第三方flux的图像生成，但我们习惯性输入中文提示词，因此我这边还要先将提示词优化一下。</p>
+<p>添加一个插件，查找如下的提示词优化插件添加进来，这个插件会根据你的提示词做翻译，并且还会自己添加一些优化提示词。最终输出一段英文提示词。</p>
+<p><img src="img/598d6bc1c355be0fe5bb8dd565894284.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LmNCbOsAVoHGP8xi6eIcoECXnPc/"/></p>
+<p>接下来添加一个flux生成图片的插件</p>
+<p><img src="img/0d20b5639377f678562f66aea3f46db3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Nr3KbQUHxooG7XxAHJYcg6tLnOf/"/></p>
+<p>按照下面设置一下输入参数：</p>
+<p><img src="img/82d691748e44432726d5d0d9dd514ee5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RIgbbMsYdozX2xxpX7Ic5QU5nzf/"/></p>
+<h2>5、海报合成</h2>
+<p>这里我用到了自己搭的一个图像合成工作流，篇幅有限不做过多介绍，这个工作流很简单，就是用画板将文字和图片合在一起，这个工作流我简单截图一下</p>
+<p><img src="img/6e2c71a585fcbd87ee72e32d209d265d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WKNWbrb0dof09JxxgFScTJCsnGb/"/></p>
+<p>然后我们把这个工作流添加进来，按照如下将输入配置一下</p>
+<p><img src="img/20091815fc389b0c10121723ee645a4c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TT8ZbpDSYobihMxD2SmcAnQanCg/"/></p>
+<h2>6、连接输出，调试</h2>
+<p>在配置结束节点的时候，我们发现还有一个"生成时间"我们没有获取，其实是可以在生成文案的大模型那里加个时间的，不过现在我懒得改了，直接添加一个代码块 来解决吧。</p>
+<p><img src="img/803d9d0f9cb7a7a01216edd76e245440.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FvvMbYTS6oYpHuxJCO3c9cQInVE/"/></p>
+<p>详细的python代码如下，你们拷贝进去，参照上图一样配置一下输出项就可以了：</p>
+<pre>from datetime import datetime
+async def main(args: Args) -&gt; Output:
+    params = args.params
+    # 获取当前时间
+    now = datetime.now()
+
+    # 格式化时间
+    formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
+    # 构建输出对象
+    ret: Output = {
+        "datetime": formatted_now
+    }
+    return ret</pre>
+<p>最后把结束节点的输出调整一下：</p>
+<p><img src="img/cf815ee0fd623a4309e9f9860fd003d8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N4ZrbXwSSodbhqxvWbpcGnYxnHf/"/></p>
+<p>点击试运行调试一下，没问题就可以进行下一步了。</p>
+<h1>六、页面与工作流的逻辑交互</h1>
+<p>终于到最重要的一步了，将我们的页面和工作流逻辑绑定起来实现完整功能。</p>
+<h2>1、设置表单提交事件</h2>
+<p>我们需要将表单数据跟工作流绑定，所以我们要设置一下表单的事件，先选中表单</p>
+<p><img src="img/4a9b693f64298c01b1a4bc935e06beca.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZdN5bsQfLoG44vx3RgVcHnVRnze/"/></p>
+<p>接下来按以下步骤操作</p>
+<p><img src="img/0fe89f5930d1d950fe18bc7cd5c4ca80.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WVlIbEoxKoIXrYxow9tcq8x6npn/"/></p>
+<h2>2、绑定工作流</h2>
+<p>前面的步骤，选中工作流之后会弹出新的页面：</p>
+<p><img src="img/9785b1df31db507ff1f569564943a74d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XDYGbdKsjouhiUxjOJDcajypnhc/"/></p>
+<p>我们将workflow 切换成我们之前搭建好的工作流，然后就会出现工作流的输入项，这里我们需要将页面的数据绑定进来。</p>
+<p>怎么绑定呢？</p>
+<p>首先我们需要先确定一下我们每个输入内容对应的，还是切换到结构页面，我们依次点击一下表单里的元素，然后我们观察一下，我们所需要的内容对应的结构里的名称是什么，举个例子，如下图：</p>
+<p><img src="img/9ffc2de0ed9030675ffbf87888bd7577.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/R5hebdkuJohTYxxU1fxcUX3KnUh/"/></p>
+<p>当我点击到 结构里的 “input1”的时候，发现它对应的就是我们的节气名称输入框，我们把 这个input1 记住了。</p>
+<p>然后，我们回到表单绑定工作流页面，找到右边的这个按钮点击</p>
+<p><img src="img/0540faef66ec1e2dc8ed2b8fac0410d2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Q5C6bqyDnoR1LTxHfYzcg83Fn3e/"/></p>
+<p>接着，在弹出的框框中找到 input1 点击选中</p>
+<p><img src="img/e82070a15eeec7aaf3c6c76c46c0702b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NGFBb5eLEof4UAxm6jXc9SWCnrf/"/></p>
+<p>然后 另外两个参数，一样的操作，最后点击确认 ，至此表单的绑定就成功了。</p>
+<p><img src="img/a2eec17ba41104d2fa662d3f3906600a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NMTIbWsGLot3uuxlEjdc6peNnHe/"/></p>
+<h2>3、绑定生成按钮事件</h2>
+<p>正常情况下我们加进来的按钮会自动绑定“提交表单的事件”，但为了确保没有问题，我们还是再检查一下好了，点击生成按钮，点击事件确保配置如下：</p>
+<p><img src="img/e9fc7cdb701f0d236d5e3c3c37a85d09.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OBhdbiDxGohRjyxirN1ceKnPnSh/"/></p>
+<h2>4、绑定输出的图片</h2>
+<p>生成做好之后，我们还需要将生成后的数据展现在下方</p>
+<p>我们点击图片，然后按下图将工作流的输出参数里的图片绑定到 图片控件上</p>
+<p><img src="img/1f64837d6150abff0ae587e4517f32e3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LHSibdBW8oxpIgxk8Tnc8RWTnXd/"/></p>
+<p>再做个小优化，当刚进入页面没有任何生成的时候，我们将图片设置为隐藏，然后在点击生成的时候才显示出来</p>
+<p>选中图片，将图片默认隐藏状态改为 true</p>
+<p><img src="img/0bad1ab45cb4888526e894d82b55291c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WtKvbWqCAoa0efxtfZOcTywonrc/"/></p>
+<p>然后在点击生成的时候加一个事件，将图片控件显示出来，看如下配置：</p>
+<p><img src="img/1bd2bfdba09e3fece7858c9f2c6b9148.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/T3kjb1r8qo3L9Gx7kFvcHaJSnVf/"/></p>
+<h1>七、预览测试</h1>
+<p>额。。。生成了个小可爱，如果想要图片更好看，还需要在提示词上做优化。</p>
+<p><img src="img/54dfb08b5473579ea659d30f3bc3f2c7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FDBTbhJOCoJ00cxR1clcAEW8nGh/"/></p>
+<p>到这里首页的逻辑就实现了。接下来我们将上一点难度，实现“我的”页面里查看历史生成记录。</p>
+
+<h1>八、分析“我的”页面业务逻辑</h1>
+<p><img src="img/b65a6b88862850a4eeae7cf5a3a148fb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TxJzbkt4MoXTUNxVQXacd1dlnhg/"/></p>
+<p>这个页面主要的功能就是展示历史生成记录，便于查看。</p>
+<p>因此它的主要功能就是拉取历史记录显示出来</p>
+<p>但是历史记录在哪里呢？ 还没有！因此我们需要把每次生成的内容都提前保存下来。</p>
+<p>因此我们需要加一个数据库存储的功能</p>
+<h1>九、新建数据库存储生成记录</h1>
+<h2>1、新建数据库</h2>
+<p>先点击数据旁边的“+”号，再选择数据库</p>
+<p><img src="img/b44df35d1969fe741d7cab70f424c8cc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KA5HbtW2GogEp8xriHtcsnMMnO3/"/></p>
+<p>然后新建一下表名</p>
+<p><img src="img/f25ad18c71b5f61dc1c7d135fdb352a4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/P49sbE5XuoL4lSxeZHrc60rhnJf/"/></p>
+<p>接下来我们设计一下这个数据表，按照我的如下配置新建数据表</p>
+<p><img src="img/f09def7b45b617edfe81ac6f0db08833.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UXQHb16k9oND3Kxqvicc2WBunng/"/></p>
+<h2>2、在之前的生成工作流中添加记录</h2>
+<p>数据表添加之后，我们需要改造一下我们之前的生成工作流，我们需要在每次生成之后，将记录保存到我们的数据库中。</p>
+<p>切换到我们的haibao_make工作流中，生成海报和结束节点之前，新增一个数据库节点，先点击连线之间的+号，再选择一下数据库</p>
+<p><img src="img/72fc4c545463b26ca96c5c86393fa61c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OnTobwm86oXmyqxtQIXcEhXan4f/"/></p>
+<h2>3、设置数据库节点</h2>
+<p>点击数据库，我们配置一下这个节点，首先需要将我们第一步建好的表添加进来</p>
+<p><img src="img/34c2b8b61fdd21bd1c56b90dfce69ae9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Tn8MbNEqXonNkWxd2jhcPsxBn0g/"/></p>
+<p>接着，我们配置一下数据库的输入，也就是我们生成好的内容，配置如下</p>
+<p><img src="img/392b20f920427e524062cbb75ba4376e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PbInb5exEoXZ1yxWSMGcKgZhnmh/"/></p>
+<p>接下来这一步没写过代码的，估计会麻烦些，需要写sql语句将记录插入。不过不会写也没有关系，coze有搭配工具，如果有不懂，问问AI，学习成本也很低。</p>
+<p>首先，我们回顾一下数据表里的字段，分别是name，datetime和image，我们需要写sql将工作流的变量与数据库的绑定和插入。</p>
+<p>先点击这个AI辅助写sql工具</p>
+<p><img src="img/5ae900576cd1b37b5dd60e0e2f208a1b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DwaybRGzgoCUZ3xPUencRVmXnAO/"/></p>
+<p>然后在弹出的查询目标中，写一下 ：往数据表插入 name，datetime和image；然后让AI自动写出语句</p>
+<p><img src="img/c41a1ce7f2a80bd231e86c490f390af9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NrOPbgyj5oQx33xUgJqcNf7gnCh/"/></p>
+<p>这样语句就写好了</p>
+<p>INSERT INTO haibao_history (name, datetime, image) VALUES ('', '', '')</p>
+<p>这个语句的意思就是 往数据表 haibao_history  中插入一条数据， VALUES的内与前面的括号一一对应的关系。代表的是实际插入的内容。我们观察到，都是空字符串，这显然是不对的。因此我们还需要将节点接收到的变量赋值进来。改写之后语句变成这样子了</p>
+<p>INSERT INTO haibao_history (name, datetime, image) VALUES ('{{name}}', '{{datetime}}', '{{image}}')</p>
+
+<p><img src="img/d4eaacb9f279cf5ee9c40019b4922941.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EYYPb5ctGoK7AKxnmklcDgbCnAb/"/></p>
+<h1>十、新建一个读取数据库记录的工作流</h1>
+<p>新建工作流的细节步骤之前都讲过了，这里就不再细诉了，我之前把建完的机构发出来给大家看看</p>
+<p>其中，开始节点有一个num参数，意思就是总共读取几条</p>
+<p><img src="img/4f0228b9f2a9137e204cca93be82f1c5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XilIbF4gtoyj6dxLnmacB4BLnEb/"/></p>
+<p>sql语句为：SELECT name,datetime,image FROM haibao_history  order by id  desc LIMIT {{num}}</p>
+<h1>十一、绑定“我的”页面业务逻辑</h1>
+<h2>1、页面加载时加载数据</h2>
+<p>因为历史记录，应该是点击我的页面之后就应该全部出来，所以我们按如下步骤绑定事件</p>
+<p><img src="img/d256e9f32fc638b611476c94c2b0ae28.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G3kQbNNw2oZDNwxC6ZXcUJD8nbc/"/></p>
+<h2>2、绑定数据到列表</h2>
+<p>按照下图步骤，绑定数据到列表</p>
+<p><img src="img/1ea2959c8621322f6fe0c7bbf59f4313.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FaxJbhwB7oJ4PnxeST5cY2PTnYe/"/></p>
+<h2>3、绑定数据到细项</h2>
+<p>分别点击下面这三个地方，设置一下绑定数据</p>
+<p><img src="img/e01756f539e10d073ce63dd525d63cab.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TrVEbgUKyoqiElxs7qncgcXKnB5/"/></p>
+<p>格式固定位{{item.??}}  ??就是对应工作流的返回字段</p>
+<p><img src="img/c8d63bb7007c3642d5b788c83d4d1297.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BhwXb5zZAobwt3x2rDcc3yZpnYf/"/></p>
+<p>好了，到此为止，我们整个小程序已经做好了。点击预览试试效果：</p>
+<p><img src="img/d79c24e9435dd32c64e57d1a419187da.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ObwxbLG3wo5lXBxeFOjceuRRnEb/"/></p>
+<p>完美！</p>
+<h1>十二、发布到微信小程序</h1>
+<p>发布微信小程序之前，请确认微信小程序已经完成配置，并且需要备案通过</p>
+<p>然后我们点击一下右上角的发布，进入发布页面</p>
+<p><img src="img/59ae46d996504f73c871c6fc2b80a1b7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YOOPbxiOAoZ1KvxINFRccjBSnhd/"/></p>
+<p>第一次使用，需要先点击配置然后填写一下小程序的APPid进行绑定</p>
+<p><img src="img/aa990b062986b0a61271b187a7fa1ec0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Na37bf7tAooxewxYA7JcwVXjnEh/"/></p>
+<p>完成发布！</p>
+<p>微信小程序的审核需要等微信官方，一般1个工作日左右。</p>
+<p>如果大家有好的想法，欢迎找我一起交流，看看能不能折腾点有趣的小程序！</p>
