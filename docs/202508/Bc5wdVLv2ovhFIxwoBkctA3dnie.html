@@ -1,0 +1,346 @@
+<h1>扣子工作流1：你的第一个AI自动化神器</h1>
+<blockquote>来源：<a href="https://o0tqwvct3e.feishu.cn/docx/Bc5wdVLv2ovhFIxwoBkctA3dnie">https://o0tqwvct3e.feishu.cn/docx/Bc5wdVLv2ovhFIxwoBkctA3dnie</a></blockquote>
+<p>用好工作流，不仅解放双手，关键是，它比我们自己完成的质量更好。</p>
+
+<h1>前言</h1>
+<p>最近在测试亦仁大佬说的，公众号垂直小号的机会。老号重启发出第一天就爆了。</p>
+<p>当晚900+，第二天4000+，截止今天，已直奔2w+，收益也有近百元：</p>
+<p><img src="img/50e27259c376c22955d4484d03cb478e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Wv5WbIdiboiT9SxR3AGcAzWbnnd/"/></p>
+<p><img src="img/f120721f873046f2dfa6f82fcfa22cab.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZiwPbR9HJocfigx5fVvcumWtnfc/"/></p>
+
+<p>之前做了很多项目，虽然都有可大可小的收获，但是都比较费人力的。</p>
+
+<p>主要是自己的思维限制，总是无法把项目快速放大，重复0-1的过程。</p>
+<p>仅有放大点的项目，跑了2,3个月之后，发现带的几百个普通素人的创作能力还是跟不上，竞争也越来越激烈，就放弃了。</p>
+
+<p>【短剧推广项目】阶段性总结-团队月GMV破20W</p>
+
+<p>其实这个项目哪怕在1年后，还有老板带团队，做到几百上千万的GMV。甚至几百万的利润的。所以自己还是得多向大佬学习，不能光埋头苦干，尤其像从个体刚转变成系统性思维的圈友们学习。</p>
+
+<p>不然总是在“老鼠圈”里跑，哪怕拼命的跑到第一，还是在老鼠圈。</p>
+
+<p>前段时间看到了亦仁推荐圈友 @文锴 的：</p>
+<p>一个人，一套自动化流程，如何玩转100个中老年书法视频号矩阵？</p>
+<p>还有 @零 的 ：</p>
+
+
+<p>感慨这些去哪有的执行力真的很牛！</p>
+<p>然后思考：这种利用技术自动化实现放大的方法，不就正适合我这种I人吗？</p>
+
+<p>爱研究技术，有收集工具癖，总是收藏了一大堆好玩好用的工具，总想着什么时候能用上。</p>
+
+<p>然后我快速审视了一遍自己当前做的项目：</p>
+
+<p>尽管文案部分我已经实现全部自动化，但是因为要真人出镜（Ai目前的效果还不能做到很自然，而且没有大IP的加持，口播类视频的一旦被发现是AI就会被限流），所以没法利用自动化工具快速放大。</p>
+
+<p>但公众号的垂直小号只需要文案就行。</p>
+
+<p>文案正是我的强项啊，只要选好方向，就是可以快速批量复制。</p>
+
+<p>这也许是一次从1-10锻炼自己的机会。</p>
+
+<p>所以，我又拾起了之前在测试文案自动化时，用过的扣子空间。</p>
+
+<p>花了一晚上，完成了一个半自动化的【AI自动生成文案，导入飞书提取配图排版输出到公众号】</p>
+
+<p>因为从文案生成后，导入到飞书这一步，目前还是手动，我正在研究自动化的方式。</p>
+
+<p>另外，在工作流优化文案的一个节点还不稳定，有时会输出为output{{0}}，我尝试了很多方法，目前还不能完全避免。</p>
+
+<p>所以，今天分享不是这个完整的工作流，而是它前面的一小部分。</p>
+<p>最终成品，等我全部自动化后再给大家分享。</p>
+
+<p>这一部分，可能了解工作流的朋友觉得很简单，但它主要价值在于，让很多从来没了解过的朋友，知道工作流原来没那么难。</p>
+
+<p>原来就这啊，我还以为多难呢～</p>
+
+<p>有了这种感觉，我们再去完成更复杂的任务，就不会有畏难情绪了。</p>
+
+<p>以后做更复杂的，不就心里有底儿了？</p>
+<p>哪怕去看一些教程的时候，也知道别人在干啥了吧？</p>
+
+<p>【抖音视频文案一键自动化写入飞书文档】工作流</p>
+
+<p>可以作为我们后期整个【AI提取素材自动改写文案发布到公众号】工作流的入门。</p>
+
+<p>后续对接上：采集、改写、排版、配图、导入公众号等节点，就是一个完整的【自动化文案生成发布器】了。</p>
+
+<p>接下来，我们进入实战。</p>
+<p>-</p>
+<h1>创建扣子工作流</h1>
+
+<p>先简单介绍一下，这个工作流是干啥的？</p>
+<p>就是把：</p>
+<ul><li>看到目标视频 - </li></ul>
+<ul><li>复制链接 - </li></ul>
+<ul><li>打开小程序 - </li></ul>
+<ul><li>粘贴链接 - </li></ul>
+<ul><li>等他识别 - </li></ul>
+<ul><li>复制文案-  </li></ul>
+<ul><li>打开网页 - </li></ul>
+<ul><li>打开飞书 - </li></ul>
+<ul><li>新建文档 - </li></ul>
+<ul><li>粘贴内容</li></ul>
+
+<p>这10个步骤，压缩成一个步骤：</p>
+
+<p>看到视频转发给自己飞书。</p>
+
+<p>这就是工作流的核心价值：</p>
+
+<p>用5分钟的设置，换来以后每次30秒的效率。</p>
+
+<h2>注册扣子空间</h2>
+
+<p>工具我们用"扣子空间"（点击直达官网），直接搜索就能找到，免费注册就行。</p>
+<p><img src="img/0493877407f610edce4b70290591f1ad.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DPMQb6BOnoSgMdxPjOrcMfvonmO/"/></p>
+<p>注意这里不能直接点「打开网页版」，要点一下第二个「开发平台」：</p>
+<p><img src="img/5100a4ff78e2b3c4041176bc6110a999.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KyXDbaaNQoIjJfx6hVwcyr9fnKg/"/></p>
+<p>然后打开：</p>
+<p><img src="img/d1583263183a8a72c2813703f094bce5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VhBlbSnVzorgAaxJApJcOj0nnPc/"/></p>
+
+<p>注册完进入工作空间，在「资源库」创建一个工作流。</p>
+<p><img src="img/d7d32b7ac431c4f65dd1b6de2ba50d49.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PX8gbO2BSoJmOzxJdUIcVvLynPy/"/></p>
+<p>名称按自己用途填，不能有汉字：</p>
+<p><img src="img/6d0e07fba7dfd5a2206e89f369ed1300.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JkC4bcfbto0zh5xnNd2cNMZDndf/"/></p>
+<p>然后你会看到一个大画布，别被吓到，其实就和搭积木一样简单。</p>
+
+<h2>开始搭建工作流</h2>
+
+<p>我们先来看一下我们要搭建的完整工作流样式：</p>
+<p><img src="img/69a9a934050d33caab721ee49a119128.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WLZZbBGy4onkKRxJci1cwvcxnkP/"/></p>
+
+<p>整个工作流其实可以简化为4个节点：</p>
+<ol><li>开始和结束（系统自带）</li></ol>
+<ol><li>视频文案提取节点（需要配置API，平台会有教程）</li></ol>
+<ol><li>大模型节点（用来优化文案格式）</li></ol>
+<ol><li>飞书云文档节点（自动写入文档）</li></ol>
+
+<p>那个日期节点「current_day」是我另外加的，完全可以不要。</p>
+
+<p>具体操作：</p>
+<ul><li>点击「添加节点」进入插件市场</li></ul>
+<ul><li>搜索"视频文案提取"和"飞书云文档"</li></ul>
+<ul><li>依次添加并连接起来</li></ul>
+<p><img src="img/30e097d00c6ee596e6a0a9762c4b3600.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Cja4b8RMIoUKSlxy07pcODuFnXd/"/></p>
+
+<h3>添加视频文案提取节点</h3>
+<p>这种“视频文案提取”的节点有很多，可以随便选一个可用的。有的会随着版本更新不能用了，要自己测试，有的需要付费买作者的API</p>
+<p><img src="img/ba3c8021217d1dc2f37445ffa7d27689.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IcN8bong2oa1G0xffhfcVKJnnod/"/></p>
+
+<p>我用的这个可以免费申请阿里百炼平台的Token，足够自用。</p>
+
+<h3>添加写入飞书文档节点</h3>
+
+<p><img src="img/5bf6614c6079d42c6f073cb9fe0e1df1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ANMtbtolYorEr1x71KWcMBAhncb/"/></p>
+<p>这个「飞书云文档」插件,点进去有好几个节点，我们选这个“在文档中新增内容”功能的：</p>
+<p><img src="img/69c0a9199edbedd84d56f6c9cde881e0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/D8AybdJwIoze2Yx4eP3c3q2dn5d/"/></p>
+<p>添加以后是这样：</p>
+<p><img src="img/f42474fdc1890ee17c6a6ef4c3eef750.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/E4Lob2cNeoMiGnxe61Nc22WQnDh/"/></p>
+<p>我们现在把他们连起来，用鼠标拖动节点，连到目标节点就好。</p>
+<p><img src="img/97c0c81c2f4654f552b533c8e75babf1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OFShbJtb9ol7e0ximbRcFdqsn4f/"/></p>
+<p>工作流必须有开始和结束，所以我们依次链接。</p>
+<p><img src="img/f733f1b0fab32d88abc72456219e2e02.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MIcpbjJn5oE7g7x7L38cIM4SnNf/"/></p>
+
+<h3>添加整理文案大模型节点</h3>
+
+<p>哦，我忘了添加大模型节点，他在这里：</p>
+<p><img src="img/3cc2c834309ca7d5c3206dada98a7487.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PXbabfj13oHZKwxkmqOcJPwrnkf/"/></p>
+
+<h3>链接各个节点</h3>
+<p>添加之后，把它放在「读取链接」和「写入文档」中间就好：</p>
+<p><img src="img/0fab978ef99c01a0c8f46a02a83431a3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OG0zbPvLHoR17lxE2NDcMlZdn2c/"/></p>
+
+<p>然后重点是，配置每个节点的参数。</p>
+
+<h2>配置各节点参数</h2>
+<p>现在，我们来确认一下整个工作流每个节点的“输入”“输出”信息。</p>
+
+<ul><li>上一个节点的输出，是下一个节点的输入；</li></ul>
+<ul><li>下一个节点的输入，可以是上一个节点的输出；</li></ul>
+<p>也可以是上上上……一个节点的输出，</p>
+<p>只要想输入的信息，在这个节点之前，都可以。</p>
+
+<p>开始节点，我们就用默认不管。</p>
+<h3>配置视频文案提取节点</h3>
+<p>【视频文案提取节点】：用于提取视频文案，然后输出</p>
+<p><img src="img/8758e4db064bc304ca9a62fc7bef51a7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TsLeboe21odjByxaZ6XcbLEDnze/"/></p>
+
+<p>需要配置两个输入：</p>
+<ul><li>ali_bailian_api_key</li></ul>
+<ul><li>douyin_url</li></ul>
+
+<p>看字面意思应该都能懂：</p>
+<p>ali_bailian_api_key，需设置API密钥 ，进入“阿里百炼”平台，免费注册，登录。</p>
+<p><img src="img/eef1ec00ef55528d2426474f5700f785.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KPigbiQ1KoteukxM2UEcjEmInLg/"/></p>
+
+<p>会有免费的100万Token供你使用，具体获取方法，篇幅有限，可以用元宝、豆包、千问、秘塔等搜索如下：</p>
+<p><img src="img/e33c2eb808c23fbff82be74d19bfe6d7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NPdZbqF46oFRlwx0l5DcOhGnndf/"/></p>
+
+<p>第2个参数， douyin_url，</p>
+<p>是我们想要提取的视频链接，这里不是直接复制链接进去，那每次使用就太麻烦了。</p>
+<p>我们直接点输入框后面的⚙️设置按钮，选择开始节点的input就好</p>
+<p><img src="img/edad9a6102ef5b0b730a61e8139c2a97.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RD4IbpLpUo1rzDxSwFJccKr4nXd/"/></p>
+
+<h3>配置整理文案大模型节点</h3>
+<p>【大模型节点】：用于优化提取到的文案；</p>
+
+<p>需要配置1个输入，和系统提示词</p>
+<p>输入参数选「视频链接转文本」节点的输出 text，就是他读取链接整理出来的文本。</p>
+<p><img src="img/db07d4805734d73fb2cf75df7217f6a3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HiJab2HOboFJSbxM0NFcapAwnKh/"/></p>
+
+<p>系统提示词的内容，可以自己按照想要达到的效果，填入对应提示词。比如：</p>
+<p><img src="img/2628a6af56ba5076eab0954397a1e841.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Qur1bw7tCoY7lCxo3JJcz8PLnEa/"/></p>
+<p>别看我这个提示词这么专业，好像挺唬人，其实你只要写一句话：</p>
+
+<p>“帮我整理文案。”</p>
+
+<p>然后点右上角的神奇小按钮，他会自动帮你优化：</p>
+<p><img src="img/f5ee09e9c3a1fe9afb06069a3e76d6a7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Y2EvbmrnKodprcxYZMZc664qnMh/"/></p>
+<p>或者你可以按自己想要的格式给他指令，然后再让系统“一键优化”。</p>
+<p>有时候工作流运行完成，但是文案没有出现在飞书文档里，那我们在大模型的【用户提示词】部分，填入：</p>
+<pre>{{input}}</pre>
+<p>就OK了。如图：</p>
+<p><img src="img/de48494d814db9e96a360977d2374398.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Bg43b1ttioGMj8x4Ci3cseXGnYd/"/></p>
+
+<h3>配置写入飞书文档节点</h3>
+<p>【飞书节点】：用于把大模型整理好的视频文案写入飞书文档</p>
+
+<p>一共需输入3个参数：</p>
+<ul><li>content*</li></ul>
+<ul><li>document_id* </li></ul>
+<ul><li>position</li></ul>
+<p>其中没有带*号的，是非必填项，不用填。</p>
+
+<p>那么就剩下了 content*，你想写入飞书文档节点的内容，就是整理文案大模型节点的输出：</p>
+<p><img src="img/178e8d7f3ff6a182c2d83c6fe85d0a57.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RrpibrzdyooRqBxRejUcdVXLnSd/"/></p>
+
+<p>同理，document_id* ，就是你想写入某个飞书文档的链接，找一个你要写入的飞书文档，最好新建一个空白的，把这个文档的地址复制进来，把链接粘贴进去就好。</p>
+<p><img src="img/845b14662dc2d24c6f1841c565219ac4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SxMrb0AuLo5eWWxEyE6cAAUinqc/"/></p>
+<p><img src="img/7cd4b3d123f372dbf0af07186d0dde7e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SxXVbLqeBohAwQxqGtIcW3MLnwb/"/></p>
+
+<h3>配置结束节点</h3>
+
+<p>最后设置结束节点。</p>
+
+<p>结束节点不重要，只要确保有一个输出能让整个工作流正常运行即可。</p>
+
+<p>因为我们想要的输出，其实在前一个节点「写入飞书文档」节点已经完成。</p>
+
+<p>想在结束节点直接看到原文案，就选视频转文本的输出 text；</p>
+<p><img src="img/a664cd4cafad1821b8afbd0785971787.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JU7kbdYDJoiAfKx9OsscKFuensb/"/></p>
+
+<p>想看到整理后的文案，就选整理文案大模型的output；</p>
+
+<p>想看是否写入飞书文档成功，就选写入飞书文档节点的msg；</p>
+<p><img src="img/35a65b116a4b3ead139bf8f82192dd17.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BSZrb6MoKoYLfPxm2QocbOBgnAb/"/></p>
+
+<h3>测试运行工作流</h3>
+<p>全部设置完，点击「试运行」测试一下。</p>
+
+<p>第一次肯定会报错，</p>
+
+<p>或者没有报错，但内容没有正常输出写入到文档。以及其他各种想不到的错误，</p>
+
+<p>这些都很正常。</p>
+
+<p><img src="img/0b41235e87bb0c48f85d9ae12f7691b1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TRsAbGpysoDd7gx9rjKcNpE9nag/"/></p>
+
+<p>我这个测试工作流就显示运行成功，但是：</p>
+
+<p>"output": "document_id invalid, document_id is not alpha"</p>
+
+<p>文档地址是无效的，文档不是什么alpha（我也不知道什么意思，可能不是某种他能识别的专门语法吧，这不重要，我们理解意思就行了）</p>
+
+<p>打开一看，喔？</p>
+
+<p>原来刚才给你示范的时候填的汉字，不是对应的文档地址：</p>
+
+<p><img src="img/4c8f60bd22ba8f982d99eb9f79a1bac5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HknIbolUPoVVvVxvJUPcMKEgnSg/"/></p>
+
+<p>生活嘛，就是解决各种问题的过程。我当时也是改了好几次才跑通。</p>
+
+<p>还好，你遇到了我➕💗</p>
+
+<p>改完好了，当你看到飞书文档里自动出现了刚才输入链接的文案内容时，</p>
+<p><img src="img/423bd462b0436fd87d1f3ef8bcfa0846.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VfD2bIe9roTZBDxlhWMchLIDnwh/"/></p>
+<p>那种成就感还是很爽的。</p>
+
+<h1>掌握逻辑比学会工具更重要</h1>
+
+<p>搞定第一个工作流之后，你就理解了AI自动化的核心逻辑：</p>
+
+<p>从开始到结束，中间由不同功能的节点链接组合。</p>
+
+<p>这个逻辑理解了，再复杂的工作流也不怕。</p>
+
+<p>别嫌它简单，我的「Cluade文案导入飞书自动写入公众号」工作流，</p>
+
+<p>就是从这种4个节点的工作流成长出来的（目前是一部分自动化）：</p>
+
+<p><img src="img/fefc7e4eff6ec3f32491112d746f928d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Oxo2bGonJoe2GSxYGcFc0mYMnJh/"/></p>
+
+<p>最近这几天，它已经帮我自动写入了2,30篇文章，其中出了篇1w+，收入也有快100了。</p>
+<p><img src="img/172ff7ebed21cdb73316a56ea0e1cac1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HenrbYDstoWGw4xmxbSci2BsnDc/"/></p>
+
+<p>当然，它现在还不是完全自动化，Cluade生成以后，需要我导入飞书。</p>
+<p>我最近正在研究如何解决这部分的自动化。</p>
+
+<p>不管再复杂，本质上：</p>
+
+<p>无非就是多找几个节点，多连几条线的事儿。</p>
+
+<h2>把工作流添加到智能体</h2>
+
+<p>说回现在的工作流，能正常运行后，点右上角发布，就可以配置到智能体里了，</p>
+
+<p>以后直接给智能体发链接就能自动处理：</p>
+<p><img src="img/812c603b8b17a9ec7aab188df39a3f92.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GS9MbzDVooTDepxoLhccD6v2npg/"/></p>
+
+<p>智能体的创建方法也一样，你只需要在配置工作流里点+号，把刚才的工作流添加进来就行了。</p>
+
+<p><img src="img/92be3bb27a3c2c8d652530e3e8d46e92.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I77Eb2RNso5ffQx7KMIcANHIn5e/"/></p>
+<p>至于智能体的提示词，还是只需要写一句话，让Ai自动帮你优化即可。</p>
+
+<h2>把智能体发布到飞书</h2>
+
+<p>最后，我们还能把这个智能体发布到飞书：</p>
+<p><img src="img/56647e30dc132723c243c10c886fa172.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AC1xbFfv9oMyigx4IH3c7RFInad/"/></p>
+
+<p>在飞书添加好对应的机器人，就可以直接把视频链接一键转发给飞书，文案就自动显示到你的文档里了。</p>
+
+<p><img src="img/a90637660ef4a49b3e113b888fceeb52.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LGNkbtG9SorE51xuN9rcTX9onLe/"/></p>
+
+<p>这就是我一直的思路：</p>
+<p>工具不重要，怎么为你所用才重要。</p>
+
+<ul><li>再牛逼，对你不好用，就是垃圾；</li></ul>
+<ul><li>再垃圾，对你很实用，就是牛逼。</li></ul>
+
+<p>所以大可不必焦虑，说到底，AI只是个工具而已，至少目前还是。</p>
+
+<p>有用就用，没用就不用。</p>
+
+<p>最后，给你个行动建议：</p>
+<ol><li>先从简单工作流开始，比如今天这个</li></ol>
+<ol><li>熟悉基本逻辑后，再尝试更复杂的自动化</li></ol>
+<ol><li>工具会过时，但思维不会</li></ol>
+
+<p>先试试，工作流搭建完成后，每次看到好文案，发个链接就搞定。</p>
+
+<p>最后，再开始你想要的更高级的效果，比如：</p>
+
+<p>自动搜集网页内容，整理并改写，配图写入公众号？</p>
+
+<p>我是思蒙，口号是：</p>
+
+<p>小白也能懂，让AI落地。</p>
+
+<p>看到这里，相信你已经完全有开始的勇气了，那么请：</p>
+
+<p>开干吧！</p>
+
+<p>觉得有用，记得抛锚+👍 点赞</p>
+
+<hr/>
+<p>谢谢你~</p>
