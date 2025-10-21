@@ -1,0 +1,85 @@
+<h1>Sora API 批量生图工具 V1.0 使用手册</h1>
+<blockquote>来源：<a href="https://wm1881zs6s.feishu.cn/docx/EVptdJgOPo9Phbx04uuc0l9EnFM">https://wm1881zs6s.feishu.cn/docx/EVptdJgOPo9Phbx04uuc0l9EnFM</a></blockquote>
+<h2>安装步骤</h2>
+<h3>第一步：获取第三方API平台的密钥</h3>
+<p>脚本目前支持三个平台：</p>
+<ul><li>书虫大佬的（圈友）：https://api.apicore.ai/register?aff=5lWG (目前是2分钱一张图)</li></ul>
+<ul><li>API易：https://api.apiyi.com/register/?aff_code=fkBK(目前是7分钱一张图)</li></ul>
+<ul><li>云雾API：https://yunwu.zeabur.app/register?aff=9nEQ（目前是2分钱一张图）</li></ul>
+
+<p>这里就以书虫大佬的平台为例：</p>
+<p>先进行注册，这一步就不演示了，填好自己的信息注册就行。</p>
+<p><img src="img/742902e2c4cd1841bac92529a366163c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S0g3bzKtSoRssPxfQh5cvBd7nLe/"/></p>
+<p>然后点击 管理后台 ——》 API令牌 ——》点击你的KEY就能直接复制了。</p>
+<p><img src="img/f5e95e86f7b16cbbd60ed6744f38d306.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SKLZbzv8AoFFcYxWKKQcAYTBneg/"/></p>
+<h3>第二步：安装脚本</h3>
+<h4>Windows系统</h4>
+<p>感谢@一泽圈友提供的打包程序，大家直接下载这个exe文件运行就行了。</p>
+<h4>Mac系统</h4>
+<h5>安装python</h5>
+<p>这一步请问AI如何在MAC上安装PYTHON</p>
+<h5>下载脚本并安装环境</h5>
+<p>下载脚本源码，然后解压。</p>
+<p>右击解压出来的脚步目录，然后选择【新建位于文件夹位置的终端标签页】</p>
+<p><img src="img/0f1623767cfcb125f3736df4009fa956.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HUO8bNQtLoOqYdxHorIcGWVQn1e/"/></p>
+<p>复制这条命令，粘贴到窗口中执行。pip install -r requirements.txt</p>
+<p><img src="img/b3786c6b63caa7053f76b6fcf100dddc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AZ4obv63ronnZ4xgCRocZoPDnyc/"/></p>
+<p>执行完毕后，我教大家如何修改我的快捷指令，快速启动这个脚本。</p>
+<p>在刚才执行命令的窗口中输入pwd，它会给你返回一个路径，复制这个路径，你们的和我的可能不一样。</p>
+<p><img src="img/fcea0e8cbb5bf8d3bb290d098af8627c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Z08Cbla7volVXOxxUv4cvtmjnCb/"/></p>
+<p>然后通过下面的icloud共享链接导入我的快捷指令。</p>
+<p>https://www.icloud.com/shortcuts/915b0670d80a40219ce1bf5beada3604</p>
+<p>然后右击它选择编辑</p>
+<p><img src="img/da6ebd3b8b0a1db29cb0bd19f71bf258.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/L67ob2foeoQvTLxgMeTcEWssnjg/"/></p>
+<p>把/main.py前面的路径都删掉，换成你刚才复制的路径就行了。注意python3以及它后面的空格不要删掉。</p>
+<p><img src="img/71ea1ac00faa56f765b9bb88b38c07f0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QehGb2m6moR4wUxmiVbcmzyxncO/"/></p>
+<p>点击运行按钮就ok了。</p>
+<p><img src="img/43a86cc51bc602d757e749c9388f61ce.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BieMb416uodshuxqZpZcUaronug/"/></p>
+<h4>脚本基础配置</h4>
+<p>把刚才在API 易复制的KEY粘贴进去。API平台选apicore。</p>
+<p><img src="img/3e15c3d1b73dbf4aec58d6ea4c881119.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CnGabilqJourzWx6KZccoXFjnIb/"/></p>
+<p>设置好保存路径，生成好的图片会直接保存在这个路径下面。</p>
+<p><img src="img/d24a1071cedd66c26d545b95a7b2bc57.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/E5hkbojCJoU17AxnYSEcCY3Yn6e/"/></p>
+<h3>第三步：脚本功能介绍</h3>
+<h4>批量生图</h4>
+<p>这个脚本最核心的功能就是调用sora批量生图了，提示词的导入需要用到csv文档，文档的格式如下</p>
+<p>他有两列：</p>
+<ul><li>分镜编号列：分镜的序号，同时也是保存图片的名称，比如编号5提示词生成的图片名词就是5.png。</li></ul>
+<ul><li>分镜提示词：这里就写生图的提示词，一行一个。</li></ul>
+<p>导入CSV文件</p>
+<p><img src="img/59272f197767b0b080e852f88235a5ce.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YpKcbYGhDonsduxYUMVcX4ganKd/"/></p>
+<p>导入成功了，这里会加载出写好的提示词。</p>
+<p><img src="img/1103798320b7c48ab55e70afd88db35c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UCHzbg2S0ovvhax0AvzcLXyhnKg/"/></p>
+<p>这里可以填补充提示词，主要是用来控制画风，质量之类的，这里写的提示词会添加到每个分镜提示词背后，</p>
+<p><img src="img/1861ae4d40ecb1cb078f282584e502dc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PzDebgv1toL7urxSWMcchUWLnFh/"/></p>
+<p>选择图片比例，目前只支持【3:2】和【2:3】。</p>
+<p><img src="img/854acfaf09ac027ec626892d8326f457.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DQgNbNV1qotNS5x94CpcTOcOnvf/"/></p>
+<p>点击开始生成。</p>
+<p><img src="img/9463e59b7b3c6fa307e0d7f9b2eb8d64.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ndrvb2lRZoSRUdxYxa3czE7hnzb/"/></p>
+<p>图片生成完成后，会在最下方提示。</p>
+<p><img src="img/05153899d82e2e8fdc528f860aa466f5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SLdZb2aOHoILR9x7R1Cc4JvNnBe/"/></p>
+<p>图片会直接保存在你设置的目录下。</p>
+<h4>单张生图</h4>
+<p>在提示词框里面写文生图提示词，然后点击生成就行了。</p>
+<p><img src="img/9833fc6d24819656ecb968cd324e07c7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XeRobLn7moqOWNxv92FcnVzSnTd/"/></p>
+<h4>参考图图生图</h4>
+<p>参考图图生图规则：</p>
+<ul><li> 给API传参考图需要用图片的链接，而不是直接上传图片，这个需要用到图床。</li></ul>
+<ul><li>脚本判断是否需要上传参考图是根据提示词里面的关键词来的，比如我有个图片名称叫做"木棍人"，而当提示词里面出现了"木棍人"这个词，那么木棍人的参考图的图片链接就会被上传。</li></ul>
+
+<p>就像下面这个例子。</p>
+<p><img src="img/67aea9a30c6328185030f01268ad8c0f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Qucxb7TDLosV5ixyZqscxcmUnm5/"/></p>
+<p>参考图不能太多，最好控制在四张图以内(包括四张图)，这是我用sora测出来的经验，参考图太多了，生成的内容可能会混乱。</p>
+
+<p>要上传参考图链接就得用图床，目前我用的下面这个网站：https://www.superbed.cn/signup?link=n911cjkc</p>
+
+<p>注册好了之后，直接在主页上传图片。</p>
+<p><img src="img/eab5b6709f4c12a398f9e5141363d971.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Wg2nbx66zoV6H9xmN1ucehUtn5d/"/></p>
+<p>上传好的图片，可以在"我的图片"中全部看到，点击"复制"就可以复制对应图片的地址。</p>
+<p><img src="img/34bc0789cb738beae07566cc17e1773a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JefcbzzD8o0rVSxJUa6cQdB0nGb/"/></p>
+<p>然后点击"添加图片链接"</p>
+<p><img src="img/4b72ad060275c44b4c787e7c367a4eda.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TBvmb76bAogd4OxbaD0cy02Fn6f/"/></p>
+<p>左边填图片名称，也就是脚本用来检测是否要上传参考图的关键词，右边填图片链接。</p>
+<p><img src="img/74a3bd487bba758821fbc95854e0a839.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Z7StbhCjpo4GdJxGdZocE5Alnjh/"/></p>
+<p>这里配置好之后，要批量生图还是单张生图按照前面的方法来就行了。</p>
+<p>在图片分类框中右击，可以创建图片的分类，这样方便管理链接。</p>
