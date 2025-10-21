@@ -1,0 +1,97 @@
+<h1>🙌 RPA+AI 简单应用上手篇（小红书-飞书多维表）</h1>
+<blockquote>来源：<a href="https://r0rel9lqdms.feishu.cn/docx/VSmedTYaLo6qdkxeVgVcO6R4nTg">https://r0rel9lqdms.feishu.cn/docx/VSmedTYaLo6qdkxeVgVcO6R4nTg</a></blockquote>
+<p>因为好奇，解锁了一个认知：</p>
+<h2>【AI+RPA = 同时拥有大脑🧠和双手👐】</h2>
+
+<p>是不是即使可以用上AI帮助内容生产，还是有很多需要电脑鼠标🖱点点点、Ctrl+C和Ctrl+V的动作？公众号排版或电商商品上架也需要按照标准步骤每次都一步步来；批量处理图片的时候，不见得网站工具可以完成自己的特别需求......每次看到别人的视频，明明手没动，电脑💻/手机📱屏幕全自动的客服获取有效信息、回复评论好神奇！</p>
+<p>原来这些都是通过RPA来实现的。原理上也不复杂，通过RPA的工具，像搭积木一样拖拉拽功能模块就可以实现了。想把自己上手RPA的例子分享给大家。做的简单应用是：</p>
+<p>用📕小红书搜索🔍关键词将最热内容下载到飞书多维表🐦</p>
+<h3>视频</h3>
+<p>过程逻辑是：RPA获取内容——导入到飞书多维表——AI内容生产</p>
+
+<p>操作方法：</p>
+<p>方式一：RPA工具已上线平台，直接使用，试用3天</p>
+<p>⏬RPA应用下载链接： 小红书-视频信息提取至飞书多维表-[Lisa]| 八爪鱼RPA（免费试用3天）</p>
+<p>🎬视频教程：</p>
+<p>准备三项参数：飞书App ID、App Secret、飞书多维表地址即可</p>
+<p>飞书配置参数获取教程：</p>
+<p><img src="img/81d725d3dbcebe2f1a34c0eb474449c2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N6DAbCLWRo4Rpsxu1bJczMUNnFc/"/></p>
+<p>方式二：自行搭建，永久免费🆓，如下教程⬇️</p>
+
+
+<h3>准备工具</h3>
+<p>1️⃣八爪鱼RPA（暂仅有Windows版）https://partner.rpa.bazhuayu.com/R9Sc6Z</p>
+<p>2️⃣飞书多维表</p>
+<p>3️⃣飞书多维表插件（AI提取视频文案⚠️氪金提示，可选项）</p>
+
+
+<h3>RPA设置逻辑</h3>
+
+
+<h3>RPA所有流程</h3>
+<p><img src="img/9281378ccab7b09ee13c2de653e1c9ec.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/D0eIbDnmIozEpbxtBLYc8YSnngh/"/></p>
+<p><img src="img/ca8066f68df7fcd1b18c0d0020a2dfda.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FnyJbdaiJoS0kdxGDUgc08i2nQe/"/></p>
+
+<h4>⚠️ 浏览器安装RPA插件</h4>
+<p>RPA工具窗口左上角——管理扩展——选择浏览器，点击安装——打开浏览器，开启RPA插件功能</p>
+<p><img src="img/bcee23b4834fe271fa596f5b1971241a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DFJ3bgc5FocPKqxFIm8cvjwEnNh/"/></p>
+<p><img src="img/3a066ba49d2f3e8bc5788299dcea0cec.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LeqPb8uo3oAHT7xoMbAcHVQfnth/"/></p>
+<p><img src="img/4199fa35e3878cde114ab73f4d3068ac.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Of4AbqmDQomx4DxFbjocsV5PnGc/"/></p>
+
+<h4>第一步：RPA设置数据提取</h4>
+<p>RPA-打开网页</p>
+<p><img src="img/0d46ba6cf78f2bb6424a58b0e36d47e3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Q4XQb207ooRYYHxGyiTc5G9sn5U/"/></p>
+
+<p>RPA-设置Cookie</p>
+<p><img src="img/88ffa43e5205289c63371601c6614124.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NOsQbzbveoUYbExjN6pcK27fnFb/"/></p>
+<p><img src="img/d638c92a31923ffc806d25241d9b8d91.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FgkMb5T1Ho5FxSxObLOcOH5SnWd/"/></p>
+
+<p>RPA-筛选数据</p>
+<p>根据人工操作步骤选取RPA工具，如：填写网页输入框、点击网页元素、鼠标悬停等设置，以达到需要采集数据的页面。完全模拟人的动作步骤来调用工具就好了。</p>
+<p>选取元素的步骤是：进入功能框，点击“捕获元素”的按钮，【Ctrl+鼠标左键】</p>
+<p>案例内容是：进入小红书页面后，填写关键字AI，然后点击查找，筛选视频内容，筛选最多评论的排序，最终达到当日排名最靠前内容的列表（如下）</p>
+<p><img src="img/79d413d8abaeaca409acd4a6776ae1d5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S6PQbFvabouWENxxftocPHUJnKf/"/></p>
+
+<p>RPA-循环相似元素</p>
+<p>因为需要根据以上列表逐一打开每一个内容，才能获取视频链接、博主名称、点赞数、收藏数、评论数，以及最后要点击左上角关闭窗口，所以设置了“循环相似元素”的指令。</p>
+<p><img src="img/3b5c9434d58d7fe09276cb38295a211f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Bos2biqvuoiso5xxykOcfmn6nPd/"/></p>
+<p>⚠️Tips：在选择相似元素的时候，需要用【shift+🖱鼠标左键】选择一个组所有的元素内容（都有红框）。在循环内的指令就可以按照选择元素的顺序，点击打开——获取元素（视频链接、博主名称、点赞数、收藏数、评论数）——点击关闭。</p>
+<p>如果需要选择同一页面更多贴，可以先设置滚动鼠标加载更多内容，再设置循环♻️。</p>
+<p><img src="img/26fc2352d66a5c3ba0b5cf22f854217a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SjCMbYkLhovn4ExFX5WcKWxanjb/"/></p>
+<p><img src="img/9dd4d0820508f206e122edb726272530.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VMz8baIZAobWyixKzZDcwlWpnYb/"/></p>
+
+<h4>第二步：飞书多维表授权步骤</h4>
+<p>教程：https://rpa.bazhuayu.com/helpcenter/docs/vPhs0M</p>
+<p>视频教程：</p>
+<p>步骤Tips：</p>
+<ol><li>在https://open.feishu.cn/app创建一个应用</li></ol>
+<ol><li>在应用中获取APP ID和APP SECRET</li></ol>
+<ol><li>为应用机器人开启飞书多维表授权</li></ol>
+<ol><li>飞书多维表“添加文档应用”（右上角——三点——更多——“添加文档应用”——输入以上创建的应用名称）</li></ol>
+<ol><li>飞书多维表——分享——授权所有人“可编辑”（⚠️我遇到了打开所有授权但是仍无法写入飞书多维表的情况，打开”可编辑”权限后🤖机器人才能写入，还想找官方解答这个问题）</li></ol>
+<p>（具体截图可参见： ）</p>
+
+<h4>第三步：写入飞书多维表</h4>
+<p><img src="img/fc1826883c09d3ac5dbbde16206a8ecf.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YOAXbU48nob2QrxCantcCQJknJg/"/></p>
+
+<p>RPA-获取飞书访问凭证</p>
+<p><img src="img/ac26435b7fc52ecad71569a0421f7c21.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/H2ubblSfMoM9mjxwBelc8ayJn0g/"/></p>
+
+<p>RPA-链接飞书多维表</p>
+<p><img src="img/24766412c84859f20ae0927f0e424c94.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QeR1bM7zCoL6VvxmcUwcMuY1n3P/"/></p>
+<p>⚠️飞书多维表点击“分享”后复制的表格地址不能使用</p>
+
+<p>RPA-获取字段</p>
+<p><img src="img/92bb26ea3705d42b99465ab67fcad20a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RFo7bjcRZoCY7Pxz1Jjcs8Unnvf/"/></p>
+<p><img src="img/926b3cd35c7fb1cbb3cd82139f5426af.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MyOEbDMPjotuhcxi6TPcHb0DnXc/"/></p>
+<p>⚠️打印日志是为验证运行过程中是否执行成功</p>
+
+<p>RPA-新增记录</p>
+<p><img src="img/fb4d849469aab1a9304ec92336a5be79.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I8atbPYxOo9H4Dxo70ocZPzSnYg/"/></p>
+<p>⚠️选择RPA对应变量时，请一定注意与飞书多维表内字段的格式需要一致。如：视频链接在表内是文本的格式，RPA工具内选择的格式要是“文本值”，否则无法写入表内。</p>
+<p><img src="img/9f571e1bfaf02b1ab2f4447496e10f24.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TPNfbSE1AooZ0pxXTDkcJil3nib/"/></p>
+<p><img src="img/76acae3b111cbe8d9c2ea661b5b86798.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MblfbK75Ioctvpx45bfcyCTWnyb/"/></p>
+
+<p>RPA最后记得关上打开的浏览器窗口，不然就要手动了。</p>
+
+<p>希望大家也能试试，好用的话多多点赞👍谢谢🌹</p>
