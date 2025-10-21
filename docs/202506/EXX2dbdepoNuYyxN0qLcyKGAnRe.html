@@ -1,0 +1,296 @@
+<h1>10小时上站工作流分享：V0+clickvibe+前端MCP三剑客（SequentialThinking+Playwright+context7）</h1>
+<blockquote>来源：<a href="https://fhfh1eo8ab.feishu.cn/docx/EXX2dbdepoNuYyxN0qLcyKGAnRe">https://fhfh1eo8ab.feishu.cn/docx/EXX2dbdepoNuYyxN0qLcyKGAnRe</a></blockquote>
+<p>大家好，我是智昊。</p>
+<p>最近刚参加深海圈，完成了两个作业以后就一直拖拖拉拉，每天都有干不完的活，今天中午闲下来了。于是想来写一篇自己在深海圈上站过程中的一些心得。</p>
+<p>我在参加深海圈的过程中发现群里很多圈友在使用cursor开发的时候针对报错总是通过复制粘贴或者截图的方式实现，效率很低，而且有很多报错的时候也很难完整复制清楚。刚好我最近刚优化完我的工作流，而星球还没有此类的文章，于是我决定冲一个精华。</p>
+<p>与此同时，6月航海也开始了，我是MCP航海的教练，也应该为后续的高手分享做一些铺垫。接下来，我就给大家分享一下我从点子到可用的网站的完整口喷开发过程，权当抛砖引玉。</p>
+<h2>工具准备</h2>
+<ol><li>Gemini 2.5 pro + Deep Research：也可以使用ChatGPT平替，我买了google one所以就用google了，注意要开deep research，这样有一些技术实现难度较高的就可以被找到可能的开源项目借鉴。</li></ol>
+<ol><li>Cursor：可以用windsurf或者Trae平替，也可以用cline，我只是习惯用cursor了，其他的用不习惯；</li></ol>
+<ol><li>V0：用来生成MVP版本的前端页面，直接用cursor生成有点low；</li></ol>
+<ol><li>clickvibe：大铭教练做的chrome插件，用来对前端按钮或界面内容进行微调；</li></ol>
+<ol><li>MCP功能组：SequentialThinking+Playwright+context7+github，这四个mcp是今天的重头戏，可以在进入cursor后直接通过口喷的方式从最初的产品原型一直做到把你的网站扔到github上。</li></ol>
+<h2>工作流程</h2>
+<p>我们初期上的MVP网站一般只有前端的交互页面，简单的API调用，通常不涉及用户登录、计费或者后端存储等功能（当然是因为我还没学到那一块），所以我们今天的流程主要就围绕以下类型的网站展开——</p>
+<p>“能即开即用的，最多仅使用API调用服务，解决某一特定简单问题的的MVP网站”。</p>
+<p>比如文生图网站，比如计划分解网站，比如哄老婆网站，比如帮我吵架网站，都属于这个部分。</p>
+<p>我先找一下我现在的痛点，比如我有很多事需要干但是非常杂乱，而且很多todo都没有经过拆解，也没有记录，我希望能有一个ai帮我拆解我的待办并列好优先级。</p>
+<h3>STEP1：找需求</h3>
+<h4>与Gemini讨论需求</h4>
+<p>首先，我打开gemini，新建一个用户需求洞察专家的gem。</p>
+<p><img src="img/85ec04bbc2437e1d504607b798b7afde.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VHCsbQTDnoZxjXxy6L3c7Hj1ncg/"/></p>
+<p>提示词如下：</p>
+<pre>你是一名资深的用户产品经理，擅长通过和用户沟通找到用户真正的痛点并付诸实践。你的工作流程是：
+
+目的与目标：
+
+* 帮助用户清晰地描述问题，从而找到问题的根本原因。
+* 提供可行的解决方案，将用户的痛点转化为产品改进的实践。
+* 在整个沟通流程中保持专业和同理心。
+
+行为与规则：
+
+1)  初始倾听与信息收集：
+    a)  仔细倾听用户对现象的描述，不打断，鼓励用户提供尽可能多的细节。
+    b)  通过提问（例如：'这种现象通常在什么情况下发生？'，'您觉得这种现象给您带来了什么不便？'）来搜集更具体的现象信息。
+    c)  记录所有观察到的现象，避免过早下结论。
+
+2)  原因探寻与简化：
+    a)  基于收集到的现象，尝试提出多种可能的原因。
+    b)  运用“5个为什么”或其他类似方法，深入挖掘现象背后的根本原因。
+    c)  优先考虑用更简单、更直接的原因来解释现象，避免过度复杂化。
+    d)  在内心进行原因的验证，确保其逻辑合理性。
+
+3)  原因验证与确认：
+    a)  将找到的根本原因清晰地阐述给用户，使用通俗易懂的语言，避免专业术语。
+    b)  询问用户对所提原因的看法，例如：'您觉得这个解释符合您的情况吗？'，'您认为我们找到的原因是否准确？'
+    c)  根据用户的反馈进行调整和修正，直到用户认同找到的原因。
+    d)  一旦原因得到确认，主动提出可能的解决方案或后续步骤，例如：'既然我们找到了这个原因，接下来我们可以考虑...'
+
+整体语气：
+
+* 专业、耐心、富有同理心。
+* 鼓励开放式沟通，让用户感到被理解和被重视。
+* 言语简洁明了，逻辑清晰。</pre>
+<p>我一般喜欢优先解决我自己的需求。比如我现在有一个需求是解决我大量的工作无法兼顾，需要捋顺并找到今天最应该做的事情做起来。那么我就和他聊。</p>
+<p>比如我现在有一个难题，就是每天早上给自己列今天要做什么非常麻烦，烦得要死，先查一遍email，再看一下客户消息，然后再看一下昨天没做完的事情，然后打开todolist，把我今天要做什么一个个敲进去，实在是太烦了，我希望能有人帮我理清楚我今天要干什么。我就这么问他。</p>
+<p><img src="img/d167795977e4e6d1434572e911b5c26f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QNKdbWpzDoj7wtxdotYcAX3lnvb/"/></p>
+<h4>产出MVP的需求清单</h4>
+<p>然后我和他不断讨论，最后得出了一个MVP的需求清单。</p>
+<p><img src="img/9b81350faac7e24944c5d10da9e6bb28.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/V5aqbRsEvohEwexLSxAc9AFPnpg/"/></p>
+<p>到这个步骤之后，第一步就结束了。</p>
+<h3>STEP2：使用V0做一个纯前端页面</h3>
+<p>打开v0，祭出小排老师的神奇提示词！</p>
+<p>第一句话：我需要制作一个XXX产品，使用nextjs框架</p>
+<p>第二句话：以下是需求文档，你只做产品原型，不做产品功能</p>
+<p>第三句话：设计尽量参考xxx风格。</p>
+<p>我喜欢苹果的风格，所以我一般会说设计尽量参考苹果风格。</p>
+<p><img src="img/6dce286d083b73d0a258ce627ccfcce9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JArNb3YuFoNOrkxiKnachNfsnCh/"/></p>
+<p>然后他就做出来了，做完了之后我口喷一下让他稍微改吧改吧。</p>
+<p><img src="img/18588e457b4cbdd978e5dc148f279ec3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DFHnbS7Gdo1nENxD8Coc5mDtnLb/"/></p>
+<p>改完了之后点右上角的下载。</p>
+<p><img src="img/e63382d4cf55ce8d16aca0c321e63d4b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CcoLbhThFoMbgzxEOOGcC0bmnQg/"/></p>
+<p>直接“download ZIP”。</p>
+<p><img src="img/fbc768a4821591e990be2d8bf41be361.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YB7RbPxmPomOxIxALOAc6vk4nmd/"/></p>
+<h3>STEP3：将项目导入到cursor中</h3>
+<p>download完之后，解压到你的项目文件夹里。然后用cursor打开项目文件夹。打开之后长下面这样。</p>
+<p><img src="img/993cd25902c3436b6bca81ad29cc0610.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PnOib3q9uoyV01xaZ7Cc0XtLnOi/"/></p>
+<p>看一下整个项目文件夹的结构是不是典型的next.js结构，是的话这一步就结束了，就该来配置MCP服务和安装stagewise了。</p>
+<p><img src="img/020f8b1d0678fb4f380ae151bbf000e7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Bxxtbna7OoPc8LxseQic2kwOnYe/"/></p>
+<h3>STEP4：定义本项目使用的MCP服务工具</h3>
+<p>我强烈推荐大家针对不同的项目单独去定制特定的MCP服务工具，不要把所有的MCP服务全部集成在cursor的应用级中。不过目前cursor更新1.0版本之后，MCP工具已经没有项目级的标签了，所以现在还是暂时不这么搞了。</p>
+<p>首先进入Cursor的MCP服务。</p>
+<p><img src="img/020f813d87a5382271c04480e62d5e62.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KMeObS1CeoyxbdxtMTecndT9nob/"/></p>
+<p>然后点击列表底下的“New MCP Server"按钮。</p>
+<p><img src="img/5f8dc11af97c5b1127be4df455f3c33d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NmQkbZsJMoxN4xxFHpUceG1pnvb/"/></p>
+<p>如果你的mcp.json是空的话，你就直接复制下面这一串json粘贴进去就行。</p>
+<pre>{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "context7": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    }
+  }
+}</pre>
+<p>这一串里面有以下MCP server的服务：</p>
+<ul><li>Sequential Thinking：这个是分步思考MCP，复杂项目必装，可以自己去分解步骤；</li></ul>
+<ul><li>Playwright：这个是浏览器自动化操作MCP，可以自己操作浏览器进行功能测试，还可以自己看控制台上的报错进行处理，基本上装了这一个就够了，什么browsertools browser都不需要装了；</li></ul>
+<ul><li>context7：这个是在实现功能的时候拉对应框架最新的手册以使用对应框架latest的功能，这个很重要，也得装。</li></ul>
+<p>简单理解，就是让他学会分步思考，让他能自己做功能测试，让他做功能的时候用最新的技术。</p>
+<p><img src="img/1f44f347bb66e6963415a69a81100ec0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NQ8GbeqEwoQGxLxOcPFcyXx6nFf/"/></p>
+<p>粘贴完成后保存mcp.json，回到MCP Tools的列表，稍微等会，等这些东西都变成绿色之后，就表明MCP服务已经启动成功可以用了。</p>
+<p>PS：我最近在改一个名字叫software-planning-tool的mcp工具，等测试通过了发给大家。</p>
+<h3>STEP5：为项目安装clickvibe</h3>
+<p>MCP服务装完后，再来给项目装clickvibe。</p>
+<p>clickvibe 是我们大铭教练开发的一个对标 stagewise 的Chrome插件，可以对网页中的目标元素进行微调，而且不会像 stagewise 那样影响到你的前端代码。</p>
+<p>首先，进入 clickvibe 的官网：clickvibe.dev</p>
+<p><img src="img/819ebd430a7e00041322c41a994fed79.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QtLCbRalroFXQ8xseVDckiJQn0d/"/></p>
+<p>点击右上角的“Download”下载Chrome 插件压缩包。</p>
+<p>下载完成后，找到压缩包所在的文件夹。</p>
+<p><img src="img/e59f509fcbcb44431d32cfbbb406792c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OcgIb1tT9obdGOx3iUDcmjjrnRc/"/></p>
+<p>打开 Chrome 插件管理页面。</p>
+<p>如果你使用的是dia，插件管理页面的地址是：dia://extensions/</p>
+<p>如果你使用的是 Chrome，插件管理页面的地址是：chrome://extensions/</p>
+<p><img src="img/90674c95c0df32ebe652405fdbc408ec.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/K0bzbkixDoYLZ1x8QL5cFXWuneg/"/></p>
+<p>打开右上角的 developer mode 模式，如果是中文的界面，它的名字应该叫“开发者模式”。</p>
+<p>然后把解压后的 clickvibe 文件夹直接整个拖进去。拖进去之后就能看到 clickvibe 的插件被安装成功了。</p>
+<p><img src="img/38d174d3905593fd8906d47120493890.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PKOob3QRgoYDuCxRty8cgYhfnET/"/></p>
+<p>安装成功就完事了，我们会在第六步里面详细介绍怎么用这个插件。</p>
+<h3>STEP6：使用cursor实现项目功能</h3>
+<p>接下来才是重头戏，我们要使用cursor实现我们的项目功能。我将演示一下怎么使用clickvibe改进前端，以及怎么通过这些MCP工具去进行开发。</p>
+<p>打开一个新的聊天窗口。让cursor先了解一下项目背景。</p>
+<p>输入一下“帮我看一下这个项目是做什么的”，回车。</p>
+<p><img src="img/959701d633295c2b859639055e69cddb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NqPOb9RPFoUWZjxKSGYcwrNunFf/"/></p>
+<p>好了，他现在已经知道这个项目是干嘛的了，我们就可以开始了。</p>
+<p><img src="img/a795b2139d6ac0e14f02802ca2e6d455.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GMTDb5NI7oaaLlxUI2xc3CjknBc/"/></p>
+<p>首先，我们让他写一个readme.md，然后把这个项目通过pnpm启动，让他进入网页看一下，功能页面点点看有神么问题。（毋庸置疑，一定会有大问题，毕竟这里面什么玩意都没有）</p>
+<p><img src="img/57486a780ca03404d90fbf1d6bfd764a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZyK0bp2CFokQFvxDcPYcJoXYn86/"/></p>
+<p>仔细看它的调用过程。实际上，从现在开始，它就再不断频繁调用Playwright的mcp tools来操作网页内容了。这就是Playwright的第一个能力：“功能测试”。</p>
+<p><img src="img/9e1a428fd44f3faede5bef8e02675b4b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YlMpb52jRolpGxxlm9BculJpnHh/"/></p>
+<p><img src="img/83ec0359284cde364b5e444bbb829a23.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N5N0bxIdfoqOm1xzuJyccie7nod/"/></p>
+<p>测试完了，它会给我写一个测试报告，测试报告里面就会有一大堆问题（废话，就写了个原型当然一大堆问题）。</p>
+<p><img src="img/68515faee7ef514e1d7292c3757840e6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I3Y7bZ7LTovpfZxV5d0cKxbhnVd/"/></p>
+<p>然后我就开始让他给我添加功能了。直接开始口胡。</p>
+<p>“请使用Sequential Thinking”合理安排工作步骤，处理你发现的问题，同时，请处理XXXX问题，use contex7”。</p>
+<p>比如我这里还希望他集成AI API服务，我打算使用openrouter进行调用。我就进入openrouter，找到deepseek R1的页面，找到API调用，复制openai-typescript的调用案例扔给他。</p>
+<p><img src="img/f03823cc29849b3016ec375e3df5c390.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Py1LbW1i4oTZ0UxcyjwczsrAn0b/"/></p>
+<p>注意我这里的提示词，这个提示词分为三个部分：</p>
+<ul><li>请使用Sequential Thinking：一定要有这句话，这样AI才会在开始任务前调用分步思考的mcp，如下图所示：</li></ul>
+<p><img src="img/3d0f912529009296a8bdf4ccdce0d82b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SL9Gby7WZoBO0ExRXhbcgtvhnXb/"/></p>
+<ul><li>处理你发现的问题，并解决xxxxx问题：这是在下达开发需求指令，没啥好说的，仔细说明白就行；</li></ul>
+<ul><li>Use context7：这个后缀非常重要，这样才能保证它在引用库的时候，到context7去找最新的技术实现方案。</li></ul>
+<p>我想我大概已经讲清楚怎么用这些MCP工具了，接下来就是漫长的功能实现以及口喷改BUG。</p>
+<p>再提一嘴怎么用这个clickvibe。</p>
+<p>当我们安装好 clickvibe 之后，记得在Chrome浏览器里面启动它。启动完成之后，你能在右下角看到一个箭靶一样的按钮。</p>
+<p><img src="img/0c0976a731e81e2186a9ec54a02f7c52.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EpeNbhMrdosXf9xv7fycVKhhnwh/"/></p>
+<p>点击这个按钮，然后点击“Select elements”选择你要修改的前端组件，它就会进入选择状态，页面会随着你鼠标的移动找到很多框，并在框上会想你展示这个组件是什么，点击你想要修改的那个组件，你可以选择多个。</p>
+<p><img src="img/3bbeab24ae720f1f564c58f776ef96f8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YYbRb6de3oHOGxxiZtAcg9pTnPg/"/></p>
+
+<p><img src="img/d32b363db26c14a977b1b040912a0512.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DxVFb7rfyoGNCSxBCtFchoHhnKg/"/></p>
+<p>选择结束后，在提示词的框里输入提示词。</p>
+<p><img src="img/cde8ce9d5533ec94458136235ef4912f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EsYWbo6b4oeELCxZwPRcQPIwnBi/"/></p>
+<p>一般，这里的提示词我们要写两个信息：</p>
+<ol><li>这些组件目前的状态是xxxxx，我需要将他们的xx状态改为xxxxxx；</li></ol>
+<p>例如：这些组件目前是蓝色，我希望他们能够改成和整体风格一致的绿色或者和AI对话框有所区分的另一种绿色。</p>
+<ol><li>Use context7</li></ol>
+<p>输入使用context7，它就会自己去找最佳实践。</p>
+<p>比如我这里输入的是：</p>
+<p>这些组件目前的颜色是蓝色，不符合整体的绿色风格，看一下它们引用了哪些css，还是被写死了新的样式，如果使用了新的样式，把这些样式删掉，使用之前已经存在的深绿色风格样式，如果你需要使用新的样式，也写在对应的css里。use context7</p>
+<p>完成后，点击“Ask AI”。</p>
+<p><img src="img/53b905a0392fce98d628003a84f1cae7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I8TBb8YdyobzLaxQ1ySc6hMAnAd/"/></p>
+<p>然后页面会弹窗出来。点击弹窗右下角的”copy to clipboard”。</p>
+<p><img src="img/c204c60aa97f4d5753e07328f2a46642.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VroiboGuWoZ13axZIHOc67CEn7f/"/></p>
+<p>把这么一大串代码扔到cursor里，点击提交。</p>
+<p><img src="img/5de6c9a8828ec4a6050bab790ce1dd15.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Bfc8bcyu4oIEZPxX1Xmc9LwDnSd/"/></p>
+<p>然后AI就开始一顿操作。</p>
+<p><img src="img/a1107f928d54cd26e87cb58a4b2a4eb5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MYbnbdX2mojLgDx28cbckoufnDg/"/></p>
+<p>过了一会它就改好了。</p>
+<p><img src="img/1a7436e9323c208e6c62c9317b929d7a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IeJCb8CmLofB5HxOZIecxmJwn5e/"/></p>
+<p>丝滑。再次给大铭教练打call！</p>
+<h3>STEP7：将仓库上传到github</h3>
+<p>经过将近3个小时的努力，我们的网站终于做好了，接下来就是把仓库上传到github上。</p>
+<p>首先把github的mcp工具装上。</p>
+<p>进入MCP服务，点击New MCP Server</p>
+<p><img src="img/080c44fec654bef55f22a64d0b2b7887.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JmgUbNaUkot1mGx79IocTYJtnsf/"/></p>
+<p>然后进入mcp.json文件，在之前的基础上把github的MCP server也装上。全局内容如下：</p>
+<pre>{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "context7": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "github": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "Press_your_own_token"
+      }
+    }
+  }
+}</pre>
+<p>注意，这个地方github的mcp服务要在环境里粘贴上你自己的access_token，这个你可以问chatGPT或者gemini或者deepseek，它会帮你的。</p>
+<p>安装好之后，让cursor帮你起项目仓库，输入提示词：</p>
+<p>请帮我上传代码到github上，开始上传前，先做好gitignore，然后到我的github账号上新建一个仓库并把项目上传上去。我已经为你启动了github的mcp服务，祝好运</p>
+<p>这里有几个条件需要强调：</p>
+<ol><li>让他生成.gitignore文件；</li></ol>
+<ol><li>让他用你的github账号新建一个仓库传上去</li></ol>
+<ol><li>强调你已经给他启动了github的mcp服务。</li></ol>
+<p>然后就等。然后就传完了。</p>
+<p><img src="img/41b9454924aaf3f96b2db667c7689cc0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NM7IbkxDhorC9wx7sq5cdQQ7n1d/"/></p>
+<p>然后登录一下github看看上传成功了没。成功了。</p>
+<p><img src="img/e48cecd7ef5addf9c8636561049b330f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/P2YBb9wvSoQ1FKxOdP4ch3IunEg/"/></p>
+<p>就是这么丝滑！听懂掌声！</p>
+<h3>STEP8：使用vercel一键上站</h3>
+<p>仓库上传之后，就可以到vercel一键上站了。</p>
+<p>先登录vercel：vercel.com，然后进入Project，点击右上角的Add New</p>
+<p><img src="img/408677285ff2caa8fd77735390d06f58.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GdTMb4pRUoIYDYxGrgMcNCTcngg/"/></p>
+<p>选择“Project”。</p>
+<p><img src="img/0d48bf7650da7bb313118237c8d39b9e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PO7sbu6WUoKK75xGo9PcdN8xnPb/"/></p>
+<p>进入页面之后，选择你的仓库。如果找不到的话，一般是没有把所有仓库都授权给vercel。我们可以点击底下的“Adjust Github App Permissions”</p>
+<p><img src="img/ae4044c9b074f8975a32afdb7464a8dd.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RWnJbe8zwo7A6txPd90c0DAOnfe/"/></p>
+<p>在弹出的页面选择你的组织；</p>
+<p><img src="img/291c2bb7e8794b719d6d3b6391960d3b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JreibScYmoK79Jxs8flclVXRnnc/"/></p>
+<p>然后选择你需要增加的仓库。你可以选择“All reppositories”，我的仓库比较多，我就按需要选择。</p>
+<p><img src="img/f9a680b6db4ec5bcac8d754080401f79.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QOMrbhV9KoIUg2xcB1ccWYRsngh/"/></p>
+<p>确认之后，页面就长这样。</p>
+<p><img src="img/40e1cf90b9b9b6cab4cf0992102ed3f9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZUWkblMQ9oMAc1xpBo5cWLkYn8f/"/></p>
+<p>然后刷新新增页面，就能看到刚刚选择的仓库了。选择你需要上站的仓库，点击“Import”。</p>
+<p><img src="img/5e8fe5251a4de4d6e30daae99aa1bb9f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BhGBb4AyIohMCIxonExc5OTMnYb/"/></p>
+<p>然后配置环境变量，如果你用到了的话。</p>
+<p>具体有没有用到你可以去看你的根目录下有没有.env或者.env.local的文件。有的话你就把环境变量扔进去，完成后点击“deploay”。</p>
+<p><img src="img/35fb8ac1b63fb5dc2d0c1a729c11be62.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SypLbUNWco3qXvxl5Pucdf3unOO/"/></p>
+<p>然后就成功啦！</p>
+<p><img src="img/39e335e3c1786f138c053557a0c89e6e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NFuJbLf7PoVbJLxhk8Wc49qrnQj/"/></p>
+<p>然后就可以拿给你的朋友们用啦！</p>
+<p><img src="img/78785e021177317ff6150ea232c4a5b5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S5XgbIqOXopCRvxnFiOcMHNAn5W/"/></p>
+<h2>总结</h2>
+<p>本质上，上站的核心是找到需求满足需求。我希望通过这篇文章可以让参与深海圈或者web出海的各位圈友能够有更多的时间专注在需求和实现，而非前端按钮和排布上。让自己畅游在产品的海洋，而不是控制台报错的海洋里。</p>
+<p>祝大家好运！</p>
+<h2>预告</h2>
+<p>我最近从github上拿下来一个名字叫software-planning-tool的工具进行了魔改，目前正在进行高强度测试，它的主要用途是根据输入的产品规划或开发要求自动生成超长的、可查看的、会自动登记完成情况的开发计划和开发任务，和sequential thinking一起用有奇效。我再高强度使用一个星期，如果效果不错的话，我再单独写一篇开发过程给想要做MCP开发的同学一些参考。</p>
+<p><img src="img/3b68ff76d45b09f7eb1f4a1f24e88a48.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IIzlbFkIjoiJtXxnoMrcjcLXnQh/"/></p>
+<p><img src="img/5c0a9e5ebef338fc4ca6d4295c8815fb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Asdrb0EKcoASBTxi272cKlqenMd/"/></p>
+<hr/>
+<p>PS：本来只是想做一个示例页面写这篇文章，结果越改越上头，最后做了一个MVP版本出来自己用了。大家如果感兴趣的话可以试用一下。</p>
+<p>总开发时间：10小时</p>
+<p>清流待办（Clearflow-todo）</p>
+<p>AI驱动的待办清单工具，你可以使用apple mic功能或者讯飞输入法在文本框里口喷你今天要做什么，可以喷1000个字以上，喷完了之后，点击“生成待办”。</p>
+<p><img src="img/68054f019e21382ab8771961ad11ef9c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UY7AbNBVso2e46xCF0CcNMtbnOe/"/></p>
+<p>系统就会依据你口喷的今天要做什么自动提取出待办项，你可以把待办项提取出来扔到右边的任务板里。你也可以持续口喷让他改你的计划，系统也支持提取后手工修改。</p>
+<p><img src="img/8d4ef724ba1dafa0a7d537ed87a09c1e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PzhJbxRfVo7nFoxeFsTctr1InZe/"/></p>
+<p><img src="img/345223032045c05ff08bb9e390378161.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Hcn0bQXM6oLbVOxqnoZcOrWGnYe/"/></p>
+<p>你可以按Markdown的文本格式复制出来粘贴到notion或者飞书文档里；也可以按表格格式复制出来粘贴到notion或者飞书表格里。现在只做了这些，我已经开始深度使用这个玩意了，我现在再也不需要自己敲十多分钟的今日待办了，直接口喷爽到飞起。粘贴出来长这样。根据中英文的不同粘贴出来的效果也不一样。</p>
+<p><img src="img/c3da62c3fda4289bd1300a010ec68cde.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XmwSb0uU4oRUmsx1tqRclPZWnZd/"/></p>
+<p>我会根据实际的网站流量去看后面要不要继续迭代，其实我蛮想把任务板做里面去的，只是MVP版本做进去的话我感觉有点太重了，不如先提供导出的能力。当然我自己这么用已经用的够爽了哈哈哈哈哈。</p>
+<p>也欢迎给大家给我这个产品提建议，我都能看到。</p>
