@@ -1,0 +1,11 @@
+# AI健身美女号玩法
+
+> 来源：[https://svj4gxvm0v3.feishu.cn/docx/BW8xduJEwoLyMfxyWe5cEYTbnWb](https://svj4gxvm0v3.feishu.cn/docx/BW8xduJEwoLyMfxyWe5cEYTbnWb)
+
+1、AI工具：https://jimeng.jianying.com/
+
+2、描述词：胶片摄影，一个中国美丽成熟女性，瓜子脸贵妇气质，25岁年纪，成熟的韵味，长发，五官端正清晰轮廓的脸颊，黑色丝袜，穿着连体丝袜脚，全身镜头，坐瑜伽垫，完美指型，瑜伽馆大厅，拿手机对镜拍照，翘二郎腿，完美身材。
+
+3、描述词构成：胶片摄影+*国的女性+脸型气质+年龄+发型五官+着装特点+镜头设定+周边物品+场景+动作姿势
+
+这里是【高鹏圈】，更多项目玩法，欢迎找我聊聊呀~
