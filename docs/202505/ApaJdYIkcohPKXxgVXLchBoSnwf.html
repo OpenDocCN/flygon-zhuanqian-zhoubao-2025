@@ -1,0 +1,97 @@
+<h1>🔥一键批量爆款视频转AI 视频工作流</h1>
+<blockquote>来源：<a href="https://r0rel9lqdms.feishu.cn/docx/ApaJdYIkcohPKXxgVXLchBoSnwf">https://r0rel9lqdms.feishu.cn/docx/ApaJdYIkcohPKXxgVXLchBoSnwf</a></blockquote>
+<p>做了一件十分有意思的事情，把@super 黄和@一泽的工具结合了下，做了一个只用点击1次就可以生成 AI 视频的工作流。可用，还算稳定，可迁移场景（只要是模版化的内容都可以优化生成），所以觉得是有意义的，分享给大家～👏欢迎有兴趣的朋友找我一起探讨定制工作流、优化效果🌹</p>
+
+<h1>一、一键操作流程+示例效果（视频）：</h1>
+<p>实际第一条视频生成耗时5分钟左右。</p>
+<p>视频案例仅作工作流展示用，非真实使用。</p>
+
+<h1>二、工作流原理：</h1>
+
+<h1>三、实现教程：</h1>
+<p>工具准备：</p>
+<ul><li>Chrome 浏览器</li></ul>
+<ul><li>trae/windsurf/cursor都可</li></ul>
+<ul><li>Coze 账号</li></ul>
+<ul><li>飞书多维表账号</li></ul>
+<ul><li>剪映小助手（下载地址：剪映小助手下载地址（请点击））</li></ul>
+<ul><li>剪映专业版（电脑）</li></ul>
+<h2>第一步：定制 Chrome 插件（抖音/小红书）</h2>
+<p><img src="img/c44676d8a78c624789ef7b3be60857f4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HZr8bKavho6Lo0xHSPccWqAIn9g/"/></p>
+<h3>Chrome抖音插件：</h3>
+<p>可以直接在@Super 黄的精华帖 获取；</p>
+<p>（来源于@Super 黄）</p>
+<h3>Chrome小红书插件：</h3>
+<p>在抖音插件的基础上，我用 trae改写了脚本，做成了小红书的插件。可以按照@Super 黄的教程自行开发，或者找我获取；</p>
+<h3>⚠️ 配置注意事项：</h3>
+<p>1、飞书多维表参数需要逐步配置：</p>
+<p><img src="img/f287a3c15764ce89270a6ff8530aa85a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YD52bmqhFolT9vxPJqycXM4QnKe/"/></p>
+<p>APP ID、App Secret：在飞书“开发者后台”界面获取；</p>
+<p>Base ID、Table ID：在飞书多维表的 link 内截取；</p>
+<p>以上获取方法都可以参见@Super黄的如上教程</p>
+<p>2、飞书多维表需要配置固定字段：</p>
+
+<p><img src="img/efc8101093f052b10cd321d59ba9ba7b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N5V7bXndAofdaBxMN4NcvClWnNf/"/></p>
+<ul><li>标题：文本格式</li></ul>
+<ul><li>链接：超链接格式</li></ul>
+<ul><li>点赞数：数字格式</li></ul>
+<p>以上两个配置容易在操作中忽视，出现视频链接不能批量写入飞书文档的情况（请不要问我为什么知道😅）</p>
+
+<h2>第二步：定制文生视频Coze智能体</h2>
+<p>具体步骤可以参看我的上篇帖子：</p>
+<p>智能体：</p>
+<p>工作流： @一泽</p>
+<p>⚠️ 注意点：</p>
+<p>制作Coze 智能体请在发布的时候点击“飞书多维表”选项，只有智能体才能嵌入飞书多维表字段捷径功能；</p>
+<p>发布“飞书多维表”需要先点击“配置”，“控件”请选择成“字段选择器”☑️勾选所有选项就好；</p>
+<p>发布需要审核，一般半小时左右。</p>
+<p><img src="img/cf2ad5acafa0267fcd13850eef68161b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BQfAb9haLoyFa6xfnCBcR0Rinb3/"/></p>
+<p><img src="img/8a7a2c924e10d80a86124540d25077db.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WdcybTGwUo3SlFxi2fwcv115nnd/"/></p>
+<h2>第三步：定制视频转文案Coze智能体</h2>
+<p>有两种方法：</p>
+<ol><li>自建智能体：请参照@Super 黄的教程 </li></ol>
+<ol><li>调用字段捷径：直接在飞书多维表中调用“视频转文案”的字段捷径，需要氪金（登录 API 账号，买 Token）</li></ol>
+<ol><li>优缺点对比：</li></ol>
+<table><tr><th>视频转文案插件</th><th>优点</th><th>缺点</th><th>适用场景</th></tr><tr><td>自建智能体</td><td>免费</td><td>提取效果不稳定</td><td>自用</td></tr><tr><td>调用字段捷径</td><td>提取效果稳定</td><td>氪金</td><td>商用</td></tr></table>
+
+<h2>第四步：飞书多维表设置</h2>
+<p>打开与 Chrome 插件设置时同一份表格，就可以进行流水线操作了：</p>
+<ul><li>标题、链接、点赞数是固定设置；</li></ul>
+<ul><li>文案提取——字段捷径——选择“视频转文案 Coze 智能体”自定义的名称；</li></ul>
+<ul><li>风格分析——字段捷径——选择 Deepseek——输入指令*根据自己的需求输入，选择引用“文案提取”字段；</li></ul>
+<ul><li>改写文案——字段捷径——选择 Deepseek——输入指令*根据自己的需求输入，选择引用“文案提取”字段；</li></ul>
+<ul><li>火柴人视频——字段捷径——选择“文生视频 Coze 智能体”自定义的名称，选择引用“改写文案”字段；</li></ul>
+<p>⚠️注意事项：</p>
+<ul><li>飞书多维表的基础设置可以参考： 中的教程步骤；</li></ul>
+<ul><li>字段设置时，请拉到最下面，开启“自动更新”选项。</li></ul>
+<p><img src="img/16ea0c3bb26adedaf837cac773eb257b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ab5Ub7fiaoUGZXxs2qac5KDknWd/"/></p>
+<p><img src="img/9b7616729bcc9c0742670ce3eaee9add.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N9BIbZBprooG18xfsGZciAfAnId/"/></p>
+<p><img src="img/cc9fd280d6fde60088686d86bbeec50d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BO0tbaL7zoIkEexjELxctk93nvh/"/></p>
+<p><img src="img/75a493326dc96195011ceef7c2a0b61f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KEybbL4qUoUxCqxGpg1c8DkJngf/"/></p>
+
+<h1>四、商业价值：</h1>
+<h3>AI 的作用从效率工具到结果产出：</h3>
+<p>为什么要把黄叔和一泽的两个工作流拼一起，逻辑上，是把整个内容生产的工作链粗暴地打通了。既：爆款选题✅——生成大纲✅——生成口播脚本✅——录制✅——剪辑✅——提供封面标题及图片✅——发布运营（可写脚本实现）——数据复盘✅（智能体实现），整条线路的打通。从提升效率到直接产出可复用结果。</p>
+<h3>可迁移场景：</h3>
+<p>输入：抓取爆款内容数据</p>
+<p>过程：url 转文本、文本分析、提取要点、改写、文生图/语音/视频</p>
+<p>输出：图文/视频</p>
+<p>由于工作流逻辑框架可实现，只需要根据自己需要的产出结果，倒推去设置工作流的执行标准（改 prompt）。只要是模板化的内容都可以实现，并且可能有比人脑更惊艳的分析和视觉呈现，比如（仅举例）：</p>
+<p>结构化故事：</p>
+<p><img src="img/375679c7fff147ee0a77788dc713fb29.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Re71bWpeeoaRjBxarD0cLmfGnJU/"/></p>
+<p>养生主题：</p>
+<p><img src="img/2ed4e69d04c20ea39f786019ce954afb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WeBvbtPY6oBHHux6vt9ceSn7nqv/"/></p>
+<p>食物科普：</p>
+<p><img src="img/e8a1db16444412a3f89fcf25668f8d5a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KOakbtZT2oJCLyxMUlccYqXrnlh/"/></p>
+<p>育儿知识：</p>
+<p><img src="img/fcac99b1e34fabedb9f07dd35f1e369e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BmwybrVltoPXojxpffTcZAALndg/"/></p>
+<p>当然还可以通过调用即梦、可灵等等工具设置参数生成自己需要的风格3D、超现实、赛博朋克、极简风......语音也是可以用不同风格的 tts，工作流插件里面是可设置的。之后要是还有https://www.lovart.ai/，惊艳了！</p>
+<h3>具有一定稳定性能：</h3>
+<p>理论上只要调用的插件稳定，整条工作流产出的质量就是稳定的。如果不行，有必要的情况下就多买一些平台的 token。</p>
+<h1>五、制作心得：</h1>
+<ul><li>当把自己的想法💡一键真的跑通的时候，觉得还是挺小激动的。毕竟要人工选题、人手做一条视频出来，至少也得好几个小时。一瞬间还是会有种“这真的可以也”的惊喜。所以觉得一定要相信 AI 赋能后的各种可能性！</li></ul>
+<ul><li>其实出来的效果还是比较粗糙的，只是迫不及待的想先记录就分享出来了。可优化的节点：</li></ul>
+<ul><li>一是在调用工具的稳定性上要找到最稳定和跑最快的插件；</li></ul>
+<ul><li>二是在 prompt 的优化，建整个工作流花时间最长的也是在调试产出的结果，会要一点一点的优化。尤其是做智能体，编辑人设的时候，限制条件需要越明确越好，不然智能体的回答会有漂移。</li></ul>
+<ul><li>商业变现需要实践测试，有想法来个养成系实验🧪，在实践中看反馈；</li></ul>
+<ul><li>这是一条技术小白搭出来的工作流。</li></ul>
