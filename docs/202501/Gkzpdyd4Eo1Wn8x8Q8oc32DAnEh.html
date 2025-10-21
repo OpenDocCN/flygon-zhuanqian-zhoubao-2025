@@ -1,0 +1,70 @@
+<h1>喂饭级教程!教你用coze做一个微信小程序之三：如何使用数据库以及如何发布到小程序</h1>
+<blockquote>来源：<a href="https://b121w2zgwyx.feishu.cn/docx/Gkzpdyd4Eo1Wn8x8Q8oc32DAnEh">https://b121w2zgwyx.feishu.cn/docx/Gkzpdyd4Eo1Wn8x8Q8oc32DAnEh</a></blockquote>
+<p>我的小程序目前的最终效果大家可以看看：</p>
+<p>在开始本期内容之前，如果你还没有看过前面两期的教程，需要先去看一下：</p>
+<p>1、coze搭建海报生成微信小程序之：页面搭建</p>
+<p>2、coze搭建海报生成微信小程序之：业务逻辑实现</p>
+<p>上一期内容，我们完成了首页的主要功能，海报生成页面。本期内容我们将完成另外一个“我的”页面的业务逻辑。</p>
+<h1>一、“我的”页面功能分析</h1>
+<p><img src="img/a04cc629f680bdff76877692a802f642.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YFUub51ovoFvZaxFL41cQYlxn4c/"/></p>
+<p>这个页面主要的功能就是展示历史生成记录，便于查看。</p>
+<p>因此它的主要功能就是拉取历史记录显示出来</p>
+<p>但是历史记录在哪里呢？ 还没有！因此我们需要把每次生成的内容都提前保存下来。</p>
+<p>因此我们需要加一个数据库存储的功能</p>
+<h1>二、新建数据库存储生成记录</h1>
+<h2>1、新建数据库</h2>
+<p>先点击数据旁边的“+”号，再选择数据库</p>
+<p><img src="img/8140489ed3d00ccf378b57a3134a0882.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ByXgb3EfdoYbX0xMvj3c9JaAnyd/"/></p>
+<p>然后新建一下表名</p>
+<p><img src="img/44531e1e0c4ff51f0ee435a8c82e4a9d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JHaUbUSUyoDqi9x7cbrc5oRdnpb/"/></p>
+<p>接下来我们设计一下这个数据表，按照我的如下配置新建数据表</p>
+<p><img src="img/a120220c0589c3ef39231424202aa0f3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FxxGbcSgZoOJcIxNudlchWqinpf/"/></p>
+<h2>2、在之前的生成工作流中添加记录</h2>
+<p>数据表添加之后，我们需要改造一下我们之前的生成工作流，我们需要在每次生成之后，将记录保存到我们的数据库中。</p>
+<p>切换到我们的haibao_make工作流中，生成海报和结束节点之前，新增一个数据库节点，先点击连线之间的+号，再选择一下数据库</p>
+<p><img src="img/0ccd285ec1f32ec1e97d874675827e19.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DowwbaGMMoojaHxmMIGc09EOneb/"/></p>
+<h2>3、设置数据库节点</h2>
+<p>点击数据库，我们配置一下这个节点，首先需要将我们第一步建好的表添加进来</p>
+<p><img src="img/8aa37e5be11b542b5fd6e85fe305aaab.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Yr3dbPHHBoQLtoxyCw8c7a8An9f/"/></p>
+<p>接着，我们配置一下数据库的输入，也就是我们生成好的内容，配置如下</p>
+<p><img src="img/3e75e22765f6d59b0b6d648be757bb63.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FWiHb9bAGoivBCxnYgEc4gVYnih/"/></p>
+<p>接下来这一步没写过代码的，估计会麻烦些，需要写sql语句将记录插入。不过不会写也没有关系，coze有搭配工具，如果有不懂，问问AI，学习成本也很低。</p>
+<p>首先，我们回顾一下数据表里的字段，分别是name，datetime和image，我们需要写sql将工作流的变量与数据库的绑定和插入。</p>
+<p>先点击这个AI辅助写sql工具</p>
+<p><img src="img/4cddaa9086a30f2c573e8742dd813273.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CTFObqCOVoz3Skx2RGWcYYfUnXf/"/></p>
+<p>然后在弹出的查询目标中，写一下 ：往数据表插入 name，datetime和image；然后让AI自动写出语句</p>
+<p><img src="img/42bd94a5f2df8e7dc5665dff78bbc94f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YurZbTmzKohrkKxxXAqcMXaKnnd/"/></p>
+<p>这样语句就写好了</p>
+<p>INSERT INTO haibao_history (name, datetime, image) VALUES ('', '', '')</p>
+<p>这个语句的意思就是 往数据表 haibao_history  中插入一条数据， VALUES的内与前面的括号一一对应的关系。代表的是实际插入的内容。我们观察到，都是空字符串，这显然是不对的。因此我们还需要将节点接收到的变量赋值进来。改写之后语句变成这样子了</p>
+<p>INSERT INTO haibao_history (name, datetime, image) VALUES ('{{name}}', '{{datetime}}', '{{image}}')</p>
+
+<p><img src="img/49a6918494afe846163ced4e876cc9a4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ql5ibyWM4o2awjxRYKqc4E44nde/"/></p>
+<h1>三、新建一个读取数据库记录的工作流</h1>
+<p>新建工作流的细节步骤之前都讲过了，这里就不再细诉了，我之前把建完的机构发出来给大家看看</p>
+<p>其中，开始节点有一个num参数，意思就是总共读取几条</p>
+<p><img src="img/3b08388a196bb8f7dcf4d769f4492de8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ETj2briAyoveq2xpZnPcOGORnjh/"/></p>
+<p>sql语句为：SELECT name,datetime,image FROM haibao_history  order by id  desc LIMIT {{num}}</p>
+<h1>四、绑定页面逻辑</h1>
+<h2>1、页面加载时加载数据</h2>
+<p>因为历史记录，应该是点击我的页面之后就应该全部出来，所以我们按如下步骤绑定事件</p>
+<p><img src="img/5fc799bb1135a6c9a5e6ac33efc760eb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ta4KbArUPoKOMVxvKH8c4PnDnlg/"/></p>
+<h2>2、绑定数据到列表</h2>
+<p>按照下图步骤，绑定数据到列表</p>
+<p><img src="img/bb1f7f82e06a12edba7a95fa6f1e9dcc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PyQPbGh1qoRo9Lxyi12cp1zenJW/"/></p>
+<h2>3、绑定数据到细项</h2>
+<p>分别点击下面这三个地方，设置一下绑定数据</p>
+<p><img src="img/3864241ac50376be58774a911cb9459e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HlPFb83Reo7F9Yx1SSWczOiNnig/"/></p>
+<p>格式固定位{{item.??}}  ??就是对应工作流的返回字段</p>
+<p><img src="img/fea1b0b41d66499ddbed9ceca80ed684.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Kes4bHPsIogx6Vx5Dawcclbxn4e/"/></p>
+<p>好了，到此为止，我们整个小程序已经做好了。点击预览试试效果：</p>
+<p><img src="img/e151b0d0947a9a8b84daa02fd814b794.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VOMqb133WoX2l4x6CJkcRt5nnch/"/></p>
+<p>完美！</p>
+<h1>五、发布到微信小程序</h1>
+<p>发布微信小程序之前，请确认微信小程序已经完成配置，并且需要备案通过</p>
+<p>然后我们点击一下右上角的发布，进入发布页面</p>
+<p><img src="img/0ea54218aa1d038ae0fe37dde879fdc0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WrigbFWU2oOUqPxhz1Vc3pwlnbb/"/></p>
+<p>第一次使用，需要先点击配置然后填写一下小程序的APPid进行绑定</p>
+<p><img src="img/24d21b10a225ae5755cd95cf3fe6e28f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ljuxbt0yno6jYYxdvKzcGXkbnrh/"/></p>
+<p>完成发布！</p>
+
