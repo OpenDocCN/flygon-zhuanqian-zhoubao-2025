@@ -1,0 +1,81 @@
+<h1>告别复制粘贴！RPA自动抓取船员信息，打卡统计从此“躺平”搞定！</h1>
+<blockquote>来源：<a href="https://buebeaaf96.feishu.cn/docx/UEMkdQVPUo79LkxP7KJc9q1TnLy">https://buebeaaf96.feishu.cn/docx/UEMkdQVPUo79LkxP7KJc9q1TnLy</a></blockquote>
+<h1>志愿者的痛点</h1>
+<p>航海中每个志愿者负责35个左右船员，为了方便统计和查看数据一般会把船员信息复制到excel中，虽然人数不是很多，但一个个复制也很繁琐，还容易出错。</p>
+<p>把船员信息复制到excel中后，还要每天对照志愿者后台统计每个船员的打卡情况，这种事情要重复做21天。</p>
+<p>这些琐碎的事情其实每天也花不了几分钟，即便是几分钟，如果用来刷会小姐姐，难道不香吗？</p>
+<p>不知作为志愿者的你是否想过“偷懒”？</p>
+<p>今天偷懒的机会就来了，我用RPA实现了把志愿者后台的船员【微信昵称、群昵称、是否围观】抓取到excel中，第二天再把前一天船员是否打卡填入excel中。</p>
+<h1>RPA程序效果演示</h1>
+<p>程序分为两个部分，第一部分是从志愿者后台把船员【微信昵称、群昵称、是否围观】抓取到excel中</p>
+<p>程序运行前的表格(表头的1天表示航海第1天)</p>
+<p><img src="img/087dd9e66b049f2be1a89ca4e978fba1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TKF0btUCkofSSaxUKjzco27Jnzd/"/></p>
+<p>程序运行后的表格</p>
+<p><img src="img/f7c7a966f7a8ee4f65a415ee17b14672.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/F3Hyb5hefopCAoxX7OscVnGRnIc/"/></p>
+<p>【微信昵称】列为志愿者后台显示的微信昵称</p>
+<p>【群昵称】列为志愿者后台显示的群昵称</p>
+<p>【围观】列只要志愿者后台显示【围观船员】就会自动在C列标记为围观，否则为空。在与船员沟通后可以手动修改这一列为【提醒】等</p>
+<p><img src="img/e58a2106b6f2864f93538831ec1f8a29.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AipjbzYihozYAJxmh1Qc3oCgnCE/"/></p>
+<p>程序运行参数说明：</p>
+<p><img src="img/ee6c4a8350f13c508348d9b16c808b2d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VtdnbITkLoN6JqxIwkycfPoPnEb/"/></p>
+<p>在这个界面运行应用才会弹出【运行参数设置】</p>
+<p><img src="img/7d94b880b2a82ee37eed1f32b31cef24.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EuW2bijVGohxi7xR1qucKkIHnHh/"/></p>
+<p>进入上面的代码编辑页面运行则不会弹出【运行参数设置】对话框</p>
+
+<p>完整代码贴出来供大家参考</p>
+<p><img src="img/da1bf669154f84bd5c7c3881f7babc69.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BdxcbP5POoPTBHxhikZcOC6wnlc/"/></p>
+<p><img src="img/5ce4d1693a2ab27fcba15c5f964cecce.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FPTZbgSY7oshUBxGP7xc2Cq9nOg/"/></p>
+
+<p>第二部分是从志愿者后台把作业选项卡中打卡船员更新到excel中</p>
+<p>程序只会更新航海第X天的前一天即航海第X-1天的船员打卡情况到excel中，当天打卡情况不会更新到excel中，因此航海第21天的数据需手动统计到excel中。</p>
+<p>程序需要每天运行一次</p>
+<p>程序运行后的表格</p>
+<p><img src="img/b897bca7600339971fd5f394b277016f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RewQbounCo5f2Sxr2fAcn2ZcnOb/"/></p>
+<p>如果船员第X天打过卡，会自动在X天这一列输入1，如果没打卡则为空</p>
+<p>最后一行合计可以用SUM函数自动计算当天打卡的人数，21天后一列可以用SUM函数自动计算船员累计打卡次数。</p>
+<p><img src="img/b5ce4729602e6988557d773846c0698a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WXTPbg1TiobjHpxHcHMcUouPnlh/"/></p>
+<p>程序运行参数说明：</p>
+<p><img src="img/b1c54023615635174ac4851191586211.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JvKcbpMukoZN09xiGedc84gpnAd/"/></p>
+<p>在上面这个界面运行应用才会弹出【运行参数设置】</p>
+<p>第1个参数不是必填项，如果不填，默认是志愿者后台当天的航海天数。如果当天忘记运行程序，此参数需手动输入航海第X天，会更新航海第X-1天的船员打卡情况到excel中</p>
+<p>第2、3个参数同上一个程序参数，船员excel文件路径与一上个程序是同一个文件路径</p>
+
+<p>完整代码贴出来供大家参考</p>
+<p><img src="img/c0693869208b34a0f0365ce52236a02e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UHVabBhA2oxaiHxMuZfcNSoknVe/"/></p>
+<p><img src="img/96a4da756b2e597448667d542b127378.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OQD8bOSQWoulnaxkHRncY9zwngd/"/></p>
+<p><img src="img/8fd7d65cdcbfdd5cb259b3f0f569b0a8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AetJbmuGHoOkpwxyPMGcefMmnDg/"/></p>
+<p><img src="img/a4d35f0693f453e04d4a0e641b061780.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MnrkbUQX7oTgJ6xN9IJcT0BYnFj/"/></p>
+<h1>RPA程序使用方法</h1>
+<p>看了上面的代码，你是不是脑壳疼，我自己怎么能复制出来？这一点我早想到了。</p>
+<p>对于有一点RPA基础的，可以参考下，对于没基础又不想学的，直接复制链接再做一些配置就可以直接用了。</p>
+<p>以上程序是用八爪鱼RPA写的，影刀RPA用的人多一些，奈何无法分享源码，只有放弃它了。</p>
+<p>现在上链接，第一个程序https://rpa.bazhuayu.com/shareableLink/67e2bf834334edb30f464a0e</p>
+<p>第二个程序https://rpa.bazhuayu.com/shareableLink/67e399e75d2112f0d6d3f3bb</p>
+
+<p>要使用链接中的程序，请按以下步骤操作：</p>
+<p>步骤1：点击上面任意一个链接会提醒下载八爪鱼RPA，点击立即下载</p>
+<p>步骤2：注册账号，分别点击上面链接获取程序到本地，获取成功后会在【我的应用】下的来源显示为分享</p>
+<p><img src="img/d1e43e83fb206388b9c2df2e2d3c8ef5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GzRhbN8DQozw8QxRd0lcbWO7nEg/"/></p>
+<p>步骤3：双击程序标题进入程序编辑页面，鼠标移动到右上角最左边的图标，点击自动化插件</p>
+<p><img src="img/76b0a4d631ca901ac419ac9e36367ce5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DkqabdtM0o8xgPxaDtNcpoExnjS/"/></p>
+<p>点击安装，安装Google浏览器自动化插件</p>
+<p><img src="img/574528dea5144ba82dd10c5f0626ec74.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Og9Ab9392onslhxYhoMcKbL6ntc/"/></p>
+<p>在谷歌浏览器地址栏输入chrome://extensions/，确保八爪鱼RPA插件启用，插件版本无所谓，我这安装的早</p>
+<p><img src="img/8351d9f731df0befb07314447e7dba61.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Fc21bOTAwoWwLOxDIqRcvZTXnbe/"/></p>
+<p>步骤4：回到下面这个界面，点击运行应用，输入参数就可以运行了</p>
+<p><img src="img/0db5fd21f345f4768df804bac836057b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/I8ckbo3n5os8UKxAsEPcKJnJnqU/"/></p>
+<h1>结语</h1>
+<p>对于RPA感兴趣并且有点基础的，我这里说一个第2个程序的小卡点，无基础请忽略。</p>
+<p><img src="img/ab5fed0c1c9222d067d6094492ec73c9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GN9db4ugYoCVlcxftmccpgTSnEg/"/></p>
+<p>在选择查看航海第X天的日志时，需要滑动滚动条定位到具体的日期然后再点击。</p>
+<p>由于这个下拉框不是select标准下拉框，无法使用【设置下拉框(web)】指令来定位到航海第X天(XX月XX)，也无法使用【if网页包含】【if元素可见(web)】来判断被遮挡的航海第7天(03月26)等，进而控制滚动条滑动显示航海第7天(03月26)</p>
+<p><img src="img/9d0a05e46006ac10192cd230b9bee5f0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WjYKbHs9zoYmt1xkVFcc4eBHnHf/"/></p>
+<p>F12找到控制下拉框长度的css样式，取消勾选 max-height:290px，会发现下拉框的滚动条不见了，被遮挡的日期也会显示出来，这样就可以自动点击对应的日期了。</p>
+<p>在影刀RPA里可以能过【设置元素属性(web)】来重新设置max-height的值，取消滚动条。</p>
+<p>但八爪鱼RPA里没有与影刀RPA对应功能的指令(不得不说八爪鱼RPA的指令太不完善了)，只能用【在网页上执行JavaScript函数】指令来实现，如果不懂一点html、css很难完成。</p>
+<p><img src="img/8afb9c5e707f3417aa5399bc1cbe43a4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PqOrb1PiMoAxvHxeyCvcqfsinMh/"/></p>
+<p>如果不懂怎么写JavaScript，会提问也很重要。</p>
+<p><img src="img/d0aef1321f5fabd4842f46f695d60974.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JfFfbt16Po1IFaxj9zcc9X6onid/"/></p>
+<p>本篇文章重点不在于介绍RPA，直接拿来用就可以了。</p>
+<p>程序放开了编辑权限，有兴趣的也可以在原来的基础上改改写写，改坏了不要来找我。</p>
+<p>希望这两个程序对你有帮助。</p>

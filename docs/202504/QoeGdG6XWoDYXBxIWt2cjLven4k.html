@@ -1,0 +1,112 @@
+<h1>小红书虚拟商品数据分享</h1>
+<blockquote>来源：<a href="https://fiazd3hbob.feishu.cn/docx/QoeGdG6XWoDYXBxIWt2cjLven4k">https://fiazd3hbob.feishu.cn/docx/QoeGdG6XWoDYXBxIWt2cjLven4k</a></blockquote>
+<h3>一、不知道用什么标题1</h3>
+<ul><li>数据概况</li></ul>
+<ul><li>所有数据通过“基础关键词”搜索后的结果抓取，如果你有更多类似的关键词分享请留言</li></ul>
+<ul><li>可打印</li></ul>
+<ul><li>电子</li></ul>
+<ul><li>素材</li></ul>
+<ul><li>网盘发货</li></ul>
+<ul><li>清单</li></ul>
+<ul><li>合集</li></ul>
+<ul><li>可编辑</li></ul>
+<ul><li>模板</li></ul>
+<ul><li>源文件</li></ul>
+<ul><li>虚拟资料</li></ul>
+<ul><li>资源</li></ul>
+<ul><li>课</li></ul>
+<ul><li>应用</li></ul>
+<ul><li>软件</li></ul>
+<ul><li>app</li></ul>
+<ul><li>笔记</li></ul>
+<ul><li>自行下载</li></ul>
+<ul><li>ppt</li></ul>
+<ul><li>pdf</li></ul>
+<ul><li>手绘</li></ul>
+<ul><li>手抄报</li></ul>
+<ul><li>虚拟定制</li></ul>
+<ul><li>非实物</li></ul>
+<ul><li>抓取商品数据时，按销量排序，只抓取销量大于3000的商品</li></ul>
+<ul><li>销量大于3000可能会遗漏很多品，但只作为继续深挖的基础数据量应该也够了</li></ul>
+<ul><li>还有一个原因就是影刀跑手机自动化效率很低，还得防止触发app的风控，要是能多台手机批量跑，再加上从跑出来的商品进入店铺进一步抓取的话，可以获得很多数据，价值不低。</li></ul>
+<ul><li>数据只经过AI的初步筛洗（通过商品标题简单判断），所以可能会有重复项或者小部分非虚拟商品</li></ul>
+<ul><li>其实可以根据商品标题和商品详情页里的预计发货时间结合起来让AI判断是否是虚拟品，毕竟大部分虚拟品发货速度都很快，但这一步我没有做，没有获取商品的预计发货时间</li></ul>
+<ul><li>有AI的初步清洗，应该可以节省一些后续人工洗数据的成本</li></ul>
+<ul><li>AI NB</li></ul>
+<ul><li/></ul>
+<p><img src="img/64465a02ced5d4524bc23c2aeab5f92c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DxOjbQDzKo7RTZxzCJDcP22knoX/"/></p>
+<ul><li>为什么做这个</li></ul>
+<ul><li>从近期的小红书中标风向标可以看到“趋势”，虚拟商品相关的很多，小红书也在扶持这一块</li></ul>
+<ul><li>亦仁在某次回答圈友的提问时，提到了本来想写一个关于小红书虚拟商品的超级标</li></ul>
+<ul><li>亦仁在传术师群里提到关于小红书虚拟商品相关数据的价值很大</li></ul>
+<ul><li>小红书没有统一的入口可以找到虚拟商品数据</li></ul>
+<ul><li>小红书的虚拟产品航海进行中，可以给航海圈友们一点点参考方向~</li></ul>
+<ul><li>我在参加web网站航海，索性把抓到的数据建个站，虽然数据量没那么大，但通过这些基础数据，可以深挖出不少相关店铺和关键词</li></ul>
+<h3>二、数据获取思路</h3>
+<ul><li>收集一些“基础关键词”</li></ul>
+<ul><li>拿基础关键词到小红书商店里搜索，小红书商店目前没有网页版，所以只能用手机搜索</li></ul>
+<ul><li>将搜索结果按销量排序</li></ul>
+<ul><li>进入每个商品获取 商品标题、价格、销量、商品链接等数据</li></ul>
+<ul><li>只收集销量大于1000的商品数据</li></ul>
+<ul><li>循环搜索“基础关键词”获取商品信息</li></ul>
+
+<p>当然手动收集太耗费时间了，所以我用的影刀RPA，可以快速的实现自动化，剩下的事交给电脑就行了，影刀RPA实现手机自动化的关键点就是模拟人的操作，下边是一些可能的技术卡点：</p>
+<ul><li>定位想要点击的按钮时，通过影刀的“打印UI树”功能，可以很方便的使用xpath精准定位目标元素</li></ul>
+<ul><li>xpath不会写没关系，把UI树保存成xml扔给AI，让AI帮忙写xpath出来放到影刀里用就可以</li></ul>
+<ul><li>如果xpath不好写，可以使用 影刀里的图像识别来实现元素定位点击，比如分享按钮获取商品链接</li></ul>
+<ul><li>做好“休眠”，如果抓取太快太多，可能会触发app风控，通过适当的sleep来平衡效率和风险</li></ul>
+<ul><li>小红书app还算好的，搞咸鱼数据的时候（当时网页版功能还不完善，很多数据只能app获取）差点整自闭了，经常发现跑了一晚上app又出幺蛾子了</li></ul>
+<ul><li>有时候某个商品链接点进去可能会直接进入直播间，商品详情的获取没问题，只是在退出直播间的时候，和普通的退出商品详情页逻辑不太一样，因为退出直播间的时候可能会弹出让你关注的按钮，解决办法就是用影刀循环模拟按动手机返回键，直到界面上有“搜索”按钮才表明返回到了正确的地方</li></ul>
+<ul><li>滑动手机收集商品时遇到的坑</li></ul>
+<ul><li>有时候滑动屏幕停止的位置，某个商品标题和搜索栏有一小部分重合，所以影刀点击的时候，本来想让它点击的是标题，进入商品详情页获取详细信息，但是会点到搜索框，很尴尬！</li></ul>
+<ul><li>小红书app有个坑，滑动时会遇到一个很奇葩的问题，偶尔会遇到“滑动失效”，就是屏幕滑不动了，没有新数据出来，但是并不是没有数据了，直接上滑滑不动，需要下滑一下再上滑才会刷新新数据</li></ul>
+
+<p>影刀的代码截图感觉没啥太大用，把影刀官网的基础教程大概过一遍，实现这个应该没啥大问题，手机自动化主要的问题就是元素定位，只要整体思路清晰实现起来很快。有问题的话可以留言交流~</p>
+
+<p>写好的影刀RPA成品，可以直接用：</p>
+<p>https://api.winrobot360.com/redirect/robot/share?inviteKey=adbfcbb6d1699901</p>
+
+<h3>三、说了这么多，数据在哪里</h3>
+<p>我在参加web站的航海，所以顺手搞了个网站弄了个域名可以直接访问：https://old.xhs-virtual-goods.site/</p>
+<ul><li>网站截图</li></ul>
+<ul><li/></ul>
+<p><img src="img/2c05fc2b45bff3f71e8461741bf16f41.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UwbNbMjPLoboosxGpshcJxnXnQd/"/></p>
+<ul><li>网站使用纯前端实现，托管在cloudflare pages</li></ul>
+<ul><li>开发工具没有用cursor，使用的copilot，里边也有claude 3.5模型</li></ul>
+<ul><li>对于相对简单的需求，不必要非得使用claude 3.7之类的</li></ul>
+<ul><li>评估需求复杂度，选择合适的工具或者模型，毕竟cursor只有500次快速请求</li></ul>
+<ul><li>Deepseek v3发布了，据说代码能力介于claude 3.5-3.7之间，我还没测，roo code插件加上openrouter里有免费的可以测试</li></ul>
+<ul><li>网站实现prompt</li></ul>
+<ul><li>"使用纯前端html+tailwind css+js实现json文件里的数据展示，json文件里数据可能很多，使用虚拟滚动技术加载页面"，就是这么简单😂，但是实际上虚拟滚动技术并没有完整实现，暂时不改了！</li></ul>
+<ul><li>AI自动做了响应式设计👍，手机端PC端访问效果都不错</li></ul>
+<ul><li>影刀RPA抓取的数据我存的是json，示例数据：</li></ul>
+<p>{</p>
+<p>"keyword": "all",</p>
+<p>"goods": [</p>
+<p>{</p>
+<p>"商品标题": "xxx",</p>
+<p>"销量": 12000,</p>
+<p>"价格": "3.9",</p>
+<p>"商品链接": "https://www.xiaohongshu.com/goods-detail/xxx"</p>
+<p>},</p>
+<p>{</p>
+<p>"商品标题": "yyy",</p>
+<p>"销量": 7980,</p>
+<p>"价格": "3.8",</p>
+<p>"商品链接": "https://www.xiaohongshu.com/goods-detail/yyy"</p>
+<p>}</p>
+<p>]</p>
+<p>}</p>
+<ul><li>剩下的就是调整一些可能有的bug</li></ul>
+<ul><li>Tips: 网站页面上有一个按钮“查看详情”，点击之后可以直接跳转到小红书的商品详情页，但如果直接跳转的话，会有一个referer的http header，这个header值是自己的网站url（我的是这个https://old.xhs-virtual-goods.site/），这样小红书的监测系统有可能会发现有很多商品访问是从这么一个奇怪的网站来的，所以可以通过代码去掉这个header，直接跟ai说点击“查看详情”按钮跳转的时候不要referer header就可以</li></ul>
+<ul><li>网站里的数据可以直接浏览，也可以导出到本地CSV文件</li></ul>
+<ul><li>导出时加了一个微信赞赏码（手动狗头保命）</li></ul>
+<ul><li>无论赞赏与否，都可以直接下载数据</li></ul>
+
+<h3>四、不知道用什么标题2</h3>
+<ul><li>会员租赁无论是在小红书还是咸鱼，都是个不错的生意</li></ul>
+<ul><li>wps会员、剪映会员、百度网盘会员等等，都是几千几万的销量</li></ul>
+<ul><li>50欧1【3.25第2车6.9】保底电子版壁纸 无物流发货中奖概率2%</li></ul>
+<ul><li>https://www.xiaohongshu.com/goods-detail/67b33cdf97592600019ebed8</li></ul>
+<ul><li>这个品有意思，感觉像是在玩儿抽奖，8.9的单价，卖了6700+单</li></ul>
+<ul><li>想到啥之后再补充......</li></ul>
