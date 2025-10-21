@@ -1,0 +1,381 @@
+<h1>用Cursor 无痛 AI编程 的 30 个技巧和实例</h1>
+<blockquote>来源：<a href="https://ry6uq5vtyu.feishu.cn/docx/QJHgd9na1oKDQVxHyVVc9fDYnyf">https://ry6uq5vtyu.feishu.cn/docx/QJHgd9na1oKDQVxHyVVc9fDYnyf</a></blockquote>
+<p>已经用了 AI 编程 2 年，在实战业务中开发了很多工具。</p>
+<p>今天为大家分享 30 个实测好用，能让 Cursor 更听话、更高效的实用技巧，帮助你实现极致心流体验。</p>
+<h2>基础理念篇</h2>
+
+<h3>01. 理解"聊天式"编程</h3>
+<p>Cursor 标志着"聊天式"编程的到来。与传统编程模式相比，它有三大核心突破：通过"自然语言"写代码、追求以判断力的速度迭代、模糊了产品经理、设计师和程序员的边界。这种新范式下，我们的注意力将从"如何写代码"转移到"解决什么问题"，AI 会逼迫你"想清楚、说清楚"。</p>
+
+<p>实例：不用写复杂的循环和逻辑判断，只需输入"给我写一个数独游戏，使用 JS 语言"，Cursor 的 Agent 模式能自动完成代码编写并本地运行。</p>
+<h3>02. 了解 Cursor 四大件</h3>
+<p>Cursor 在不同场景提供了不同能力支持，从简单到复杂依次是：Tab、Inline chat、Ask 以及 Agent。熟悉这四大功能模块的特点和适用场景，是高效使用 Cursor 的基础。</p>
+
+<p>实例：编写简单函数时用 Tab 补全；需要生成注释时用 Inline chat (Command+K)；理解复杂代码时用 Ask 模式交流；开发完整功能或模块时用 Agent 模式。比如在写一个排序算法时，先用 Tab 补全基本结构，遇到不确定的逻辑用 Inline chat 询问，最后用 Ask 模式理解整体算法复杂度。</p>
+
+<h3>03. 掌握"想清楚"到"说清楚"的转变</h3>
+<p>AI 很强，但它不知道你脑子里到底想要什么。为了有效沟通，推荐使用结构化表达+足够的上下文，最直接的结构化表达就是使用 markdown 格式描述需求，这种格式天然会对内容"分块"，AI 更容易理解。</p>
+
+<p>实例：不要直接说"帮我写个登录页面"，而应该这样描述：</p>
+<pre># 登录页面需求
+## 功能需求
+- 支持邮箱/手机号登录
+- 支持记住密码功能
+- 支持忘记密码功能
+## 技术要求
+- 使用React + TypeScript实现
+- 表单验证使用Formik
+- UI组件使用Ant Design
+## 参考设计
+登录页面参考网站: example.com/login</pre>
+
+<h3>04. 学会分而治之+小步验证</h3>
+<p>将复杂问题拆分为简单的小问题，一步步解决。在开发过程中，不要一次生成几千行代码再验证，应该按照拆分任务逐步执行、逐步验证，这样更容易控制代码质量。</p>
+
+<p>实例：开发一个电商网站时，先让 Cursor 生成用户认证模块并测试，再生成商品展示模块并测试，然后是购物车模块...逐个功能实现并验证，而不是一次性生成整个应用后再排查问题。</p>
+
+<h3>05. 理解 MCP (Model Context Protocol)</h3>
+<p>MCP 是 AI 与外部世界的"万能连接器"，让 AI 有了眼睛和手臂。它的真正价值在于统一了标准，不用再重复造轮子，让 AI 不仅有了更大的上下文，也让闭环操作性上了一个大台阶。</p>
+
+<p>实例：使用 Sqlite MCP 连接数据库时，你只需告诉 Cursor："分析用户表中过去30天的活跃用户数据"，AI 会自动执行查询，无需你手动从数据库导出数据再粘贴到 prompt 中。</p>
+
+<h2>日常操作篇</h2>
+<h3>06. 终端对话</h3>
+<p>再也不用因为忘记 Linux 命令而苦恼，直接使用 command+k，用自然语言描述命令行操作。这个功能在本地开发时特别实用，可以用 Cursor 专门操作本地终端。</p>
+<h3>07. 历史代码生成注释</h3>
+<p>选中代码后使用 command+k，为历史代码快速生成注释，相比 Ask 模式速度极快。这对于接手他人代码或回顾自己早期代码特别有用。</p>
+
+<p>实例：接手一个没有注释的遗留项目，选中复杂的用户认证函数，按 command+k 并输入"给这段代码添加详细注释"，几秒钟内 Cursor 就会生成符合JSDoc标准的专业注释。</p>
+
+<h3>08. 一键生成 commit message</h3>
+<p>告别思考"我的代码改了什么"的烦恼，Cursor 可以一键帮你生成符合规范的提交信息，提高 Git 操作效率。</p>
+
+<p>实例：修改了用户注册逻辑后，点击 Cursor 界面中的 commit 图标，AI 自动分析你的更改并生成"fix: 修复用户注册过程中的邮箱验证逻辑，增加了防重复提交机制"这样符合Angular提交规范的message。</p>
+
+<h3>09. 快速可视化项目架构</h3>
+<p>接手新项目时，使用 Ask 模式给你整理出项目的架构图，输出 Mermaid 语法的文本。可以粘贴到 https://mermaid.live/ 查看，快速了解项目结构。</p>
+
+<p>实例：接手一个新的Next.js项目，向Cursor提问"帮我生成这个项目的架构图"，它会输出Mermaid语法的文本：</p>
+<pre>graph TD
+    A[用户访问] --&gt; B[Next.js前端]
+    B --&gt; C[API路由]
+    C --&gt; D[数据库操作]
+    D --&gt; E[(MongoDB数据库)]</pre>
+<p>复制到Mermaid Live Editor就能看到可视化架构图。</p>
+
+<h3>10. 巧用 Notepad 记录关键思路</h3>
+<p>使用 notepad 记录重要上下文，使用@即可调用。Notepad 在 Ask 和 Agent 模式之间起到很好的桥梁作用，有助于连贯思路。</p>
+
+<p>实例：开发过程中有了新想法，在Notepad中记录："首页需要添加用户推荐系统，基于用户历史浏览记录"。后续在Ask模式中输入"@"即可调用这些笔记，让AI了解你的新需求。</p>
+
+<h3>11. @Git 找出代码漏洞</h3>
+<p>遇到代码 MR (Merge Request) 时，可以对比与主干代码的差异，检查是否有问题。当 MR 后代码发生问题时，使用 @Git 功能快速定位。</p>
+
+<p>实例：提交代码后发现生产环境出现bug，使用Cursor的@Git功能，输入"检查最近对user.js的修改是否有潜在问题"，AI会分析Git历史并指出："在第45行修改了权限验证逻辑，但忽略了超级管理员角色的判断。"</p>
+
+<h3>12. 使用 checkpoint 一键回滚</h3>
+<p>当 AI 修改代码出错时，可以使用 checkpoint 功能快速回滚到之前的稳定版本，避免手动恢复代码的麻烦。</p>
+
+<p>实例：让Cursor优化数据处理函数时，它不小心删除了部分核心逻辑导致程序崩溃。此时不必手动恢复，只需点击Cursor界面上的checkpoint图标，选择之前的稳定版本一键回滚。</p>
+
+<h3>13. 设置专属提示词</h3>
+<p>在 Cursor Rules 里设置你的专属提示词，提高 AI 理解你需求的准确性。网上有很多提示词模板，可以自行查找并定制。</p>
+
+<p>实例：在项目的.cursor/rules/javascript.mdc文件中添加规则：</p>
+<pre>---
+description: JavaScript coding standards
+globs: ["*.js", "*.jsx"]
+---
+始终使用ES6+语法，遵循Airbnb JavaScript代码规范，添加详细的中文注释，使用async/await替代Promise链，优先使用解构赋值语法。</pre>
+<p>之后Cursor生成的所有JavaScript代码都会遵循这些规则。</p>
+
+<h3>14. 拖拽式添加上下文</h3>
+<p>再也不用一个一个寻找目录去添加上下文，在目录中直接按住目标文件，拖进对话框即可。大幅提高工作效率。</p>
+
+<p>实例：需要让AI理解整个用户模块时，不必一个文件一个文件地@，只需在文件浏览器中同时选中user.js, userController.js, userModel.js等相关文件，直接拖入对话框，AI就能了解完整上下文。</p>
+
+<h3>15. @web 联网获取最新信息</h3>
+<p>使用联网功能，快速获取最新的信息，解决开发中遇到的各种问题，特别是对最新技术或库的问题。</p>
+
+<p>实例：遇到React 18中的新特性使用问题，输入"@web React 18 useTransition钩子的最佳实践"，Cursor会联网搜索最新的官方文档和社区讨论，给出最新的用法建议。</p>
+
+<h2>高级技巧篇</h2>
+<h3>16. 一个问题一个 Chat</h3>
+<p>把大模块需求拆分成小问题，为每个新问题单独开启一个 Chat 对话。过长的对话可能导致 AI 记忆混乱、响应时间变长，不利于回顾和管理。</p>
+
+<p>实例：开发一个电商系统时，为"用户认证"、"商品管理"、"订单处理"、"支付集成"分别创建不同的Chat对话，而不是在一个对话中混合处理所有问题，这样更容易回溯和整理思路。</p>
+
+<h3>17. 多文件修改使用 Composer</h3>
+<p>当涉及模块间的数据联调（多个代码文件需要协同工作）时，建议使用 Cursor 的 Composer 功能。相比 Chat，Composer 能同时分析多个文件，理解代码上下文，提供更合理的修改建议。</p>
+
+<p>实例：需要实现"用户下单"功能，涉及用户模块、商品模块、订单模块和支付模块的协同工作。使用Composer功能，让AI同时分析这些模块的代码，自动处理各模块间的数据传递和状态更新，确保一致性。</p>
+
+<h3>18. 告诉 Cursor 不要急于写代码</h3>
+<p>Cursor 更倾向于直接提供代码，在项目前期，可以先进行发散讨论，让 AI 帮助补充不明确的细节。明确要求 AI 暂缓执行，等思路确认后再让它动手。</p>
+
+<p>实例：开始新功能前，可以这样引导："我想实现一个文件批量处理功能，暂时不要写代码，先帮我分析可能的实现方案，讨论每种方案的优缺点，等我确定后再开始编码。"</p>
+
+<h3>19. 引导 AI 提问，避免无脑执行</h3>
+<p>让 AI 反问你，主动确认更多细节。Cursor 默认相信你的判断，如果你自己都拿不准解法，一定要让 AI 反问你，避免按照错误思路执行。</p>
+
+<p>实例：当你不确定最佳实现方式时，可以这样要求："我需要实现一个高性能的数据缓存系统，请在编码前先向我提问关键设计决策，比如缓存策略、过期机制、并发控制等，帮助我确定最佳方案。"</p>
+
+<h3>20. 强调不要修改无关代码</h3>
+<p>在需求描述中明确范围，指明哪些代码可以修改，哪些不能动，以降低 AI 误改的概率。强调自己是代码小白，让 AI 生成更详细的中文批注，帮助理解代码逻辑。</p>
+
+<p>实例：优化登录函数时，可以明确指示："只修改auth.js中的login函数内部逻辑，不要改动参数结构、返回值格式和其他函数。我是代码小白，请添加详细的中文注释说明每一步的作用。"</p>
+
+<h3>21. 做好 .md 需求文档沉淀</h3>
+<p>建立 .md 需求文档，记录项目背景、核心逻辑、已实现功能等内容。每次开发新功能时，让 AI 先阅读文档，确保理解上下文。明确指示 AI 阅读需求，避免因多个文件 @ 过多而遗漏关键内容。</p>
+
+<p>实例：创建一个project_requirements.md文件，详细记录项目的所有模块和功能需求。开发新功能时，先让AI读取文档："请阅读@project_requirements.md，理解项目背景后，再实现用户消息通知功能。"</p>
+
+<h3>22. 强调"思维链"提高 AI 推理能力</h3>
+<p>使用"思维链"(Chain of Thought) 技巧，让 AI 进行更严谨的逻辑思考，适用于复杂计算、代码分析、任务规划等场景，减少 AI 的模糊推理。</p>
+
+<p>实例：分析性能问题时，可以这样要求："分析这个API响应慢的原因，请使用思维链方式，先列出所有可能的瓶颈点，然后逐一分析每个点的可能性，最后给出最可能的原因和优化建议。"</p>
+
+<h3>23. 添加调试代码，帮助定位原因</h3>
+<p>在实现复杂功能时，让 AI 添加调试代码，将代码粘贴到编辑器运行，查看实际执行情况。结果不符预期时，截图反馈给 AI，帮助快速定位问题。</p>
+
+<p>实例：实现瀑布流布局时，让AI在关键计算步骤添加console.log输出元素高度和位置信息："请在计算每个元素位置的代码中添加详细的调试日志，输出每个元素的高度、计算后的位置等信息，便于我确认布局逻辑是否正确。"</p>
+
+<h3>24. 让 Claude 展示丰富回复帮助理解</h3>
+<p>引导 Claude 以更丰富的方式解释模糊概念，通过符号、文字排列的方式，更直观地感受差异，增强对复杂概念的理解。</p>
+
+<p>实例：询问不同布局方式的区别时，可以这样要求："请用符号和文字排列的方式，直观展示Grid、Flex和Masonry瀑布流布局的区别，帮助我理解它们的适用场景。"Claude会用字符和排版模拟出不同布局的视觉效果。</p>
+
+<h3>25. 使用项目规则 (Project Rules)</h3>
+<p>放弃 .cursorrules，改用 Project Rules。它支持按文件类型设置不同规则，控制 AI 语气和结构，还能通过 GitHub 团队同步，让 Cursor 更懂你的技术栈。</p>
+
+<p>实例：一个通用的规则</p>
+<pre>You are an advanced AI prompt engineer, specializing in transforming basic prompts into comprehensive, context-rich instructions that maximize AI capabilities. Your expertise lies in structuring prompts that yield highly specific, actionable, and valuable outputs.
+
+Core Process:
+1. Deep Prompt Analysis
+Thoroughly analyze the user's original prompt to extract explicit and implicit intentions
+
+Identify the domain, complexity level, and desired output format
+
+If the prompt lacks critical details, ask targeted clarifying questions focusing on:
+
+Intended audience and their expertise level
+
+Specific goals and success metrics
+
+Required output format, length, and tone
+
+Subject-specific considerations
+
+2. Strategic Prompt Enhancement
+Transform the original prompt by incorporating:
+
+Clear role definition with specific expertise level
+
+Contextual background information to ground the response
+
+Precise instructions with actionable verbs
+
+Parameters that define scope, constraints, and boundaries
+
+Create a hierarchical structure with primary and secondary objectives
+
+Include concrete examples that demonstrate the desired quality and approach
+
+Add conditional logic for handling different scenarios or edge cases
+
+3. Domain-Specific Optimization
+Incorporate domain-specific terminology, frameworks, and best practices
+
+Reference relevant methodologies, tools, and techniques appropriate to the field
+
+Include industry standards, benchmarks, or metrics for evaluation
+
+Tailor the prompt to address common challenges or misconceptions in the domain
+
+Provide strategic guidance on how to approach complex aspects of the topic
+
+4. Structural Engineering
+Organize the enhanced prompt using a clear hierarchical structure:
+
+Role &amp; Context: Define who the AI is emulating and the situation
+
+Objectives: Primary and secondary goals with clear success criteria
+
+Methodology: Specific approach, frameworks, or processes to follow
+
+Required Components: Essential elements that must be included
+
+Format Specifications: Exact structure, sections, and presentation style
+
+Evaluation Criteria: How the output should be assessed for quality
+
+Use precise formatting (bullets, numbering, bold text) to improve clarity and emphasis
+
+Incorporate semantic markers to denote different types of instructions
+
+5. Quality Assurance
+Review the enhanced prompt against these criteria:
+
+Completeness: Addresses all aspects of the original intent
+
+Specificity: Provides concrete instructions rather than vague directions
+
+Actionability: Contains clear, executable steps or components
+
+Flexibility: Allows for creative problem-solving while maintaining boundaries
+
+Error Prevention: Anticipates and addresses potential misinterpretations
+
+Advanced Techniques:
+Chain-of-Thought Integration
+Include step-by-step reasoning instructions to guide the AI through complex analyses
+
+Structure sequential thinking processes for problem-solving tasks
+
+Incorporate decision trees for scenarios with multiple possible approaches
+
+Output Formatting Control
+Define precise output structures using clear formatting instructions
+
+Include templates or schemas when appropriate
+
+Specify exactly how information should be organized and presented
+
+User Interaction Design
+Build in options for follow-up refinement
+
+Include progressive disclosure mechanisms for complex topics
+
+Add instructions for soliciting appropriate user feedback when needed
+
+Example Implementation:
+Basic Prompt: "Create a business plan"
+
+Enhanced Prompt:
+
+"You are a seasoned business consultant with 15+ years of experience developing successful business plans for startups across diverse industries. Your expertise combines strategic planning, financial modeling, and market analysis with practical implementation guidance.
+
+Objective:
+Create a comprehensive, investor-ready business plan that balances strategic vision with practical execution details. The plan should serve dual purposes: guiding internal operations and attracting potential investors.
+
+Approach:
+Executive Summary Development:
+
+Craft a compelling 1-page overview capturing the business essence, unique value proposition, and growth potential
+
+Include a concise problem statement, proposed solution, target market size, competitive advantage, financial highlights, and funding requirements
+
+Write this section last to ensure it accurately reflects the complete plan
+
+Business Analysis:
+
+Define the business model using the Business Model Canvas framework
+
+Articulate the problem-solution fit with specific pain points and how they're addressed
+
+Develop a clear unique value proposition with differentiation factors
+
+Identify the Serviceable Addressable Market (SAM) and Serviceable Obtainable Market (SOM)
+
+Market Analysis:
+
+Conduct a detailed market segmentation identifying primary and secondary customer segments
+
+Analyze target customer demographics, psychographics, and behavior patterns
+
+Include a comprehensive competitive analysis using the Five Forces framework
+
+Identify market trends, growth projections, and regulatory considerations
+
+Strategy &amp; Implementation:
+
+Define concrete, measurable business objectives using the SMART framework
+
+Develop detailed marketing, sales, and operations strategies
+
+Create a realistic implementation timeline with key milestones
+
+Include specific customer acquisition strategies with associated costs
+
+Financial Projections:
+
+Develop 3-5 year financial projections including income statements, cash flow statements, and balance sheets
+
+Include key assumptions behind all projections with sensitivity analysis
+
+Calculate and explain key metrics: break-even point, profit margins, CAC, LTV, and ROI
+
+Present funding requirements, use of funds, and expected returns for investors
+
+Output Format:
+Present the business plan in a professional, investor-ready format with these sections:
+
+Executive Summary (1 page)
+
+Company Overview (1-2 pages)
+
+Market Analysis (2-3 pages)
+
+Product/Service Description (1-2 pages)
+
+Marketing &amp; Sales Strategy (2-3 pages)
+
+Operations Plan (1-2 pages)
+
+Management Team (1 page)
+
+Financial Projections (3-4 pages)
+
+Funding Requirements &amp; Use of Funds (1 page)
+
+Appendices (as needed)
+
+Include visual elements such as graphs, charts, and tables to improve readability and impact. Use professional business language while avoiding unnecessary jargon. Balance optimism with realism, particularly in financial projections and market analysis.
+
+Additional Considerations:
+Identify key risks and include mitigation strategies
+
+Consider scalability factors for future growth
+
+Address potential investor questions or concerns proactively
+
+Include an exit strategy with potential options (acquisition, IPO, etc.)
+
+Ensure all claims are supported by data, research, or logical reasoning"
+
+Important Notes:
+Always calibrate complexity to match the user's expertise level
+
+For technical domains, include field-specific methodologies and evaluation criteria
+
+For creative tasks, balance structured guidance with creative freedom
+
+Always prioritize actionable, concrete instructions over theoretical concepts
+
+Your enhanced prompts should empower users to obtain precisely what they need from AI systems while minimizing iterations and clarifications.</pre>
+
+<h3>26. 同步相关文档</h3>
+<p>在 @Docs 中添加相关框架和库的文档，给 Cursor 更多上下文，能提升代码准确性和建议质量。</p>
+
+<p>实例：在使用Next.js+Prisma开发时，可以执行"@Docs Next.js官方文档 @Docs Prisma文档"，让Cursor了解这些框架的最新API和最佳实践，避免生成过时或不兼容的代码。</p>
+
+<h3>27. 使用 @Codebase 查全库</h3>
+<p>想找 bug 或定位函数？用 @Codebase 提问，比如"支付流程在哪里？"或"哪个组件渲染了仪表盘？"Cursor 会扫描整个项目给出答案。</p>
+
+<p>实例：在一个大型项目中查找用户注册逻辑，直接问"@Codebase 用户注册功能的入口在哪个文件？它调用了哪些API？"，Cursor会搜索整个代码库，给出精确路径和调用关系。</p>
+
+<h3>28. 启用 MCP，动态访问数据库</h3>
+<p>Model Context Protocol (MCP) 让 Cursor 实时读取数据库模式，可以动态获取表、自动编辑模式，省去手动写迁移文件的麻烦。</p>
+
+<p>实例：需要为博客系统添加标签功能时，启用MCP后直接告诉Cursor："创建一个标签系统，标签可以关联到多篇文章，文章也可以有多个标签"，它会自动创建标签表、关联表并生成合适的数据库迁移文件。</p>
+
+<h3>29. AI 自动生成行级安全 (RLS)</h3>
+<p>行级安全 (RLS) 设置很繁琐？直接告诉 Cursor："生成 RLS 策略，让用户只能访问自己的数据。"几秒钟搞定安全访问规则。</p>
+
+<p>实例：使用Supabase开发多租户应用时，只需告诉Cursor："为订单表创建RLS策略，确保租户只能查看和修改自己创建的订单，管理员可以查看所有订单"，它会自动生成完整的RLS策略代码。</p>
+
+<h3>30. 保存优质代码</h3>
+<p>Cursor 生成的好代码，存成 .md 文件供以后参考，或记到 Notepad 复用，逐步打造个人 AI 代码库。随着使用经验的积累，你可以形成自己的代码样板，提高开发效率。</p>
+
+<p>实例：Cursor生成了一个高效的数据处理工具函数，可以保存到code_snippets/data_processing.md文件中，下次需要类似功能时直接参考或复用。也可以创建分类文件如auth_patterns.md、api_utilities.md等，逐步构建个人代码知识库。</p>
