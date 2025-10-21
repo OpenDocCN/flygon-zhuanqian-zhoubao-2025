@@ -1,0 +1,125 @@
+<h1>结合本地知识库，让Deepseek帮你出题</h1>
+<blockquote>来源：<a href="https://jye96fr7e2.feishu.cn/docx/PYA9dAudcody2Sx8Uk8cJKqlnXe">https://jye96fr7e2.feishu.cn/docx/PYA9dAudcody2Sx8Uk8cJKqlnXe</a></blockquote>
+<p>对于教师来说，出题是工作中比较费时间的事情，我问了一些教师朋友，他们平时出一份试卷都是要几个老师分工也要几天的时间。我探索了一下如何用deepseek出试卷，现在把方法分享给大家，做为参考。</p>
+
+<p>教程内容包括四个部分：</p>
+<ol><li>Cherry Studio的安装和DK的关联</li></ol>
+<ol><li>知识库的设置</li></ol>
+<ol><li>目前的不足和解决方法</li></ol>
+<ol><li>知识库使用方法</li></ol>
+
+<p>已经知道如何在部署deepseek和使用cherry studio的朋友，可以直接跳转到使用方法的部分。</p>
+<hr/>
+<h1>一、Cherry Studio的安装和Deepseek的关联</h1>
+<h2>下载并安装cherry Studio</h2>
+<ul><li>下载网址：https://cherry-ai.com/</li></ul>
+<ul><li>点击【下载客户端】，跳转之后点下载，如果觉得速度慢也可以选择网盘下载</li></ul>
+<p><img src="img/a3482ecb1e46da0e4f814957726989ba.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YVrTbeIwKoPtUnxeXT3cvOCznYb/"/></p>
+<ul><li>打开下载好的文件（不要安装在系统盘就可以了）</li></ul>
+<h2>获取API_KEY（以派欧云为例）</h2>
+<ul><li>打开并注册硅基流动</li></ul>
+<ul><li>https://ppinfra.com/user/register</li></ul>
+<ul><li>新注册用户送5元的代金券体验，大约500万tokens的DK额度</li></ul>
+<ul><li>输入邀请码：【2OD5AF】，可以额外获得15元的代金券</li></ul>
+<ul><li>完成实名认证</li></ul>
+<ul><li>登陆之后，在右上角点击头像，找到【账号管理】</li></ul>
+<p><img src="img/dfc1595d0f12151c4037b7c59e27195d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DXERbuAB4oOBpqxtr2RcrbB1nHe/"/></p>
+<ul><li>进入【账号管理后】，在左侧菜单栏找到【实名认证】，按照指导步骤进行认证</li></ul>
+<p><img src="img/a2ecf354f3f07a579435b2ad55cca667.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/L6oxbGSCJoNrPLxMeKXcuJa1nQ8/"/></p>
+<ul><li>获取API_KEY</li></ul>
+<ul><li>在【账号管理】的左侧的菜单栏中，点击【API密匙管理】→【创建】</li></ul>
+<p><img src="img/a198d5f494bbf264e3eb3f29fb66c322.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Q6a4bJN77oi6w6x5nuVcspYInWc/"/></p>
+<ul><li>在弹出的窗口中，随便输入一个名称，确认。</li></ul>
+<ul><li>确认之后会弹出一个新的窗口，点击【复制】（非常重要，因为密钥出现之后就不会显示完整的，忘记复制就只能删除重新创建），点击【我已保存】关闭窗口</li></ul>
+<p><img src="img/540fa9e6634c56d59f02291a174cda0d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RfvDbcHc4oL9fLxJEMGcs2synwO/"/></p>
+<p><img src="img/aebb8a50cca454e278d7ff7fcd379a8c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RnUpbYzzwo5hF7xARtNcJMXPnce/"/></p>
+<h2>配置Cherry Studio</h2>
+<ul><li>添加派欧云服务</li></ul>
+<ul><li>打开Cherry Studio→设置→模型服务→添加→提供服务商名称：派欧云→确认</li></ul>
+<p><img src="img/b248b17d6a953a10bcfb8b4b7336e07b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QmA8bh0LEomeTgxwBwzcRJQonWe/"/></p>
+<ul><li>配置模型</li></ul>
+<ul><li>先输入第二步复制的API_KEY</li></ul>
+<ul><li>再粘贴API网址：https://api.ppinfra.com/v3/openai</li></ul>
+<p><img src="img/6180039230fc9623a933f89b784c92b8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KMN3bF34toxL5vxrlQxc1PWPn7f/"/></p>
+<ul><li>添加模型</li></ul>
+<ul><li>点击管理，然后添加deepseek-r1模型</li></ul>
+<p><img src="img/928475a741448e6c1f7a5195d0a16d09.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XffAbQbfVojKSfxVQsDcNG8enKd/"/></p>
+<p>到这一步，前期的设置工作就已经完成了，Cherry Studio还支持很多其他平台，方法大致相同，大家可以自己试一下。</p>
+
+<h1>二、知识库的设置</h1>
+<h2>（1）配置教程：</h2>
+<h3>打开Cherry Studio→知识库→添加</h3>
+<p><img src="img/1deefe72b903ea832f88f6dd56a50216.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/W0ozb3IeVoOwgxxBiQ8cFXbRnBc/"/></p>
+<h3>输入名称→选择嵌入模型</h3>
+<p><img src="img/6b8b5554ad337d1f72922f38931e53bc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QqAMbuVHioU1pRxFu5Oc5TN5nNv/"/></p>
+<h4>嵌入模型可以理解为是专门用来处理文件的模型，把我们上传的文件处理成数据储存起来，以便后期其他的聊天模型调用。</h4>
+<h4>派欧云没有嵌入模型，所以需要再申请一个平台的API，这里推荐硅基流动，申请方法跟上面的一样。</h4>
+<h4>不同的平台提供的嵌入模型不同，有些平台没有的话，也可以同时开启几个平台的服务。</h4>
+<h3>上传资料</h3>
+<p>Cherry Studio的知识库中，可以上传文件、目录、网址、网站、笔记；这次用到的是前两项，就只介绍前两项，其他的大家可以自己测试是什么效果。</p>
+<ul><li>文件：上传单个文件，可以选择添加，也可以拖拽，文件内容有修改，点击刷新会更新数据库</li></ul>
+<ul><li>目录：上传文件夹中的所有文件，文件夹中的文件有修改或增减，点击刷新会更新数据库</li></ul>
+<p><img src="img/4f2aa58875216e71ed83426ba17970d9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FYDkb3AYwoW8wKxXoAgcGpginKg/"/></p>
+<h2>（2）使用教程</h2>
+<h3>打开cherry studio→助手→添加助手→默认助手</h3>
+<p><img src="img/35697bc5e1dd430876a8e34d3b725285.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LVxUbmFiPo2CFNxJkt6c2zz6ngc/"/></p>
+<p><img src="img/87e8e23ab2beeca744bf6c4c9daddb86.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Qbk4b8sqToFKBzxpuQYc9G1vnmW/"/></p>
+<h3>右键→编辑助手</h3>
+<p>进入编辑助手，修改助手的名称（提示词可填可不填），然后选择知识库设置，选择相应的知识库</p>
+<p><img src="img/5f03041c2de3f8c23acc1e0e91badfec.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZYR1bmO5Eof7h9x468EcwJk4nZd/"/></p>
+<p><img src="img/87b60777a581cf1d007eb61a8e222873.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Bx26bVbuLonwhvxFm19c65kYnbe/"/></p>
+<h3>对话框正常聊天</h3>
+<p>上面已经设置好了知识库，出题的过程就很简单了，说清楚你的需求就可以了。你的需求表达得越清楚，DK给出的答案就越准确。</p>
+<p><img src="img/15c330a57288284bf067dd8294ddedab.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TQ8KbFfNco92nJx4DjfcryLKnyb/"/></p>
+
+<h1>三、目前的不足和解决方法</h1>
+<h3>不足1：只能对纯文字内容进行处理并储存到知识库，扫描件、图片无法处理</h3>
+<p>解决方案：先用kimi对文件进行处理，保存成word文档之后再上传到知识库（Cherry Studio可以直接唤起kimi，不用另外打开网页）</p>
+<p><img src="img/60de8f0ffbd7c20eca763d23653bc173.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G7Q8bPIHgoqUZGxzGy8cCYL3nvf/"/></p>
+
+<h4>参考提示词：</h4>
+<p>请你把文件中的内容完整的转换成文字，顺序不变，不要markdown格式</p>
+<p><img src="img/6af00594a3691c5dc581a9b3cbb7c167.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OwV6bSvVto403dxP2l3ch2LfnWc/"/></p>
+
+<h3>不足2：无法识别和提取试卷中的图片（漫画题、图表题等）</h3>
+<p>解决方案：排版的时候，自己找到原文截图排版；可以通过助手快速定位到原文</p>
+<p><img src="img/ff6104687cd1b3974234329339c1fbe3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FEEPb2BAboK1TWxhc8kcwHVtnqe/"/></p>
+
+<h1>四、知识库使用方法</h1>
+<p>我按照DK的工作方式，分成了两种使用方法：组卷高手和出题大师</p>
+<h2>组卷高手</h2>
+<p>说明：DK扮演的角色是一个组卷的老师，按照用户的要求，从知识库中挑选题目，组成一份新的试卷，并不需要它原创题目。</p>
+<p>优点：迅速、对知识库整理要求低、大模型回答内容质量较高</p>
+<p>缺点：灵活度不够，原创度不够</p>
+<p>适用：重要程度不高的考试，比如单元测试、月考、模拟考等</p>
+
+<h3>参考提示词：</h3>
+<p>请你从【XXXX（文件夹名称）】中，挑选XXX道【题型】，组成新的试卷。题号从X号开始，不要markdown格式，不要标注来源。</p>
+<p>（提示词不固定，只是给大家一个思路。前半部分是限定选题的范围，后半部分是为了后期排版方便。大家可以根据自己的实际测试出更适合自己的提示词）</p>
+<p><img src="img/a1ef0844b5518cb47cc5492318029203.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RwHzbzWK1o3Di7xqBNncHJ2BnVe/"/></p>
+
+<p>这个用法就很简单，只要上传足够多的试卷，然后限定DK的选择范围就可以了，这里其实也可以用DK-V3模型或者是其他的大模型，因为不涉及到思考和推理。</p>
+
+<h2>出题高手</h2>
+<p>说明：DK扮演的角色是一个出题的老师，按照用户的要求，根据知识库中的出题规范和考察的知识点，进行原创出题。</p>
+<p>优点：充分利用DK的推理能力，题目原创度高</p>
+<p>缺点：对知识库内容质量要求比较高</p>
+<p>适用：对题目原创度有要求的考试</p>
+
+<h3>参考提示词：</h3>
+<p>请你出XX道【题型】，主要考察【知识点1】、【知识点2】。。。，出题要求要符合【出题规范】中的要求，题号从X号开始，不要markdown格式，不要标注来源。</p>
+<p><img src="img/9949bce20e316163c2416c6979bbd293.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LAXebyRZ4oApEgxZhYlc0nLRnMg/"/></p>
+
+<p>要让DK原创题目，两个必不可少的资料：知识点、出题规范。</p>
+
+<p>这两个资料的作用，是限制DK的发挥，让它在限定的范围内去思考。因为DK的推理能力是非常强的，考虑的面是非常广的。如果不做限制的话，它给出的答案很有可能就不是我们想要的。</p>
+
+<p>没有限制条件，你的DK就是一个什么都懂，但是说出来的东西就是不符合你要求的助手。</p>
+
+<p>知识点和出题规范，就要根据不同的学科，自己的实际情况去整理了。</p>
+<hr/>
+<h1>结语</h1>
+<p>Ai带给我们的，是工作方式的改变，我们应该主动拥抱变化，让Ai赋能我们，放大自身的独特的一面。</p>
+
+<p>我是宁十七，在职场搞副业</p>
+<p>专注分享个人成长丨Ai提效丨副业赚钱</p>
