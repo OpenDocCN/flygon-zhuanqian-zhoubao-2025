@@ -1,0 +1,240 @@
+<h1>从0开始手把手教你用n8n打造自动化生图工作流</h1>
+<blockquote>来源：<a href="https://irxd56ii8t.feishu.cn/docx/MOAXdcDJioc9kGxqm5qcMb1qntC">https://irxd56ii8t.feishu.cn/docx/MOAXdcDJioc9kGxqm5qcMb1qntC</a></blockquote>
+<p>大家好，我是香君，Youtube航海、深海圈教练、精华帖作者。n8n是一个超级好用的低代码工作流平台，可以完成很多很多实用的功能。今天我就给大家一个思路用n8n批量生产图片，今天这个思路是一个通用的思路，大家可以平移到自己的业务上去。不仅是油管，更可以是其他别的业务。好了废话不多说了，放段示例：</p>
+
+
+<p><img src="img/03d83f6aabb80030475cd39d60acaa32.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RNIRbgAJbokCftxFjl1cPO1gnWg/"/></p>
+<p>很简单的一个小视频，没什么难度可言。但就是这种短小的内容配合近期的内容热点就可以拿到一波爆炸的流量。比如说这个视频就有上亿的流量。</p>
+<p>当你看到这样的流量洼地的时候，如果不能快速的跟进，那这一波大流量显然就跟你失之交臂了。做过AI视频的朋友应该都明白，这就是一个很简单的一个。如果手搓的话，需要先用gpt画一张图，然后再挑一些比较不错的图片放到可灵里面里面去跑视频。</p>
+<p><img src="img/59cbc999f5df47abc8f98744853a48cb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ha89btqX6olhjHxCZY9cWPienFf/"/></p>
+<p><img src="img/f137b5296fd9715027ca6287dceac524.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IfHibd00foX4sTx7yjjcPUw2nld/"/></p>
+<p>右面是我的对标参考图，左面是我用下面的工作流生成出来的图片。它确实没有多难，但是你一张一张手动的去roll，肯定roll一两天就头昏眼花，心态爆炸。就算你有小伙伴帮你，但是问题是把人力放到更需要判断更灵活的地方不好吗？阿里云的slogan我一直很喜欢“计算，为了无法计算的价值”。我们尽量要把时间和人力放到有价值的事情上去，而不是被这些缩缩重复的事情消磨掉。应该如何做到呢？那么就引出了本文的重点——n8n</p>
+<h1>一、平台介绍</h1>
+<p>说到n8n可能有很多朋友并没有并没有听过，但是coze、dify这类工作流平台大家应该都听说过吧？n8n应该是属于他们的威力加强版，多达400多款的内置工具，更开放的社区生态有各种各样丰富好玩的社区节点，就算这些还都不能满足你的要求，http请求节点几乎通过设置几乎能把你的所有需求满足，最最重要的是作为开源项目本地部署免费。</p>
+<p><img src="img/103ec25a1d629c9b70660ed5adf0fc72.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CUZobn17boUNWexjyxycF81tnue/"/></p>
+<p>这是用来批量改英熙娃娃服装的工作流，我接下来将会从部署开始手把手教你怎么就会教你，搭建一个这样的工作流。</p>
+<h1>二、如何本地部署这个项目</h1>
+<p>n8n有三种使用方式：</p>
+<p>1、官方服务器（需要充值会员，功能最全面）；</p>
+<p>2、本地部署（有npm和docker两种方式）；</p>
+<p>3、服务器部署</p>
+<p>虽然官方服务的功能最全面，但是基本上我们部署一个社区版本的n8n就已经非常足够我们用了。考虑到大家也不是每个人都买了服务器，这次咱们主要讲的是最最简单的docker部署方式。而且dcker部署也有很多优势：</p>
+<ul><li>在干净的环境中安装 n8n。</li></ul>
+<ul><li>更轻松地设置您首选的数据库。</li></ul>
+<ul><li>可以避免因操作系统不同而导致的问题，因为 Docker 提供了一个一致的系统。</li></ul>
+<ul><li>可以避免由于操作系统和工具差异导致的兼容性问题。</li></ul>
+<ul><li>使迁移到新主机或环境更加简单。</li></ul>
+<h2>1、下载Docker Desktop</h2>
+<p>去官方网站（地址：https://www.docker.com/products/docker-desktop/），根据你自己的系统下载对应版本的Docker Desktop，打开一直下一步安装即可</p>
+<h2>2、n8n部署</h2>
+<p>先打开你的Docker Desktop确保程序运行，然后打开终端（Mac）或者（cmd）windows，粘贴这两行指令然后点击回车，等n8n镜像拉取完成且容器启动就安装完成了。就是如此的简单</p>
+<pre>docker volume create n8n_data
+
+docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n</pre>
+<h2>3、启动n8n</h2>
+<p>完成安装之后，你会在你的Docker Desktop中看到n8n的容器，类似下图</p>
+<p><img src="img/5084d148252b432f8bfd92dd19136eaf.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/E6RFbMNpaoUhRPxwuLwckT25nLh/"/></p>
+<p>确保你的这个容器是启动状态（就是前面的小图标是绿色的），如果没有启动的话，点击启动按钮。启动之后，n8n会暴露在端口5678上。因此这个时候你就可以登录网址 http://localhost:5678 来访问n8n了，注册登录就能访问到这个页面：</p>
+<p><img src="img/76059187fe5243b976bcded7e6e07c40.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZRVzbTD8Noupk4x1dkrcimyZnxd/"/></p>
+<p>没错，就是这么的简单！！恭喜你打开了新世界的大门</p>
+<h1>三、配置工作流</h1>
+<h2>1、工作流拆解</h2>
+<p><img src="img/1f66de55434b25b123d1d4d9f418cf1f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KGlZbPKWHoe8OWxZ3tJcn50anyf/"/></p>
+<p>大家可以观察一下这个工作流，它是由以下几个模块组成的：</p>
+<table><tr><th>开始模块</th><th>每一个工作流必备的一个节点</th></tr><tr><td>改图提示词生成模块</td><td>主要负责生成图片的提示词+调整提示词格式</td></tr><tr><td>出图模块</td><td>今天我会讲两种出图方式：</td></tr><tr><td>上传网盘</td><td>将生成好的图上传到谷歌网盘</td></tr><tr><td>循环</td><td>加一个循环体，可以让工作流连续出图</td></tr></table>
+<ul><li>出图速度快且稳定；</li></ul>
+<ul><li>可以设置的参数比较多；</li></ul>
+<ul><li>输出的格式比较规整不需要后续调整。</li></ul>
+<ul><li>按照token收费，相对会比较贵</li></ul>
+<ul><li>生成是按照调用次数收费的，相对比较便宜</li></ul>
+<ul><li>api输出的json包含的信息会非常多，需要单独摘取我们需要的部分；</li></ul>
+<ul><li>没有单独的调整图片长宽比例的参数，导致只能用提示词去控制比例，有些时候会出控不住；</li></ul>
+<ul><li>有概率生图失败</li></ul>
+<p>以上就是整个工作流的基本工作模块。</p>
+<h2>2、准备工作</h2>
+<p>我们这个工作流有一个节点需要先授权才能使用（下图这个节点），授权的步骤比较复杂，下面我会一步一步拆解出来教给大家。</p>
+<p><img src="img/a0d506960eef3f568ac6dd1ad028ce62.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TyUwb4lIUo849OxfWVjck2gjnFc/"/></p>
+<h3>第一步：新建工作流</h3>
+<p>先新建一个工作流，随便添加一个点击触发器</p>
+<p><img src="img/342884277f07ae00a2f05cb49da20b43.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TKScb4Y32obvmzxZOHccptvFnDe/"/></p>
+<p><img src="img/f425a45ff4a16a1961d567844cad8bf6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UDBDbBQ8CoCEowxz8Ytcw8l0nGc/"/></p>
+
+<p><img src="img/2fd2835f1b575932fdc8e3386067f523.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MfJnbHSy6oMLBfxUUHycsXLanog/"/></p>
+<p><img src="img/3f03e5cef93f1d7b52165ead7d2f3890.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KwVNb7zBioLrbrxqPrncflL9nZc/"/></p>
+<p>👆🏻添加好就是这个样子，n8n有很丰富的触发器，可以用过各种各样的条件进行触发，这一次咱们就用最最简单的点击触发来构建工作流</p>
+<h3>第二步：添加google drive节点</h3>
+<p>点击触发器后面的加号，添加一个google drive节点，这次我们主要用到的功能是上传文件（Upload file）还有下载文件（Download file）两个功能，可以先建立其中之一的功能节点来完成google drive的授权工作，这里我首先建立的是Download file功能节点</p>
+<p><img src="img/4e688d663c9b0eb2c6f383cbef8848b2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/CuSob4BHAoBJRkxY2sncWnlgnZc/"/></p>
+<p><img src="img/46e9a9557d5fc764e8879fa81bdb19b4.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OvaSbtetvoXm2LxLGdkcvIPEntH/"/></p>
+<h3>第三步：选择授权账号</h3>
+<p>添加好节点之后，我们就会直接进入节点设置页面。其他的选项先别着急填，我们首先主要是授权我们自己的google drive给n8n，点击Credential to connect with的下拉菜单，点 Create new credential添加新的账号</p>
+<p><img src="img/52f1d66440e5fee28e70a4344ae228fd.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DX7Eb9i0Do0Qnlxs1Z8cfuuPnff/"/></p>
+<p>（这里因为我已经添加了自己的账号API，所以有一个账号）</p>
+<p>进来之后选择OAuth2 API这种授权链接模式</p>
+<p><img src="img/dee2b06e4842da166fb5646f34a0b839.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/WZvQb43lkoLTtlxJaOncoUPhnsh/"/></p>
+<p>后面的步骤需要你有一个google账号，如果没有的话就自己去注册，具体怎么注册就不在这展示了。</p>
+<p>然后进入谷歌云网（网址：https://console.cloud.google.com/），新建一个project</p>
+<p><img src="img/a7711e14a67be97b199c4789b3a57ecd.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FFWWbowQooBKD9xDZOgcdgaOnSI/"/></p>
+<p><img src="img/7e9c6034d79ab0393c18a72dae4e9064.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S2Xjb3OBZoOzDUxcLVjcfMy9nbd/"/></p>
+<p><img src="img/edfc5d1f86d383ec1d15b5dc764aad16.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Pquzbnwv2ofXh5xi1oBczEoinNg/"/></p>
+<p>👆🏻这里随便填</p>
+<p>然后点击google cloud旁边的三条杠</p>
+<p><img src="img/a792dc3787b6c42736836aec60fa2ce1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SrONbPZ8io6ngpxjkV4cdjxynqb/"/></p>
+<p>然后选择APIs&amp;Services里面的OAuth consent screen</p>
+<p><img src="img/cd0f8527a77f8bf88f9f610dd73af200.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N3f5bgRZ1ogDuSxJooack55bnCc/"/></p>
+<p>点击屏幕中间的get started，开始信息录入</p>
+<p><img src="img/378958a5480bb508ab29bf26655a14a2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BhIpbcdQrozacMxRTH7cmQEPnDc/"/></p>
+<p><img src="img/dfede29a87a82330001c915f6590f7d6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FAMFboCADo2w7Lx6zoscl28Knib/"/></p>
+<p><img src="img/ba214416cd41fe96070c22b8254c44f1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AnJQbeeBmoKKrWxskvGcQzo0nrf/"/></p>
+<p><img src="img/16cd1e2cc1c6a8abf057667626ad8ad7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/C1ANbqL5ioZe1NxeEYBcynl9nac/"/></p>
+<p>跑完最后Finish的流程之后，点击创建即可，然后再点google drive旁边的那三道杠，选Enabled APls &amp; services</p>
+<p><img src="img/c148005b28c199a1ce62d1595ef81fa2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UKN7bfLfkoGeIzxSQAjcpSwSnFh/"/></p>
+<p>进来之后点Credentials（凭证），然后创建一个新的凭证</p>
+<p><img src="img/9244d45a320f00a29ba8603d4efe9bcc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FGDrbajeOob8OPxrAxpcY9yWnaf/"/></p>
+<p>这里我们选OAuth client lD</p>
+<p><img src="img/464e1ce40968c2ced669e015ecabaa91.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/APyKbUHFRo6kjbxISywcfseVnIU/"/></p>
+<p>选Web application，名字随便起，接下来我们添加Authorized redirect URls（授权的重定向 URI）</p>
+<p><img src="img/5b3b49538cb5cfc1a2fa1fc18998a0ca.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HWSQbrYSaoY8slxeme1cudNHnSU/"/></p>
+<p>这里我们需要返回n8n刚才的节点配置界面，把图里面这个网址粘贴到刚才的页面里去，然后点击Create创建即可</p>
+<p><img src="img/d6c821c0fe818267a89e633d37506843.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MnqwbAS1joNkUwxSqM3cy5K4npg/"/></p>
+<p><img src="img/6c3963a575d910eb20a5f21d705bf921.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KxQab0yYOoif94xd6aDc7PuJnrh/"/></p>
+<p>点击创建之后，会弹出来一个弹窗，里面会有刚申请好的客户端ID和客户端秘钥，给两行粘贴回n8n的google drive节点的对应位置，填完了之后会出现一个Sign with google按钮，点击填入刚完成申请的谷歌账号</p>
+<p><img src="img/120505a93969d485cc6d73dbe1be7683.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UN3Jb0EhfoQ30wxiCKTcIJTgn11/"/></p>
+<p><img src="img/bec9df5c82615dc5237799254750bb8f.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/F9ezb9oXcogLAQxIcsJcGJ4Cnei/"/></p>
+<p>然后这里我们应该是进不去的，会跳出如下这张图，因为我们的n8n是本地部署的，属于测试模式，所以需要把我们这个账号添加为测试账号</p>
+<p><img src="img/11af57912a1a6c542583f8f34b1cf90e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ATqUbdyRZojL6Txae4QcTtYJnne/"/></p>
+<p>还是选择APIs&amp;Services里面的OAuth consent screen</p>
+<p><img src="img/cee954cc0147a556410565426f39b664.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LONZbSCuMo5CNCx0rrLchfM2nTp/"/></p>
+<p>进来之后在Audience里面找到Test user，把账号添加进去即可，后续就可以完美的登陆了</p>
+<p><img src="img/3a7bb8c9d54e5cc39fd563f7e8c1b7d8.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Nj4ibbkp6oDmKBxBdsocuWtanGg/"/></p>
+<p>配置成功应该是以下这个样子⬇️</p>
+<p><img src="img/11770eaeccf81baff15b30a2d580885c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/C4xEbdXcNoqoqPxRVbYcwMEUnDd/"/></p>
+<p>恭喜你，这个是本篇教程里面最难的部分之一，如果这块你操作成功了，就已经完成了一大部分！！后续你就可以通过n8n来去自如的上传下载文件了！！</p>
+<h2>3、正式开始配置工作流</h2>
+<h3>第一步：建立触发器</h3>
+<p>上文有讲过，这里咱们选择的是最简单的点击触发</p>
+<p><img src="img/830bb6aff73404e31b96f44e74464435.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EqzObJDCdo9IZ3xM0gic1SKknFe/"/></p>
+<h3>第二步：搭建改图提示词生成模块</h3>
+<p><img src="img/7c9b5ce44a083ee33b0f07c2f86e94c5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YRf4brVCLoLWHHxL8QwczFUInAc/"/></p>
+<p>这一块主要由两个智能体组成，为了区分，我用了两种节点，其实都调用最简单Basic LLM Chain就很足够了。</p>
+<h4>提示词生成模块搭建</h4>
+<p>新建一个Basic LLM Chain节点，进入配置页面，提示词来源选择Define below（根据如下定义）</p>
+<p><img src="img/839a10b1ac2538e6b92b91aa3c96cdc9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OO7ebhFbAo6TifxNOM1crQannZR/"/></p>
+<p>如果你也要画鱿鱼游戏的娃娃，那么你就贴我下面的提示词：</p>
+<p>贴进去之后，点击下面Chat model配置大模型</p>
+<p><img src="img/2fc2660b0fd7283dac793ee8ec83d51c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JPoxbn9ikofsHBxvfgUcT0LPn8f/"/></p>
+<p>一般情况下我会选择openrouter，这里面有各种模型，当然你要去openrouter先注册账号申请api key，当然这里我用的是grok，因为grok我申请了内测的薅羊毛套餐，哈哈</p>
+<p><img src="img/4ad4664c9c49b4eb478146ac0b476ff3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G9utb0qy7owiUKxgeXsc0LWHnGb/"/></p>
+<p>选择好了模型，创建一个新账户，把你申请好的api key填进去即可</p>
+<p><img src="img/1376fea708c3f79d37aec13fbcc1e062.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/C49RbBzyBowDnrxjpCcc5Sn4nsb/"/></p>
+<p>全都配置完成之后，点击Test step就可以测试这一步</p>
+<p><img src="img/a01d9ced9ab5f483c80c214f2f0ff91a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SFVKbhQiBo05fkx5I2FcDcOmn0d/"/></p>
+<p>经过等待之后我们就可以看到这一步的生成结果。</p>
+<p><img src="img/2ba671912b2b35057cb6d289f6ed6f67.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XcOpb9xISodGqexhef6c5abrnWc/"/></p>
+<h4>提示词格式整理模块</h4>
+<p>我们可以看到上图这一整段输出的json是用markdown形式输出的，会跟我们后面的输入画图节点的提示词格式会不同，我们想要统一成自然文本格式输出，因此我们需要搭建一个提示词整理模块：</p>
+<ol><li>添加一个Basic LLM Chain节点</li></ol>
+<ol><li>选择Schema格式</li></ol>
+<ol><li>跟我一样填好提示词</li></ol>
+<ol><li>把output直接点住，拉到我箭头给到位置，output里面的内容就会作为一个变量直接引用的到这里了</li></ol>
+<p><img src="img/05e18df143de0f1b2328a57444f5bfab.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RtQgbTONlo4NIWxsODncOkZfnRd/"/></p>
+<p>还是点击Text Step，你就会发现这个节点输出的json里面，提示词去掉了markdown的格式被整段输出了</p>
+<p><img src="img/4499ffa4c47d6c8cd7a4c43572913c0b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Zcv1bLUHPoilVkxPXOtcs6HJn5i/"/></p>
+<p>这块也需要加大模型大家不要忘了哈~</p>
+<h3>第三步：搭建出图模块</h3>
+<p><img src="img/7ea32e3de53d30b758dfffc1713a1a61.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/K7YRb4TNcoDWi9xGclucwy8SnnB/"/></p>
+<h4>生图方式一：gpt-image-1方式改图</h4>
+<p>链接方式：</p>
+<p><img src="img/ab733762af2e313a2697ea09dbd83bfa.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TKqFb8KrLoNyehx3yPYc5mrln8c/"/></p>
+<h5>下载素材节点</h5>
+<p>gpt-image-1这种API是需要照片直接配合提示词上传即可，因此我们每次都需要一个本地的。在这里我们为了照顾搞不定代码的小伙伴，就不搞本地上传的代码了，直接用google drive的云存储文件即可。</p>
+<p>选择google drive的download file节点</p>
+<p><img src="img/3b6501eca76e2aa916516acd2c55abb6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SeSSbIBdMoyCWCxSP5dcvBtOniE/"/></p>
+<p>把你的图片上传到刚才注册的那个谷歌账号的网盘里面，选择你刚创建好的账号，在节点的File选项中选择Form list，然后点击旁边的下拉菜单，它就会历尽你网盘里面的文件，选择你自己需要的那个图片即可，当然也可以选择其他的两种路径识别的方法</p>
+<p><img src="img/e11b07a3517198991678f16d3f7a31f2.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OYYMbhe7qoKTFAxpwtKcLJyMngW/"/></p>
+<h5>gpt-image-1生图节点搭建</h5>
+<p>这块是咱们这个工作流的核心节点，但是n8n并没有给我们提供封装好的绘画节点来让我们串API。怎么办？就需要用到http Request这个节点</p>
+<p><img src="img/acc4ebdb9fb6700ae9e326cd7a02c0ca.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NA0qbmePmoslNTxJsy9ceZysnkb/"/></p>
+<p>打开按照我的配置填好</p>
+<ul><li>请求方式选择Post</li></ul>
+<ul><li>URL就是API的base url填https://yunwu.ai/v1/images/edits</li></ul>
+<p>至于为什么要选择云雾API，主要是因为他是以人民币计算token方便又便宜，而且长期买一送一，充50给100。性价比超级高。而且他的api价格是我最近用里面最便宜的。大家如果信我的话，可以点击链接注册购买👉🏻https://yunwu.ai/register?aff=zUII</p>
+<p>在这里我们选择用只带优质官转OpenAI分组的api，没有这个分组记得给自己的API加一下不然会报错</p>
+<p><img src="img/c57c067ca384f573cc1fc0fd0503f550.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PJCBbaYTGoSR3VxRPNwcI9cunLb/"/></p>
+<p><img src="img/e7a4150c143eaba3686907633e112ce5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ViJVb3D12oNPzCxasSjc5tdwnme/"/></p>
+<p><img src="img/de79ff9a49551df1a86dd6ceae931bd6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/X8CvboqicoSD0jxs9n4ce7ZWnth/"/></p>
+<p><img src="img/62d5347b26be48b010e5d3e96daf10b7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YcohbVlBooesOgxWm0ZcPzcunsf/"/></p>
+<p>点击Ceate new credential进去，然后把你申请好的api key填到Value里面就OK，Name这块填写请求头Authorization</p>
+<p><img src="img/9a5d5599413ce32f1da70129b3575059.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NJtybzpyOo3dnAxEdKMcGOIznPB/"/></p>
+<p><img src="img/5385d3817ad6e6cd429fd665c622d1b9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IaDCbH8b9ozjDhxkb8Ocka6cnEe/"/></p>
+<p>这样我们就配置好了生图节点，点击Test step，等一下就会看见输出。</p>
+<p><img src="img/1bb26f3df2848619cb5babb85f4fae81.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/A6D1b0mePoTZTcxBXUecVcIZnLd/"/></p>
+<p>可能细心的朋友也发现了，输出并没有图片，而是一行乱码，其实这是一种编码格式叫做base64，我们后面要做的就是把base64格式的编码解码成图片</p>
+<h5>图片解码节点</h5>
+<p>选择Convert to File节点进行解码</p>
+<p><img src="img/5feada414e8ca391ce10b7f629769bce.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SGXHbsewQoqTQoxlvSpcnt90nfd/"/></p>
+<p>在input里面选择show data，我们就可以看到上一个节点的输出</p>
+<p><img src="img/74eddb1117bdf49cb1b04ccf5b68a702.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UcwRb7qwwoGK4xxZ3y1cHxlln1d/"/></p>
+<p>按照我的图中的配置进行配置，然后把b64_json这个字段拉过来</p>
+<p><img src="img/7885589e4a97d32d82cb3a386c86a713.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SOVnbLBZmoQcXOxXJ6yc8Xz4nff/"/></p>
+<p>点击Test step进行测试，然后你就会发现图片成功转码了</p>
+<p><img src="img/bd9e8141ee442afb5752e45f9a3c98e1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KmhHbUki8oKxtjxvs7AcmCctnzc/"/></p>
+<p>这样我们就成功得到了一张图片</p>
+<p><img src="img/d1c7a50cd1fa70b6472c377ac92721c7.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Z5rbbyUekoo38dx4NjccpQy6nJe/"/></p>
+<h4>生图方式二：gpt-4o-image方式改图</h4>
+<p>链接方式：</p>
+<p><img src="img/ad6433afd0d1c49f92771285ed86eea3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OWyBbbqKBou7FOxTmpecfM1cn7e/"/></p>
+<h5>gpt-4o-image生图节点搭建</h5>
+<p>因为gpt-4o-image实际上是是对话输出，json里面会有很多层，所以正文部分没有办法用Form-Data类型，这里我们需要直接写json，但是不要担心json正文我已经给大家写好了,大家下载下来直接用就OK</p>
+<p>把这段内容复制下来直接贴到json这个模块里面，这块也是直接把整理模块输出的内容直接拉过来就OK。这个api没法通过参数来规定图片比例，因此要在提示词最后加ratio==3:4去向模型进行强调生图比例（当然有时候模型也不理解从而生成其他比例的图，大家如果有什么其他好的方法可以告诉我）</p>
+<p>注意这里的URL改成了https://yunwu.ai/v1/chat/completions，API的话需要有下图三个分组之一，可以跟刚才的那个api分开，单开一个api给这个分组填上</p>
+<p><img src="img/7674562bbb0946f3d35a844dd370b943.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Q5kgbDbbuon7IqxLzaucCVRvnj6/"/></p>
+<p><img src="img/1586550109976e6096d281352a86c8bd.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NtqlbeGfKouVvexHMETcjCgon9c/"/></p>
+<p><img src="img/5fd411cf767f77016c9f723f9caaf0c9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TV3fbzIf8oNLzwxJbyocAW7SnIg/"/></p>
+<p>还有一点需要注意的是，由于gpt-4o-image这种API需要图片以线上源文件链接的形式进行输入，因此我们要找一个图片托管的平台把需要用到的图片上传。我找到了一个免费托管的平台（地址：https://imgbb.com/），还有API可以用挺方便的，当然咱们这次是用不到的。</p>
+<p>首先我们需要上传图片</p>
+<p><img src="img/a2418ef3c49fcf021ce46a6519b03ded.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GKgxbBdetoMqjVxAQ6Vcr41GnWb/"/></p>
+<p>然后点击这个按钮</p>
+<p><img src="img/6647ff539676fd4e45736d8ca5c92830.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NP08blcK5ouVJcx0lHVcvE86nef/"/></p>
+<p>进来之后选择直接（源文件）链接，然后复制这个网址即可</p>
+<p><img src="img/276d82661f36303caec892633a42de82.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N2CRbmPoiopiyexgCLjcruQQnLm/"/></p>
+<p>然后替换红框里面冒号里面的链接即可，注意一定不要动冒号</p>
+<p><img src="img/7bd84f8c4688696a8bdd39deffc6a850.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HMjbba6Auontkwx10racmpcvnOb/"/></p>
+<p>然后点击Test step，等一段时间，你就发现他生成成功了</p>
+<p><img src="img/491b2b2170d84c2c9b152fde0891469c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Wczabhi8uoTqKQxpFi7ckVc2nkb/"/></p>
+<h5>截取下载链接节点</h5>
+<p>这么一坨json内容，但其实我们只需要那个网址进行下载，这种文字混合链接的一坨我们没有办法用http请求进行下载，因此我们需要一个大模型帮我们把这个下载链接挑出来，配置方法如下，写好提示词也是把content这一块直接过来即可。当然，记得配置大模型哈</p>
+<p><img src="img/1505252c591ec8d7afd378ed04b7c548.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G4GIbpb78oRjWRxT7fAc3Hdkn60/"/></p>
+<p>还是Test step，你就发现它的输出就只剩下载链接了</p>
+<p><img src="img/aed193380ecdcdbfc07385fdf26b77d6.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OTCJb7mLQoKxBwx8T7hcF980nme/"/></p>
+<h5>视频下载节点</h5>
+<p>请求方式选Get，然后把上一个节点输出的内容直接拉过来，下面按照我的配置进行配置</p>
+<p><img src="img/e6300b1114e26f741f1ca72c62d71649.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TkQRbOvZYobC38x8hWzcEbeYneb/"/></p>
+<p>点击Test step，你就发现这个文件已经下载好了，而且不用转码</p>
+<p><img src="img/dd27bc833d2e7957b2e85f7182222b92.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Qhi5bW2d5oiBXuxARmhc6nl2nNd/"/></p>
+<h3>第四步：搭建下载节点</h3>
+<p>这一块很简单按照我给的图进行配置就可以了，但是由于我们希望的是多次进行循环生图，所以肯定是每次都需要不一样的文件名，所以就要在流程里面抓一个唯一值</p>
+<p>在gpt-image-1方式中我主要抓的事这个种子作为文件名</p>
+<p><img src="img/e2cb45b0b4cd0f4d1af5396998b6c3fe.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ZA09b67nkoS7s4xvc6acvZwyntd/"/></p>
+<p>在gpt-4o-image方式中我抓的是生成图片的下载链接作为唯一的文件名</p>
+<p><img src="img/04f2d32485c4f3c5c0020cabe52fcbf5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/D98ibCjCIoXpD7x2GRpcoj4znC4/"/></p>
+<p>等配置完成之后再进行Test step，你就会发现图片就已经上传到网站中了</p>
+<p><img src="img/7bbcfb3aa714b27bbb51bd977d53e0b1.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/R0SFbhlLkoJeMBxwLf7c48zdn2Q/"/></p>
+<p>第五步：循环</p>
+<p>如果你都测试结束没问题了之后，这时候就可以上循环进行批量生图了。添加Loop Over Items</p>
+<p><img src="img/c90493b29502a9687fe5fafabedf71d0.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OInbbWD0Ro5Jrtx6LJTc0zF3nS3/"/></p>
+<p>就会有这么一个东西出现，需要我们把Replace me删掉，然后让工作首尾相连</p>
+<p><img src="img/3b75b062e1125f4398bcd81213bec097.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/N9Y5bVeDKofGMdxErvccckeGnxd/"/></p>
+<p><img src="img/57bb0de1b7dd2b256bbc89be14bfb28c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/HMU8bCCyCoY02AxgkSRcrAJ1nbd/"/></p>
+<p>在配置页面这个数据不用管，之后再开始整个工作流跑起来的时候，就会开始循环了，但是需要手动停止循环</p>
+<p><img src="img/71ca2ccf7e7b99ffd133c2b6c6d60804.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/J6CBbbaGOo6E4vxVZDhcu0gGnjg/"/></p>
+<h4>有一点需要注意</h4>
+<p>因为gpt-4o-image的生图方式有时候会失败，导致后面的节点拿到的全都是空的返回，所以如果你想要一直做循环的话，最好就把画图节点后面的所有节点全部选择发生错误后跳过这个节点继续工作，这样就不会因为一次没有出图而导致你的循环直接停止</p>
+<p><img src="img/6e238172c4af36d98658160006cd0a75.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XRAYblig7owhdsxi3o2cbGyRnqh/"/></p>
+
+<h1>五、总结</h1>
+<p>其实n8n的玩法还有很多比如说：</p>
+<ul><li>直接给提示词就能完成文生图再生视频+拼接剪辑的工作流（其实这次就能实现，不过就是成本有点高，没有往下延展）；</li></ul>
+<ul><li>只要用户填了问卷就可以直接发信息或者邮件给用户反馈同时催促销售进行转化的高效销转系统；</li></ul>
+<ul><li>实时监控对标账号，爬取内容进行分析的实时监控工作流，等等等等……</li></ul>
+<p>大家如果后续有兴趣，我再做一些别的工作流玩法的分享。今天先分享到这里，祝大家生财有术！</p>
