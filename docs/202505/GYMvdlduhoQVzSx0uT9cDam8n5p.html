@@ -1,0 +1,148 @@
+<h1>巧用多维表格，让AI成为小红书运营实际生产力</h1>
+<blockquote>来源：<a href="https://qvvx41oj2n7.feishu.cn/docx/GYMvdlduhoQVzSx0uT9cDam8n5p">https://qvvx41oj2n7.feishu.cn/docx/GYMvdlduhoQVzSx0uT9cDam8n5p</a></blockquote>
+<h1>0. 前言</h1>
+
+<p>很高兴加入生财社区，我是伍十七，深圳一家AI公司的技术合伙人。</p>
+
+<p>在阅读了生财所有关于AI的精华内容后，我发现大家遇到的问题是相通的，“输出不稳定”、“提示词生成图片次数越多，效果越差”、“输出1分钟，调试1小时”、等等，关于AI落地的讨论多是实现某个具体场景下的功能，一旦开始规模化操作就失控，AI产出难以把控。</p>
+
+<p>这里以多维表格+DeepSeek制作小红书封面为例，如何对AI输出质量进行系统化管控，让AI成为切切实实的生产力，抛砖引玉，给各位提供一个能够将日常工作AI化的通用思路，希望对大家有所帮助。</p>
+
+<h1>效果展示</h1>
+<p>首先看效果，已创建为飞书模版，路径如下：  ，打开即用。</p>
+<p><img src="img/d020889b0491b1f21e67006ad05ff0eb.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/ENTObQ0mTonHEWx9Xr0cujpVnPg/"/></p>
+<h2>图文封面</h2>
+<p><img src="img/3b8775f1f4245fbe5067915ecb1917df.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SGfLbt0bEoa6jSxS26NcWuoLnKg/"/></p>
+
+<p><img src="img/8ef224f4d8d09a658cb35f288cea0acc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YvCdb7NaioaI1qxPKo1c9OiNnZf/"/></p>
+
+<p><img src="img/8177d63dfca80f9994522f5ce0df3c88.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PYW7bBOYyomlXOxyQOMcI63Qnig/"/></p>
+
+<h2>手绘封面</h2>
+<p><img src="img/4ee78b3431c9b8c5af15d9a62c292889.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UCqQbeZgvox1TLxHi54cFhrPnMg/"/></p>
+
+<p><img src="img/978d5de4cc79b9cd85ee7178abe5b216.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PTribIAaLoDhMyxgultcyW5Mnhc/"/></p>
+
+<p><img src="img/1c72e0d03bec9c6b34786641f2733b58.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/NtGmbrMDPoNcqXxaNW6caTbtnvg/"/></p>
+
+<h2>使用方式</h2>
+<ol><li>选择一个封面类型，添加一条笔记主题，填入必填项。</li></ol>
+<p><img src="img/654181e4d8f1ee69589a1bb5e122c580.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/FxTdbQH2joMxoRxfa34cCAI8nvc/"/></p>
+<ol><li>等待片刻，deepseek会自动根据信息生成prompt，将prompt复制到GPT4o中即可，如不满意可以多生成几张。</li></ol>
+<p><img src="img/696b619705159adf02f49a6a1bee1014.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/S58pbBXz5oYy7mxXfRCcxoqUn0f/"/></p>
+<ol><li>生成效果如下：</li></ol>
+<p><img src="img/64cdfe89e7175829478ea2ca1257d743.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/IfvpbfIZ8oFkW4xwhLJc44y7n8V/"/></p>
+
+<h1>动手实操</h1>
+
+<p>ok，案例过后，接下来就是具体的实现思路拆解。首先明确一个前提：AI并不是生产力工具，AI就是生产力本身。（非常重要！）</p>
+
+<p>也就是说，要像管理员工一样管理AI。</p>
+
+<p>试想我们要让一个刚入职的新人能够做出符合公司预期的产出，那么他就要知道这个岗位是做什么的，有什么任职要求、以及工作SOP、过程指标、结果指标等等，甚至说的玄乎一点还要理解一下公司的使命和价值观（说远了）。</p>
+
+<p>Prompt、RAG、Workflow（工作流）等等市面上的AI技术，其实解决的核心问题都是同一个，就是：如何管理一个（甚至一群）AI。接下来，我们通过详细拆解来展示如何实现AI的产出管理。</p>
+
+<h2>SOP = 步骤 + 指标</h2>
+
+<p>工作标准化需要SOP的支持，对AI而言也同样适用。</p>
+
+<p>如图，完整的小红书封面绘制流程是由多个步骤组合而成，且每个步骤都有不同的任务要求和输出要求。接下来就是根据流程图进行分工。</p>
+<p><img src="img/9c5925c284c4d496db4a48c19c5e258d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JCjrbExwToz6DoxASubcVl3GnAY/"/></p>
+
+<h2>运营人员 = 多维表格 + Prompt</h2>
+
+<p>运营人员的工作要求是：</p>
+<p>通过我提供的主题和补充信息，将prompt补充完整提供给DeepSeek进行进一步输出，也就是说，当我的需求或信息不完整时，他就不需要生成任何信息，这里通过多维表格自带的工作流实现。</p>
+
+<ol><li>例如以下为手绘封面的promtp，需要【笔记主题】、【布局】、【语言】、【插图风格】四项必填信息：</li></ol>
+<pre>你的任务是根据提供的主题、排版布局、语言、色彩方案和插图风格，生成一个结构化、视觉上引人注目的封面图。
+
+在生成prompt时，请严格遵循以下指南：
+### 布局:
+明确选择一种: **横向** 或 **纵向** 排版，这里排版方向为{{布局}}。确保布局平衡，保持良好的可读性。
+### 文字风格:
+- **字体大小**:适中、工整的手写风格，便于阅读。
+- **主标题**:加粗，使用较大的手写字体，醒目展示。
+- **子要点**:使用常规墨水清晰书写，结构分明，注意间距和分支线条的排布。
+### 色彩与重点标记:
+- **主要内容**:使用浅色背景高亮显示，或采用独特的波浪线(~)下划线突出，具体根据{{色彩方案}}执行。
+- **强调笔记**:使用不同颜色的墨水书写，以实现醒目区分，具体颜色按照{{色彩方案}}确定。
+### 插图:
+包含一个中央插图，插图风格为{{插图风格}}（细致的手绘图、极简风格草图，或拼贴风格的注释照片提取图）。在笔记周围策略性地放置小型相关草图或涂鸦。允许在插图上直接用钢笔风格涂鸦或标注，以营造随意自然的感觉。
+### 注释与随笔记录:
+模拟记号笔风格的注释、修正、趣味涂鸦、箭头和随手标注，增强视觉互动感。可选地整合与主题相关的拼贴式照片提取图，并附带注释或涂鸦。
+### 语言准确性(严格):
+若使用 {{语言}}，必须严格遵循公认词典与标准语法规则。若使用复杂书写系统如中文:
+- 必须核对每个汉字的正确性、标准用法与准确笔顺。
+- 避免使用非标准变体，务必严格确认准确性后再定稿。</pre>
+
+<ol><li>那么就需要首先在多维表格中加入这四个信息：</li></ol>
+<p><img src="img/e6777fa4ecbbfe6ac4e4ca36cefab38b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/X68KbOT2Io8foVxN58DcZKrNnoh/"/></p>
+
+<ol><li>其次我们需要在这四项信息都完整的情况下才进行到下一步，那么就需要借助多维表格的函数和工作流。我们需要一个concatenate函数将信息补充完整，作为文本prompt-1：</li></ol>
+<p><img src="img/a8e283b0e99e24f1bccb95d87e328011.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/P2J0bLjv5otq7exRW7rcHUqUnjf/"/></p>
+<ol><li>并且需要对prompt进行一些处理，从直接生成结果改为让DeepSeek对主题进行理解并按照要求给出prompt，处理后prompt内容如下：</li></ol>
+<pre>CONCATENATE("你的任务是根据提供的主题、排版布局、语言、色彩方案和插图风格，生成一个结构化、视觉上引人注目的封面图prompt。
+以下是用户定义设置：
+&lt;主题&gt;
+「", [笔记主题（必填）], "」
+主题&gt;
+&lt;排版方向&gt;
+",[布局（必填）],"
+排版方向&gt;
+&lt;语言&gt;
+",[语言（必填）],"
+语言&gt;
+&lt;色彩方案&gt;
+{{色彩方案}}
+色彩方案&gt;
+&lt;插图风格&gt;
+",[插图风格（必填）],"
+插图风格&gt;
+
+在生成prompt时，请严格遵循以下指南：
+### 布局:
+明确选择一种: **横向** 或 **纵向** 排版，这里排版方向为{{布局}}。确保布局平衡，保持良好的可读性。
+### 文字风格:
+- **字体大小**:适中、工整的手写风格，便于阅读。
+- **主标题**:加粗，使用较大的手写字体，醒目展示。
+- **子要点**:使用常规墨水清晰书写，结构分明，注意间距和分支线条的排布。
+### 色彩与重点标记:
+- **主要内容**:使用浅色背景高亮显示，或采用独特的波浪线(~)下划线突出，具体根据{{色彩方案}}执行。
+- **强调笔记**:使用不同颜色的墨水书写，以实现醒目区分，具体颜色按照{{色彩方案}}确定。
+### 插图:
+包含一个中央插图，插图风格为{{插图风格}}（细致的手绘图、极简风格草图，或拼贴风格的注释照片提取图）。在笔记周围策略性地放置小型相关草图或涂鸦。允许在插图上直接用钢笔风格涂鸦或标注，以营造随意自然的感觉。
+### 注释与随笔记录:
+模拟记号笔风格的注释、修正、趣味涂鸦、箭头和随手标注，增强视觉互动感。可选地整合与主题相关的拼贴式照片提取图，并附带注释或涂鸦。
+### 语言准确性(严格):
+若使用 {{语言}}，必须严格遵循公认词典与标准语法规则。若使用复杂书写系统如中文:
+- 必须核对每个汉字的正确性、标准用法与准确笔顺。
+- 避免使用非标准变体，务必严格确认准确性后再定稿。
+请现在开始生成prompt。")</pre>
+
+<ol><li>有了函数以后，就需要工作流，检测信息是否完整。</li></ol>
+<p><img src="img/725479e444dd23c02ed98f2b1d5ed0b5.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QIKQbbFxRoTASIx6KZqcNBRAnZg/"/></p>
+
+<ol><li>当信息完整时，工作流会自动在prompt2中添加一条信息。</li></ol>
+<p><img src="img/07228a55e54f006a63cfef31bfda9c2c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/BD2PbMXz1o1ULDxEU32cKcaknqa/"/></p>
+
+<h2>设计人员 = DeepSeek</h2>
+<ol><li>首先需要定义DeepSeek的工作和要求，DeepSeek会根据要求提供prompt：</li></ol>
+<p><img src="img/cbf7df3f280763d04b785dddb04cc316.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PQpGbQIpCohFHDxHXHhc5sYinpb/"/></p>
+
+<ol><li>但是此时输出的prompt还无法使用，需要对输出内容进行结构上的要求，这里通过公式实现：</li></ol>
+<p><img src="img/6b59ca177148059ce02fadbfa4542214.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/UKHFbt1pnoqGf4xhUs4cRipLnyd/"/></p>
+<p>公式如下：</p>
+<pre>"创建图片 "&amp;[插图风格（必填）]&amp;"。"&amp;[文本Prompt-3.输出结果]</pre>
+
+<h2>制图人员 = 4o/即梦</h2>
+<p>此时的Prompt已经可以直接使用，复制到4o或即梦中即可。</p>
+<p><img src="img/8ea3a146674d79c497279f6201f1c30d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/PnZHbA2qxoJ3D7xjnFjccGftnMd/"/></p>
+<p>到这里，一个完整的搭建过程就告一段落。</p>
+
+<h1>总结</h1>
+
+<p>通过“多维表格+DeepSeek”构建小红书封面生成流程，本质上是对AI生产流程的标准化重构，这套思路不仅适用于封面制作，所有已经SOP化的工作都可以根据以上方法AI化。</p>
+
+<p>本文完，希望各位有所收获。</p>
