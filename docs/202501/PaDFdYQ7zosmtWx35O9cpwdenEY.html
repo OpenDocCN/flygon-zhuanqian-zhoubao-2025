@@ -1,0 +1,684 @@
+<h1>3 步掌握 ComfyUI：小白也能快速入门的保姆级指南</h1>
+<blockquote>来源：<a href="https://ytsvsr6zj8.feishu.cn/docx/PaDFdYQ7zosmtWx35O9cpwdenEY">https://ytsvsr6zj8.feishu.cn/docx/PaDFdYQ7zosmtWx35O9cpwdenEY</a></blockquote>
+<h1>一、理念篇 </h1>
+<h2>前言</h2>
+<p>参加了 2024 年12月 comfyui 航海，这才发现：无论是学习 Comfyui ，还是想熟练运用它，门槛都不低，多数时间都是满脑袋问号。</p>
+<p>怎么样能快速掌握 comfyui 呢？</p>
+<p>我把学习 comfyui 的经验，分成 3 步，快速上手 comfyui，为你全面运用 comfyui 打下基础，这也是本文的重心所在：</p>
+
+<p>我是产品经理，所写文字，尽量叫你一看就懂。可是，我也是初学者，很多知识点，是否理解到位，不敢保证。</p>
+<p>若有疏漏，敬请指导。</p>
+
+<p>另：里面的很多内容，或我问 Ai ，或参考他人的文档，综合而成，确实做不到了一一原创了。</p>
+
+<p>hi，认识你很高兴，i am 望月</p>
+
+<h2>了解 comfyui 的功能 </h2>
+<h3>主要功能：文生图</h3>
+<p>一言概之：文生图（Text-to-Image）</p>
+<p>这是 ComfyUI 的核心功能，也是最常用的功能。创作者能够通过文字描述，生成复杂的艺术作品。</p>
+<p>Ai 产品升级迭代飞快，comfyui 应用领域，并不局限于文生图，还有其他领域，例如：Ai 图像（最常用）、Ai 视频、Ai 音频、Ai 3D、Ai 文本等等。</p>
+
+<p>知识点：文生图工作原理</p>
+<p>第 1、输入提示词：用户输入一段文字描述，通常是关于图像的内容、风格、色调、氛围等方面的提示。</p>
+<p>比如：“一只穿着西装的猫，站在城市的街头，背景是傍晚的光景”。</p>
+
+<p>第 2、模型解析：AI 模型会分析输入的文本，理解其中的关键词和语境，并基于其理解来生成图像。</p>
+<p>例如，模型会识别“西装”、“猫”、“城市街头”和“傍晚光景”这些元素，并根据它们之间的关系，构建出符合这些描述的图像。</p>
+
+<p>第 3、生成图像：模型根据解析后的文本信息，通过一系列复杂的数学计算（通常是基于卷积神经网络、扩散模型等技术），生成图像。最终的图像呈现出来，用户可以根据需要进行进一步编辑和优化。</p>
+
+<h3>体验 comfyui</h3>
+<p><img src="img/9ff7f0196913a80feb16f49f251c8193.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XBoPbd2bCow9tFxt1axcvA3GnHh/"/></p>
+
+<p>新手推荐在线模式，优先上手使用，体会。熟悉了之后，再转入本地。</p>
+<p>推荐：https://www.liblib.art/</p>
+
+<p>本地安装，无论是电脑硬件，下载对应的模型，插件，包含了一系列设置，确实要耗费蛮多时间。新手不建议上来就执行这一步。</p>
+
+<h2>学习 comfyui 核心概念</h2>
+<h3>工作流 （workflow）概念</h3>
+<p><img src="img/8e1718f765662bc4d5632f641359bb7a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/R4T6buaOQotEVxxFYQrcA7eCnld/"/></p>
+
+<p>你看到图片上的一个一个黑色矩形，就是节点（node），每个节点依照一定的顺序，依靠连线（"connections" 或 "links"）前后相连，一步步，共同完成某一具体任务，这种方式就是所谓的工作流（workflow）。</p>
+
+<p>简单理解工作流：工作流，是按照一定步骤，先后有序，完成特定任务。</p>
+
+<p>注：工作流并不是一个新鲜的概念，相反，有一点历史了，而且很多领域都有用工作流。（例如 2B 领域内，不过它会有另外的名字，例如，业务流，操作流等等）</p>
+
+<p>为什么要使用工作流呢？</p>
+<p>第1、依需而建：自由搭建适合你自己的工作流，而不是受到各种各样的限制。（也正因如此，提高了学习门槛）</p>
+<p>第2、自由拓展：可以使用、改造别人的工作流，或者新建属于自己的节点，灵活应对待解决的问题。</p>
+
+<p>工作流概念：</p>
+<ul><li>节点和连线的有序组合</li></ul>
+<ul><li>完整的处理流程</li></ul>
+<ul><li>可重复使用的任务模板</li></ul>
+<ul><li>类似程序中的执行流程</li></ul>
+<p>工作流优势：</p>
+<ul><li>直观可视化</li></ul>
+<ul><li>易于修改</li></ul>
+<ul><li>方便调试</li></ul>
+<ul><li>可保存复用</li></ul>
+
+<h3>节点 （node）概念</h3>
+<p>工作流中每一黑色的矩形，叫节点（node），每个节点负责某一具体功能（程序设计里面模块化的思路）</p>
+<p><img src="img/77f9fab293b1c87ff717b9ceffcbeffa.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OF2lb00kcobVHvxbjVschiY5nOc/"/></p>
+
+<p>Comfyui 里面每一个方块，称之为 Node（节点）</p>
+<p>左侧端的点是Input（输入）端，</p>
+<p>右侧是Output（输出）端，</p>
+<p>每个节点里都会有对应的配置项，称之为 Parameter (参数)</p>
+
+<p>节点特点：</p>
+<ul><li>每个黑色矩形代表一个功能模块</li></ul>
+<ul><li>单一职责原则，专注特定功能</li></ul>
+<ul><li>可独立配置和调试</li></ul>
+<ul><li>类似程序设计中的函数或类</li></ul>
+<p>节点类型举例：</p>
+<ul><li>模型加载节点</li></ul>
+<ul><li>文本编码节点</li></ul>
+<ul><li>K采样器节点</li></ul>
+<ul><li>VAE解码节点</li></ul>
+
+<h3>连线（Connections）概念</h3>
+<p>连线是把每一个单独的节点前后相连，而后形成一个完整的工作流。</p>
+<p>连线作用：</p>
+<ul><li>定义数据流向</li></ul>
+<ul><li>连接各个功能节点</li></ul>
+<ul><li>传递处理结果</li></ul>
+<ul><li>类似程序中的数据传递</li></ul>
+<p>连线特点：</p>
+<ul><li>有明确的输入/输出端口</li></ul>
+<ul><li>保证数据类型匹配</li></ul>
+<ul><li>支持多输入多输出</li></ul>
+
+<h4>知识点：怎么样连线？</h4>
+<h5>同类相连</h5>
+<p>连线只能是连接同类数据，不同数据格式，无法相连。</p>
+<p>可以记忆为：同色相连</p>
+<p><img src="img/f5ab8b90681ab752e050c2239a5f1e66.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/SPK8bjKmCopT4oxsfCqcYzrYnUC/"/></p>
+
+<h5>左进右出</h5>
+<p>其实就是节点的特点，左边为输入数据，供某个节点使用，节点加工后的数据，从右侧输出。</p>
+<p>也就是说，把某一个节点的输入数据，再输入给下一个节点的输入端。</p>
+<p><img src="img/d59b456655a39a7f34307397f1e91989.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/D1ombtSGvoSgzSx8i33cJjEAnLd/"/></p>
+
+<h5>一进多出</h5>
+<p>左侧的输入端，只能接收一条线。</p>
+<p>右侧的输出端，则可以输出多条连线。</p>
+<p><img src="img/29b1d6769227a09b777c2acc87ba8c44.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LlNybyf7GoUCckxUXMUckwDjnNb/"/></p>
+
+<h2>理解文生图功能：节点</h2>
+<p>学习了 comfyui 的核心概念，下一步，就是理解 Comfyui 的核心功能。</p>
+<p>这一部分，先由节点展开，而后是工作流，理解了节点与工作流的关系，等于掌握了文生图功能，也就等于掌握了comfyui 的核心功能。</p>
+
+<p>文生图的功能，官方会默认给你加载一最基础的工作流，必要的节点如下：</p>
+<h3>checkpoint 加载器 （Load Checkpoint） </h3>
+<p><img src="img/d0bcaa5d50f69c1bfec07a5734e41d15.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XcdmbuYqEoQCgAxLL2OcAPI5n4e/"/></p>
+<p><img src="img/7070824e64ffa4b32993bef0ae78d84a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/KNw0b6sC8olwmLxjeDHcmjSLnTb/"/></p>
+
+<p>Checkpoint 加载器是所有 ComfyUI 工作流的起点，用户需要先加载 Checkpoint ，才能开始配置和运行生成任务。</p>
+<p>Checkpoint 是 Stable Diffusion 模型的核心，包含了 MODEL（UNet）、CLIP 和 VAE 三个部分，分别负责去噪、文本理解和图像解码，共同完成从文本到图像的生成过程。</p>
+
+<h3>CLIP 文本编码器 （CLIP Text Encode）</h3>
+<p><img src="img/36aa5e11397a5f82418265d15d78feb9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DZRhbkkIFogDHGxyXLDc2rt2nng/"/></p>
+
+<p>CLIP 全称是 Contrastive Language-Image Pre-training，即对比文本图像预训练。</p>
+<p>这个节点主要是输入 Prompt：</p>
+<p>一般会有两个这样的节点，一个是正向的 Prompt，列你希望在图片中看到的内容；</p>
+<p>另一个是负向的 Prompt，列你不希望在图片中出现的内容。</p>
+
+<p>1、Prompt 并不是越长越好，尽量保持在 75 个 token（或约 60 个字）以内。</p>
+<p>2、使用逗号分隔。StableDiffusion 并不懂语法，需要的关键词罗列出来即可，用逗号（英文半角符号）分隔。</p>
+<p>3、越重要的词，越放在靠前的位置。例如：想要生成一张美丽的风景图，将 beautiful scenery nature 放在最前面。</p>
+
+<h3>空-潜空间图像节点 （Empty Latent Image） </h3>
+<p><img src="img/e5733f02dfdfd37b1d2471321f260bfe.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/OpbCb12BZoegcWxInyucPP6kn7K/"/></p>
+<p><img src="img/5400e526df646687f4a53f5a4897867c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/VsTCbplpKo8sskxZiyic9uuGnGg/"/></p>
+
+<p>空的潜空间图像节点，调整最终生成的图片的大小，就需要调整 width（宽）、height（高）这两个值。</p>
+<p>batch_size：批次，则是设置每次运行时生成的图片数量，设置成了 6，就意味着每次会生成 6 张图。</p>
+<p>比例关系：8 的倍数，即图片的宽、高，都是 8 的倍数。</p>
+
+<h3>K 采样器（KSampler）</h3>
+<p><img src="img/e99e631bd3ca0729b211e50bd1a9449d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QCnobqN9ioKZC9xMYUucrHUYnJf/"/></p>
+<p><img src="img/4e0127e19aab6b55a215553b12970439.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Tm9cbx2vLojX0Qxw62kcWg7tnvb/"/></p>
+
+<p>KSampler，Sampler 中文名称是采样器，K 采样器是 ComfyUI 中的一个核心模块，负责生成图像的主要过程。</p>
+<p>K 采样器就像是一个"画家"，它负责把你的文字描述（prompt）一步一步变成图像。</p>
+<p>它的工作过程是从一张充满噪点的图片开始，慢慢把噪点去掉，最终形成你想要的图片。</p>
+
+<h3>VAE 解码</h3>
+<p><img src="img/2947aeb035b01d034a72f0b553eeb362.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/A1YnbOwm1onejExSiiLcBYonn6e/"/></p>
+<p><img src="img/9a8f36877adc1e6246401c932e6e88e9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GrKwbOXiKol9k9xK5P4cBjuknnf/"/></p>
+
+<p>VAE解码的英文全称是 "Variational Autoencoder Decode"，中文名称是“变分自编码器解码</p>
+<p>VAE解码器是 ComfyUI 一个重要的组件，其作用，是将潜在空间中的信息转换为可视化的图像。</p>
+
+<h3>保存图像</h3>
+<p><img src="img/65a3b81067c1dd010e3decd6b9c706f9.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MdX8bfoLVo6dHqxh2xAcuKNEnkc/"/></p>
+<p>这一节点的功能，是最容易理解的，其主要职责：</p>
+<ul><li>处理图像格式</li></ul>
+<ul><li>设置保存路径</li></ul>
+<ul><li>控制文件命名</li></ul>
+<ul><li>选择压缩方式</li></ul>
+
+<h2>理解文生图功能：工作流</h2>
+<p>节点用连线前后连接起来，就形成了工作流，comfyui 的核心功能，文生图，正是依靠工作流来完成。</p>
+<p>总结一下，comfuyi 的文生图工作流如下：</p>
+
+<p>我们把上面提到的各个节点，分别汇入到这个流程中：这个时候，你大概知道 comfyui 的工作流是怎么样开展了。</p>
+<p>接下来就是要详细掌握各个节点，也就是comfyui的基础节点</p>
+
+<h2>掌握 5 大基础节点：加载器</h2>
+<h3>目前模型加载节点（Model Loading）</h3>
+<p><img src="img/343a48f50beb7e5d99f1cda4a16aaf57.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/TOsib6i9GoH0rIxHyFscMgdEn5X/"/></p>
+
+<p>吐槽</p>
+<p>作为产品经理，我一次次佩服 AI 类产品的 Ui 设计，真是烂！！！</p>
+<p>功能强大，半点都不否认。</p>
+<p>Ui设计之烂，一个比一个烂，个个都奇葩。</p>
+<p>初学者，初次面对，这么乌压压一堆加载器，知道每个都是做什么的吗？</p>
+<p>而且把这么多功能，都集中在鼠标里，也是烂设计。</p>
+<p>不过，还得学。</p>
+
+<h3>加载器节点-核心作用</h3>
+<p>第1、基础模型加载</p>
+<p>Checkpoint加载器：</p>
+<ul><li>加载AI绘画的核心模型</li></ul>
+<ul><li>初始化基本生成能力</li></ul>
+<ul><li>决定基础生成风格</li></ul>
+
+<p>第2、特殊功能加载</p>
+<p>专业加载器：</p>
+<ul><li>ControlNet：加载控制模型</li></ul>
+<ul><li>放大模型：加载超分辨率模型</li></ul>
+<ul><li>视频模型：加载动态处理模型</li></ul>
+
+<p>第3、风格调整加载</p>
+<p>风格加载器：</p>
+<ul><li>LoRA：加载风格微调模型</li></ul>
+<ul><li>超网络：加载网络增强</li></ul>
+<ul><li>风格模型：加载特定风格</li></ul>
+
+<p>比喻说明</p>
+<p>想象准备画画的过程：</p>
+<p>加载器就像：</p>
+<p>├── 选择画笔类型</p>
+<p>├── 准备颜料组合</p>
+<p>├── 调配工具材料</p>
+<p>└── 设置画板环境</p>
+
+<h3>分类理解加载器</h3>
+<p>感谢伟大的 Ai，可以叫 Ai 直接给你分类，然后快速抓住精髓。</p>
+
+<h4>基础层-加载器（必学）</h4>
+<p>核心功能：</p>
+<p>├── Checkpoint加载器(简易) - 基础模型加载</p>
+<p>├── VAE加载器            - 图像编码解码</p>
+<p>└── LoRA加载器           - 基础风格微调</p>
+
+<p>掌握目标：</p>
+<ul><li>完成基础文生图</li></ul>
+<ul><li>理解核心工作流</li></ul>
+
+<h4>进阶层-加载器（常用）</h4>
+<p>图像控制：</p>
+<p>├── ControlNet加载器        - 精确控制生成</p>
+<p>├── DiffControlNet加载器    - 差异化控制</p>
+<p>└── InstantXFluxUnionControlNet加载器 - 联合控制</p>
+
+<p>风格调整：</p>
+<p>├── 风格模型加载器          - 风格应用</p>
+<p>├── LoRA加载器(仅模型)      - 专注模型加载</p>
+<p>├── MultiLora Loader       - 多重风格</p>
+<p>└── Load LoRA Tag         - 标签式加载</p>
+
+<p>图像优化：</p>
+<p>└── 放大模型加载器          - 提升分辨率</p>
+
+<h4>专业层-加载器（特殊需求）</h4>
+<p>视觉处理：</p>
+<p>├── CLIP视觉加载器         - 视觉理解</p>
+<p>├── unCLIPCheckpoint加载器 - 特殊检查点</p>
+<p>└── Deep Cache            - 深度缓存</p>
+
+<p>高级功能：</p>
+<p>├── 超网络加载器           - 网络增强</p>
+<p>├── Checkpoint加载器(NF4)  - 特殊格式</p>
+<p>└── ResAdapter加载器      - 适配器加载</p>
+
+<p>特殊应用：</p>
+<p>├── 视频模型              - 视频处理</p>
+<p>├── Comfy Couple         - 模型配对</p>
+<p>└── Lora加载器(标签队列)   - 队列处理</p>
+
+<h4>定制层-加载器（扩展）</h4>
+<p>自定义加载：</p>
+<p>├── LoRA加载器(pysss)     - Python扩展</p>
+<p>└── Checkpoint载器(pysss) - 定制检查点</p>
+
+<h2>掌握 5 大基础节点：条件</h2>
+<p>条件节点的核心作用是"引导和控制"生成过程。</p>
+<p>注：</p>
+<p>上面工作流所提到的，CLIP 文本编码器 （CLIP Text Encode），主要是用于提示词的输入，其实就是一个条件节点</p>
+
+<h3>目前条件节点</h3>
+<p><img src="img/f69426c3e208a27ea3424662b55eeb0c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/AL5ebcVdHo4o21xxEFucsjplnrh/"/></p>
+<p><img src="img/86591fcad16bdb7a9516dfbe2fab201a.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/E6m5bllNloOtk2xbIKNcZinCnhb/"/></p>
+
+<h3>条件节点-核心作用</h3>
+<p>节点核心作用</p>
+<p>第1、引导生成方向</p>
+<p>就像画画：</p>
+<p>├── 提示词：告诉AI"画什么"</p>
+<p>├── 参考图：告诉AI"怎么画"</p>
+<p>└── 控制条件：告诉AI"画得更精确"</p>
+
+<p>第2、控制生成细节</p>
+<p>精确控制：</p>
+<p>├── 构图布局</p>
+<p>├── 风格特征</p>
+<p>├── 细节表现</p>
+<p>└── 生成区域</p>
+
+<p>具体应用场景</p>
+<p>第1、文本引导</p>
+<p>CLIP文本编码器：</p>
+<ul><li>将文字描述转换为AI理解的特征</li></ul>
+<ul><li>指导生成符合描述的图像</li></ul>
+<ul><li>控制图像的内容和风格</li></ul>
+
+<p>第2、图像引导</p>
+<p>ControlNet：</p>
+<ul><li>使用参考图像控制生成</li></ul>
+<ul><li>保持构图、姿势、线条等</li></ul>
+<ul><li>提供精确的视觉引导</li></ul>
+
+<p>第3、条件采样区域：</p>
+<ul><li>控制特定区域的生成</li></ul>
+<ul><li>调整不同区域的生成强度</li></ul>
+<ul><li>实现局部精确控制</li></ul>
+
+<p>比喻说明</p>
+<p>想象一个画画的过程：</p>
+<p>加载器：准备画笔和颜料</p>
+<p>条件节点：</p>
+<p>├── 画画的参考资料</p>
+<p>├── 构图的指导线</p>
+<p>├── 色彩的参考样本</p>
+<p>└── 细节的示范图</p>
+
+<h3>分类理解条件节点</h3>
+<h4>基础层-条件节点（必学）</h4>
+<p>文本条件：</p>
+<p>├── CLIP文本编码器       - 基础文本编码</p>
+<p>├── CLIP Text Encode++ - 增强版文本编码</p>
+<p>└── CLIP NegPip        - 负面提示处理</p>
+
+<p>视觉条件：</p>
+<p>└── CLIP视觉编码        - 图像特征提取</p>
+
+<h4>控制层-条件节点（常用）</h4>
+<p>精确控制：</p>
+<p>├── ControlNet         - 图像引导控制</p>
+<p>├── GLIGEN            - 布局控制</p>
+<p>└── 内补              - 图像修复</p>
+
+<p>增强控制：</p>
+<p>├── 放大扩散           - 提升分辨率</p>
+<p>└── StableCascade     - 级联生成</p>
+
+<h4>条件处理层-条件节点（进阶）</h4>
+<p>条件组合：</p>
+<p>├── 条件平均           - 多条件平均</p>
+<p>├── 条件合并           - 条件组合</p>
+<p>├── 条件联结           - 条件连接</p>
+<p>└── Conditioning (Blend) - 条件混合</p>
+
+<p>条件区域：</p>
+<p>├── 条件采样区域        - 区域控制</p>
+<p>├── 按系数设置条件采样区域 - 系数控制</p>
+<p>└── 条件采样区域强度     - 强度控制</p>
+
+<h4>特殊应用层-条件节点（专业）</h4>
+<p>特殊处理：</p>
+<p>├── 截断              - 条件截断</p>
+<p>├── CLIP设置停止层     - 层级控制</p>
+<p>└── Seamless Tile    - 无缝平铺</p>
+
+<p>高级功能：</p>
+<p>├── unCLIP条件        - 特殊条件处理</p>
+<p>├── InstructPix2Pix  - 图像指令处理</p>
+<p>└── 3D模型            - 3D相关条件</p>
+
+<h4>序列和通配符-条件节点（扩展）</h4>
+<p>序列处理：</p>
+<p>├── CLIP Text Encode Sequence (Advanced)</p>
+<p>├── CLIP Text Encode Sequence (v2)</p>
+<p>└── TextWildcardList_AS</p>
+
+<h2> 掌握 5 大基础节点：Latent</h2>
+<h3>目前latent 节点</h3>
+<p><img src="img/f36130ccd29d38c8cd569318b8b0d828.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QXNebncHMoMGSoxlEJ6cfDIKn6f/"/></p>
+
+<h3>latent 节点-核心作用</h3>
+<p>核心作用</p>
+<p>第1、潜空间操作与管理</p>
+<p>就像在画布上：</p>
+<p>├── 创建画布：空Latent</p>
+<p>├── 调整画布：缩放变换</p>
+<p>├── 合并画布：复合操作</p>
+<p>└── 预览效果：潜空间预览</p>
+
+<p>第2、数据转换与处理</p>
+<p>空间转换：</p>
+<p>├── 图像→潜空间（VAE编码）</p>
+<p>├── 潜空间→图像（VAE解码）</p>
+<p>├── 尺寸变换</p>
+<p>└── 特效处理</p>
+
+<p>具体应用场景</p>
+<p>第1、潜空间准备</p>
+<p>第2、中间处理</p>
+<p>第3、转换控制</p>
+
+<p>比喻说明</p>
+<p>想象绘画过程中的画布操作：</p>
+<p>Latent就像：</p>
+<p>├── 准备画布（创建空间）</p>
+<p>├── 调整画布大小（缩放）</p>
+<p>├── 拼接多个画布（复合）</p>
+<p>└── 转换展示效果（编解码）</p>
+
+<h3>分类理解 latent 节点</h3>
+<h4>基础层-latent（必学）</h4>
+<p>基础操作：</p>
+<p>├── 空Latent              - 创建基础潜空间</p>
+<p>├── VAE编码               - 图像转潜空间</p>
+<p>├── VAE解码               - 潜空间转图像</p>
+<p>└── Latent缩放            - 基础尺寸调整</p>
+
+<p>预览功能：</p>
+<p>├── Preview Latent        - 基础预览</p>
+<p>└── Preview Latent XL     - SDXL预览</p>
+
+<h4>变换层-latent（常用）</h4>
+<p>尺寸处理：</p>
+<p>├── Latent按系数缩放      - 比例缩放</p>
+<p>├── NNLatentUpscale      - 神经网络放大</p>
+<p>└── Latent to Width &amp; Height - 精确尺寸</p>
+
+<p>组合处理：</p>
+<p>├── Latent复合           - 基础组合</p>
+<p>├── Latent遮罩复合        - 遮罩组合</p>
+<p>└── Offset Latent Image  - 偏移处理</p>
+
+<h4>高级处理层-latent（进阶）</h4>
+<p>特殊处理：</p>
+<p>├── 内补                 - 图像修复</p>
+<p>├── StableCascade       - 级联处理</p>
+<p>└── Latent插值           - 渐变过渡</p>
+
+<p>批量处理：</p>
+<p>├── 批处理              - 批量生成</p>
+<p>├── LatentSelector     - 选择器</p>
+<p>└── LatentDuplicator   - 复制器</p>
+
+<h4>专业应用层-latent（特殊需求）</h4>
+<p>特殊功能：</p>
+<p>├── Circular VAE Decode  - 圆形解码</p>
+<p>├── Make Circular VAE    - 圆形编码</p>
+<p>└── VAE Encode ArgMax    - 最大值编码</p>
+
+<p>媒体处理：</p>
+<p>├── 音频                - 音频相关</p>
+<p>├── SD3                 - SD3.0特性</p>
+<p>└── 视频                - 视频处理</p>
+
+<h4>工具层-latent（辅助）</h4>
+<p>辅助工具：</p>
+<p>├── Math Encoder        - 数学编码</p>
+<p>├── VAEEncode (Bundle)  - 批量编码</p>
+<p>└── Empty Latent (Aspect Ratio) - 比例创建</p>
+
+<h2>掌握 5 大基础节点：采样器</h2>
+<h3>目前采样器节点</h3>
+<p><img src="img/b09be78982f5684e0fce54361125a14c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/Ecj8buzIxoJcjMxgG6bcJk7DnWd/"/></p>
+
+<h3>采样器节点-核心作用</h3>
+<p>核心作用</p>
+<p>第1、噪声处理与图像生成</p>
+<p>就像画家作画的过程：</p>
+<p>├── 从模糊到清晰（去噪过程）</p>
+<p>├── 控制细节程度（采样步数）</p>
+<p>├── 把握整体风格（CFG指引）</p>
+<p>└── 调整绘制方式（采样算法）</p>
+
+<p>第2、生成过程控制</p>
+<p>精确控制：</p>
+<p>├── 生成速度（步数设置）</p>
+<p>├── 生成质量（采样算法）</p>
+<p>├── 细节保真（去噪强度）</p>
+<p>└── 提示词匹配度（CFG值）</p>
+
+<p>具体应用场景</p>
+<p>第1、基础生成控制</p>
+<p>标准采样：</p>
+<ul><li>控制图像生成节奏</li></ul>
+<ul><li>平衡速度与质量</li></ul>
+<ul><li>确保生成稳定性</li></ul>
+
+<p>第2、质量优化</p>
+<p>高级采样：</p>
+<ul><li>提升细节表现</li></ul>
+<ul><li>增强图像质量</li></ul>
+<ul><li>优化生成效果</li></ul>
+
+<p>第3、特殊需求处理</p>
+<p>专业采样：</p>
+<ul><li>处理大尺寸图像</li></ul>
+<ul><li>实现连续生成</li></ul>
+<ul><li>应对特殊场景</li></ul>
+
+<p>比喻说明</p>
+<p>想象一个画家的创作过程：</p>
+<p>采样器就像：</p>
+<p>├── 画家的手法（采样算法）</p>
+<p>├── 绘画的节奏（步数）</p>
+<p>├── 修改的力度（去噪强度）</p>
+<p>└── 参考图的对照（CFG）</p>
+
+<h3>分类理解采样器</h3>
+<h4>基础层-采样器（必学）</h4>
+<p>基础采样：</p>
+<p>├── K采样器           - 标准采样器</p>
+<p>├── K采样器(高级)      - 高级控制版本</p>
+<p>└── K采样器(简易重启)   - 基础重启功能</p>
+
+<h4>重启增强层-采样器（进阶）</h4>
+<p>重启系列：</p>
+<p>├── K采样器(重启)          - 标准重启</p>
+<p>├── K采样器(高级重启)       - 高级重启控制</p>
+<p>└── KSampler With Restarts (Custom) - 自定义重启</p>
+
+<h4>序列处理层-采样器（专业）</h4>
+<p>序列采样：</p>
+<p>├── KSampler Sequence     - 基础序列</p>
+<p>├── KSampler Sequence (v2) - 增强序列</p>
+<p>└── Plasma KSampler       - 特殊效果采样</p>
+
+<h4>特殊应用层-采样器（高级）</h4>
+<p>特殊处理：</p>
+<p>├── K采样器(高级分块)      - 高级分块控制</p>
+<p>├── K采样器(分块)         - 基础分块处理</p>
+<p>└── 逆K采样器             - 反向采样处理</p>
+
+<h4>专业模型层-采样器</h4>
+<p>模型特化：</p>
+<p>├── 自定义采样           - 自定义控制</p>
+<p>└── 视频模型            - 视频专用采样</p>
+
+<h2>掌握 5 大基础节点：图像</h2>
+<h3>目前图像节点</h3>
+<p><img src="img/f00dee17b5e6d423e48ad9d94807034e.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RI5kbCJHlogchnxfpGccvsFun1d/"/></p>
+<p><img src="img/646b7abbcfb68ebcdc513ce75720d91d.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/DuNLb0G4CoL3LDxKZreckQbxn8e/"/></p>
+
+<h3>图像节点的核心作用</h3>
+<p>核心作用</p>
+<p>第1、图像处理与转换</p>
+<p>就像后期处理工作：</p>
+<p>├── 图像加载（输入处理）</p>
+<p>├── 图像编辑（调整修改）</p>
+<p>├── 效果处理（滤镜特效）</p>
+<p>└── 图像导出（保存输出）</p>
+
+<p>第2、质量控制与优化</p>
+<p>图像优化：</p>
+<p>├── 尺寸调整（放大缩小）</p>
+<p>├── 清晰度提升（超分辨率）</p>
+<p>├── 颜色处理（色彩调整）</p>
+<p>└── 细节增强（图像锐化）</p>
+
+<p>具体应用场景</p>
+<p>第1、基础图像处理</p>
+<p>常规操作：</p>
+<ul><li>加载参考图像</li></ul>
+<ul><li>保存生成结果</li></ul>
+<ul><li>预览中间效果</li></ul>
+
+<p>第2、图像编辑增强</p>
+<p>编辑功能：</p>
+<ul><li>裁剪与缩放</li></ul>
+<ul><li>颜色调整</li></ul>
+<ul><li>图像合成</li></ul>
+
+<p>第3、专业效果处理</p>
+<p>高级处理：</p>
+<ul><li>风格迁移</li></ul>
+<ul><li>图像修复</li></ul>
+<ul><li>特效添加</li></ul>
+
+<p>比喻说明</p>
+<p>想象照片后期处理：</p>
+<p>图像节点就像：</p>
+<p>├── 照片导入（输入）</p>
+<p>├── PS处理（编辑）</p>
+<p>├── 滤镜应用（效果）</p>
+<p>└── 成片导出（输出）</p>
+
+<h3>分类理解图像节点</h3>
+<h4>基础层-图像节点（必学）</h4>
+<p>基本操作：</p>
+<p>├── 加载图像</p>
+<p>│   ├── 加载图像</p>
+<p>│   ├── Load Image From Path</p>
+<p>│   └── Load Image From Path With Meta</p>
+<p>│</p>
+<p>├── 保存图像</p>
+<p>│   ├── 保存图像</p>
+<p>│   ├── Save Image Custom Node</p>
+<p>│   └── Save Image Webp Node</p>
+<p>│</p>
+<p>└── 预览图像</p>
+
+
+<h4>图像处理层-图像节点（常用）</h4>
+<p>尺寸调整：</p>
+<p>├── 图像缩放</p>
+<p>├── Resize Image</p>
+<p>├── Resize Scale Image</p>
+<p>├── Resize Shortest To</p>
+<p>└── Resize Longest To</p>
+
+<p>基础编辑：</p>
+<p>├── 图像反转</p>
+<p>├── Rotate Image</p>
+<p>├── Brightness</p>
+<p>├── Contrast</p>
+<p>└── Sharpness</p>
+
+<p>颜色处理：</p>
+<p>├── 颜色调整</p>
+<p>├── Convert RGB</p>
+<p>├── Convert Greyscale</p>
+<p>└── StableSRColorFix</p>
+
+<h4>高级处理层-图像节点（进阶）</h4>
+<p>合成与遮罩：</p>
+<p>├── 图像遮罩复合</p>
+<p>├── composite</p>
+<p>└── 图像组合批次</p>
+
+<p>外补处理：</p>
+<p>├── 外补画板</p>
+<p>├── 外补画板 (遮罩)</p>
+<p>└── 外补画板 (尺寸)</p>
+
+<p>特殊效果：</p>
+<p>├── effects</p>
+<p>├── filter</p>
+<p>└── transformation</p>
+
+<h4>专业工具层-图像节点（特殊需求）</h4>
+<p>AI增强：</p>
+<p>├── OpenPose Editor</p>
+<p>├── CLIP语义分割</p>
+<p>└── WD14反推提示词</p>
+
+<p>透明处理：</p>
+<p>├── Inspyrenet Rembg</p>
+<p>└── Inspyrenet Rembg Advanced</p>
+
+<p>圆形处理：</p>
+<p>├── Round Image (Pad/Crop)</p>
+<p>└── Round Image (Pad/Crop) (Advanced)</p>
+
+<h4>批处理工具层-图像节点</h4>
+<p>批量处理：</p>
+<p>├── Load Images For Loop</p>
+<p>├── ImageSelector</p>
+<p>└── ImageDuplicator</p>
+
+<p>限制处理：</p>
+<p>├── 限制图像为视频</p>
+<p>└── 限制图像区域</p>
+
+<h2>值得下载10个模型</h2>
+<p>从上面可以看出来，模型质量，很大程度决定了你最后成图的质量，找好对应的模型，根据自己的需要去练习。</p>
+<p>模型有很多，可以从下面的 10 个模型开始：</p>
+<p>https://www.comflowy.com/zh-CN/blog/ten-models-worth-downloading</p>
+
+<p>Liblib 搜对应的名字就可以了。</p>
+
+<h1>二、实践篇</h1>
+<h2>运用 Comfyui 生成图片方式</h2>
+<p>Comfyui 擅长生成图片，但发展到今天，生成图的方式，已经是多种多样了。</p>
+
+<p>目前我也是新手，这一部分还在练习，所以，只是在这里简单列举一下，后面再补充。</p>
+<h3>文生图 （text to image）</h3>
+<p>定义：通过输入文字提示，生成相应的图片。主要依赖于文字描述来引导图像生成。</p>
+<p>例子：输入提示词“夏日沙滩上的日落”，模型生成一幅展现海滩、太阳下沉的美丽画面</p>
+
+<h3>图生图 (image to image)</h3>
+<p>定义：通过一张已有的图片和文字提示共同生成新的图像，图片作为补充信息，增强生成效果。</p>
+<p>例子：输入一张草地的图片，再加上提示词“加上一个在草地上打高尔夫的人”，模型会在原图基础上生成一个人物并修改场景。</p>
+
+<h3>提升分辨率（Upscale）</h3>
+<p>定义：将图片的分辨率提升，使其更加清晰或细节更加丰富。</p>
+<p>例子：输入一张低分辨率的风景照，使用 Upscale 功能后，图片细节变得更清晰，边缘更加锐利。</p>
+
+<h3>局部重绘（Inpainting）</h3>
+<p>定义：在图片的指定区域进行修改或补充，通常用于修复缺失、损坏的部分，或者创作新的细节。</p>
+<p>例子：在一张人物画像中，模型可以用 Inpainting 来修复或替换人物的衣服、背景或其他缺失的部分。</p>
+
+<h3>扩展外部（outpainting）</h3>
+<p>定义：在现有图像的边缘扩展区域，创造更多的背景或场景，类似于扩展图像的画布。</p>
+<p>例子：给一幅城市街景图像增加更多的街道、建筑物或天空，甚至是延伸到更多的地理场景。</p>
+
+<h3>风格迁移（ContorlNet）</h3>
+<p>定义：通过输入图片的结构信息（如简笔画、轮廓、边缘等）来控制图像生成的风格和内容。</p>
+<p>例子：输入一张简单的轮廓图，模型根据轮廓生成详细的艺术画作，或者输入一张现实图片，并控制其风格为油画、素描等。</p>
+<h2/>
+<p>（本文止。实践篇的心得体会，后面会更新上来。）</p>
