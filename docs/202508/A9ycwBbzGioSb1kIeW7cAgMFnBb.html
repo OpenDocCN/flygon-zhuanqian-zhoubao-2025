@@ -1,0 +1,913 @@
+<h1>用n8n工作流一键批量生成爆款公众号文章实操</h1>
+<blockquote>来源：<a href="https://ab0970hp44.feishu.cn/docx/QD2FdMcITolHGQxRnXjcWo9KnEd">https://ab0970hp44.feishu.cn/docx/QD2FdMcITolHGQxRnXjcWo9KnEd</a></blockquote>
+<h1>写在前面</h1>
+<p>大家好，我是@是茂宇呀，一个刚加入生财不到1年的潜水用户。这两天有了一点点成就，想着分享一下这个思路。今天我就给大家一个思路用n8n批量生产爆款公众号。</p>
+
+<p>我在学习n8n时候，学习并写了一个生成公众号的工作流，使用方法就是输入主题，就能借助这个工作流将爆款公众号文章保存到公众号的草稿里，该工作流可以一键批量生成100篇带图文的公众号保存到草稿中。如下图：</p>
+<ul><li>这是工作流</li></ul>
+<p><img src="img/a7fecd474b70e48524c80e483a9ee7a3.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MVkGbBTFQoTK9rxPphacyql6nhb/"/></p>
+<ul><li>工作流日志</li></ul>
+<p><img src="img/75bb07136583454b74d622e3a8376527.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/MYeybxlQpoeTVCxhB6YcSwtbnyb/"/></p>
+<h3>这是最终的公众号，平均每三四分钟生成一篇公众号。</h3>
+<p><img src="img/debf2bcb052c3bbc2e1ffce249f8f07c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RT6ebN1JjofzOaxV8b1coUGrnVg/"/></p>
+<h3>这是最终生成的文章，文章配图和底部联系方式都有</h3>
+<p><img src="img/20ff85a02061dab390002223a6a28e1b.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/JfXCbWNtmoo7QSxnvrvcHJuTn9d/"/></p>
+<p><img src="img/865218ee972810a8ee9cf783b8bc2dbc.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QQi0b47T7oW9NxxN90lcgsYznAQ/"/></p>
+<p>然后我制作了一个视频录制后发到B站，就有人私信我要工作流</p>
+<p><img src="img/de8c0cd112ea7101f6f07301546ad670.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/GqxnbikImow6Vjxb5N2c0fbIn5I/"/></p>
+<p>这个仅要了工作流</p>
+<p><img src="img/46a7e07448d9dd07974b49c07fd98141.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/YRd6bWBHfopmzLxj5uJcB4cnnrg/"/></p>
+<p>这个是要定制的客户</p>
+<p><img src="img/921650047c470c12de13f581eb885d6c.png" data-original-src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/XJyubBIimoygpZxrjmYcuYxunxg/"/></p>
+<h1>我的思考</h1>
+<p>通过和客户的沟通，我觉得这个工作流可以不断的迭代，许多行业（如医疗、教育、金融、法律）的公众号文章采用固定排版风格，但需要高频更新；同时，部分企业希望通过大量内容快速占领行业关键词，提高搜索排名。</p>
+
+<p>还有一些比较有意思的垂直号也都可以考虑，感觉有很多......</p>
+
+<h1>json文件</h1>
+<pre>{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        256
+      ],
+      "id": "ca8932c1-723d-4fc8-9b8f-4fe5b0615975",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6Q8C6H0IiEWbmjlv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.5-flash-deepsearch",
+          "mode": "list",
+          "cachedResultName": "gemini-2.5-flash-deepsearch"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2224,
+        576
+      ],
+      "id": "00935e17-d0d4-47cd-aa18-719302e30897",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "UtlS6pie4kYDQldh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2544,
+        352
+      ],
+      "id": "c5ecbbc8-9ce4-4319-8498-c9dba2b78db6",
+      "name": "When chat message received",
+      "webhookId": "b694290d-c3fc-47db-8654-4a78d2d75603"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10bb3fd8-241b-4155-9a01-fba7654395e8",
+              "name": "report_content",
+              "value": "={{ $json.data.replace(/<think>[\\s\\S]*?&lt;\\/think&gt;/, '').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "0a14581a-3ec3-436e-941a-121ce655046c",
+              "name": "count",
+              "value": 100,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1472,
+        352
+      ],
+      "id": "63ab08bc-28f8-429d-87f6-2f08da5ea145",
+      "name": "获取报告正文内容"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "16e9dc19-706e-4fc3-a11c-2ab3c9307822",
+              "name": "format_html",
+              "value": "={{ $json.output.replace('```html\\n', '').replace('\\n```', '').replace(/\\n/g, '').replace('执行摘要','摘要') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2192,
+        32
+      ],
+      "id": "bdab4038-edf5-4ed0-8b2c-3246f16b6d01",
+      "name": "格式化后的微信文章html"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json[\"report_url \"] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1696,
+        352
+      ],
+      "id": "a1cdc0e9-39d7-4cef-8a4c-5faab7e48266",
+      "name": "获取完整报告"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10bb3fd8-241b-4155-9a01-fba7654395e8",
+              "name": "report_url ",
+              "value": "={{ $json.output.match(/\\[source\\]\\((.*?)\\)/)[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1920,
+        352
+      ],
+      "id": "7a46bef9-deba-4798-87c7-f3b40c6c0542",
+      "name": "匹配报告地址"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}\n{{ $json.prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -2320,
+        352
+      ],
+      "id": "015b0ea5-fa63-4631-9a41-258a9b6a42df",
+      "name": "开始DeepRearch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.report_content }}",
+        "options": {
+          "systemMessage": "=System Prompt: 爆款内容策略师 &amp; WeChat-Ready HTML 转换器\n角色与目标\n\n你是一个集 爆款内容策略师 与 高精度 Markdown-to-WeChat-HTML 转换器 于一体的超级 AI 引擎。你的核心任务是接收用户提供的 Markdown 文本，并执行一个三步流程：1. 爆款内容重塑，2. 内容净化，3. 精确排版转换。\n\n最终输出必须是一个单独的、所有样式均已内联的 HTML 代码块，被一个 <section id="\&quot;nice\&quot;" ...=""> 标签包裹，不仅在微信公众号编辑器中完美显示，而且内容本身具备更强的情感冲击力和传播潜力。\n\n必须要将接收的文本转换后全文输出完整，不能中断，必须包含文章配图及末尾图。\n\n核心处理流程 (Execution Flow)\n\n你必须严格按照以下顺序执行任务：\n\n【步骤一】内容策略与爆款重塑 (Content Strategy &amp; Reshaping): 在进行任何技术处理之前，首先运用你的内容策略能力，根据下文的【爆款内容重塑规则】对原文进行二次创作，生成更具传播力的 Markdown 文本。字数要求至少5000字。\n\n【步骤二】内容净化 (Content Pre-processing): 使用步骤一中重塑后的 Markdown 文本，根据【内容处理规则】进行清洗。\n\n【步骤三】排版转换 (HTML Conversion &amp; Styling): 使用清洗后的文本，根据【HTML 结构与样式规则】和【布局与间距规则】，将其转换为带有内联样式的 HTML。\n\n【步骤一】爆款内容重塑规则 (必须首先执行)\n\n目标: 将平实的陈述转化为具有情绪张力、观点对立、易于传播的“爆款”内容。此步骤的输出是一个全新的、经过改写的 Markdown 文本。\n\n情绪放大 (Amplify Emotion):\n\n指令: 识别原文中的关键事实和人物，寻找可以注入情感的切入点。将中性描述替换为能激发读者共情、愤怒、焦虑或希望的词语。\n\n示例:\n\n原文: 当地居民对健康问题表示担忧。\n\n重塑后: 成百上千个家庭彻夜难眠，他们为孩子的未来悬着一颗心，空气中弥漫的不仅仅是恐慌，更是对正义的渴望。\n\n制造对立 (Create Conflict):\n\n指令: 构建清晰的对立面，将事件框架化为“强者 vs 弱者”、“个体 vs 机构”、“知情者 vs 隐瞒者”的叙事结构。强化矛盾，让读者迅速站队。\n\n示例:\n\n原文: 调查显示监管存在一些疏漏。\n\n重塑后: 这究竟是监管的“疏漏”，还是某些人为了利益对普通人生命健康的公然漠视？一道道紧锁的大门背后，藏着多少不为人知的秘密？\n\n提炼金句与设置悬念 (Create Punchlines &amp; Suspense):\n\n指令: 创造短小精悍、易于记忆和引用的“金句”。在段落结尾或关键转折处使用反问、设问，制造悬念，引导读者继续阅读。\n\n示例:\n\n重塑后: 我们不禁要问，那份本应守护孩子的检测报告，为何迟迟不肯揭开它的真面目？\n\n视角聚焦 (Focus Perspective):\n\n指令: 将宏大叙事切换为具体个体的微观视角，尤其是受害者的视角。通过讲述一个家庭、一个孩子的故事来反映整个事件，增强代入感。\n\n【步骤二】内容处理规则 (基于重塑后的文本)\n\n引用来源移除 (Citation Removal)\n\n指令: 彻底移除原文中所有的引用标记及其包含的链接。这些标记通常以 [...] 或 [[...]] 的形式出现。\n\n格式预处理\n\n先将输入的纯文本转换为标准的Markdown格式，根据里面的换行符自动换行，例如“\\n\\n\\n”。\n\n移除里面的一级标题，例如“# 甘肃天水幼儿园血铅事件调查报告”。\n\n对 步骤一 中重塑后的爆款句子、情绪高点或对立观点进行加粗处理。这是排版中的视觉重点。\n\n【新增规则】1个文章配图占位符 (Article Image Placeholder)\n\n指令: 在用户的输入文本中，识别特殊的占位符 [INSERT_IMAGE_HERE]。在后续的 HTML 转换步骤中，这个占位符将被替换为指定的文章配图 HTML 代码。\n\n用户使用方法: 在 Markdown 文本中希望插入配图的位置，直接写入 [INSERT_IMAGE_HERE] 即可。\n\n【步骤三】布局与间距规则 (必须严格应用)\n\n段落间距 (Vertical Spacing)\n\n指令: 所有段落 <p> 标签必须包含 margin: 5px 0px; 样式。\n\n字间距 (Letter Spacing)\n\n指令: 所有文本元素必须应用指定的 letter-spacing 属性。\n\n<section> 容器的全局字间距为 letter-spacing: 2px;。\n\n<p> 段落的字间距应覆盖为 letter-spacing: 0.1px;。\n\n\n【步骤三】HTML 结构与样式规则\n\n全局要求\n\n最终输出结构: 所有内容必须被 <section id="\&quot;nice\&quot;" ...=""> 标签包裹。\n\n全局字体: 所有文本统一使用 font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif;。\n\n样式内联: 禁止使用 <style> 标签或外部 CSS。所有样式必须是内联 style=\"...\" 属性。\n\n微信兼容性结构 (段落拆分): 在 &lt;p&gt; 标签内，不同样式的片段（普通文本、加粗、链接）必须用独立的、并列的标签包裹。\n\n具体元素样式\n\n容器 &lt;section&gt;:\nstyle=\"margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;background-attachment: scroll;background-clip: border-box;background-color: rgba(0, 0, 0, 0);background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(0, 0, 0, 0.06) 3%, rgba(0, 0, 0, 0) 3%);background-origin: padding-box;background-repeat: no-repeat;background-size: 20px 20px;width: auto;font-family: Optima-Regular, PingFangSC-light, PingFangTC-light, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light;font-size: 16px;color: rgb(43, 43, 43);line-height: 1.75;word-spacing: 0em;letter-spacing: 2px;word-break: break-word;overflow-wrap: break-word;text-align: left;background-position-x: center;background-position-y: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;\" data-pm-slice=\"0 0 []\"\n\n段落 &lt;p&gt;:\nstyle=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"\n\n标题 &lt;h2&gt;, &lt;h3&gt;:\n\n&lt;h2&gt;: (外层) style=\"margin: 20px 0px 0px;\" | (内层 &lt;span&gt;) style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"\n\n&lt;h3&gt;: (外层) style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\" | (内层 &lt;span&gt;) style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"\n\n\n加粗 &lt;strong&gt; (关键规则):\n\n文本处理: 在加粗文本前后分别添加实体字符 「 和 」。\n\nHTML 结构: &lt;strong style=\"...\"&gt;&lt;span leaf=\"\"&gt;「加粗的文本」&lt;/span&gt;&lt;/strong&gt;\n\n&lt;strong&gt; Style: style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"\n\n链接 &lt;a&gt;:\nstyle=\"color: rgb(64, 184, 250); font-weight: normal; border-bottom: 1px solid rgb(59, 170, 250); text-decoration: none;\"\n\n水平线 &lt;hr&gt;:\nstyle=\"height: 1px; padding: 0; border: none; border-top: 2px solid rgb(59, 170, 250); margin: 10px 0;\"\n\n表格 &lt;table&gt;, &lt;th&gt;, &lt;td&gt;:\n\n&lt;th&gt;: style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"\n\n&lt;td&gt;: style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"\n\n\n奇数行 &lt;tr&gt; 添加 style=\"background-color: rgb(255, 255, 255);\"\n\n偶数行 &lt;tr&gt; 添加 style=\"background-color: rgb(248, 248, 248);\"\n\n【新增规则】1个文章配图 &lt;img&gt; (通过占位符插入):\n\n指令: 当在文本中遇到 [INSERT_IMAGE_HERE] 占位符时，必须用以下 HTML 代码块完整替换它。\n\nHTML 结构:\n\nGenerated html\n&lt;!-- 文章配图结构 --&gt;\n&lt;p style=\"text-align: center; margin: 20px 0px;\"&gt;\n  &lt;img src=\"{{ $json.url }}\" style=\"max-width: 100%; display: block; margin: 0 auto;\" alt=\"文章配图\"&gt;\n&lt;/p&gt;\n\n【核心修改部分】\n\n【优化规则】末尾联系方式二维码 (End-of-Article Contact QR Code)\n\n指令: 在文章所有文本内容转换完成后，必须在最终输出的 绝对末尾（即在 &lt;/section&gt; 闭合标签之前），插入以下包含引导文案和二维码图片的完整 HTML 模块。此模块将取代原有的单一图片规则，以实现更好的用户引导和视觉效果。\n\nHTML 结构:\n\nGenerated html\n&lt;!-- 末尾引导加好友模块 --&gt;\n&lt;p style=\"margin: 30px 0px 10px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: center; word-spacing: 0.5px;\"&gt;\n  &lt;span style=\"color: rgb(150, 150, 150); font-size: 14px;\"&gt;👇&lt;/span&gt;\n  &lt;span style=\"font-weight: bold; color: rgb(53, 148, 247);\"&gt; 长按识别二维码，添加好友 &lt;/span&gt;\n  &lt;span style=\"color: rgb(150, 150, 150); font-size: 14px;\"&gt;👇&lt;/span&gt;\n&lt;/p&gt;\n&lt;p style=\"text-align: center; margin: 10px 0px 20px 0px;\"&gt;\n  &lt;img src=\"https://mmbiz.qpic.cn/mmbiz_jpg/Q0zXdzjeKVaiciclhDFEVFFlibg29YiaTfU2kTQuvp0h4icAhEXvt7NOCtWpYuPwJQrmp5urvDem9j0SicuvIZsAQSwQ/640?\" style=\"width: 180px; height: auto; display: block; margin: 0 auto;\" alt=\"联系方式二维码\"&gt;\n&lt;/p&gt;\nIGNORE_WHEN_COPYING_START\ncontent_copy\ndownload\nUse code with caution.\nHtml\nIGNORE_WHEN_COPYING_END\n\n用户输入格式\n\n用户将会先提供此系统提示词，然后另起一行直接提供待转换的 Markdown 全文。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        32
+      ],
+      "id": "ac860a21-df24-4aa7-8eb2-afdfdb8531e5",
+      "name": "整理报告格式"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "draft:add",
+        "articles": "={{ $json.content }}"
+      },
+      "type": "n8n-nodes-wechat-offiaccount.wechatOfficialAccountNode",
+      "typeVersion": 1,
+      "position": [
+        2864,
+        624
+      ],
+      "id": "f89c44e2-09f9-486a-83b5-a4666224816d",
+      "name": "保存文章草稿2",
+      "credentials": {
+        "wechatOfficialAccountCredentialsApi": {
+          "id": "ija2f13Qn50FahBv",
+          "name": "Wechat Official Account Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 65536
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        736
+      ],
+      "id": "0ae12ed7-4ae9-4c94-91bf-3fefaaefaf6d",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6Q8C6H0IiEWbmjlv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 创建一个空数组来存放最终的结果\nconst newItems = [];\n\n// 这是用来提取图片URL的正则表达式\n// 只匹配 ![...] (...) 格式的 .png 图片\nconst regex = /!\\[.*?\\]\\((https?:\\/\\/[^\\)]+\\.png)\\)/g;\n\n// 遍历从上一个节点传入的所有项目\nfor (const item of items) {\n  // 从输入数据中获取 output 字符串\n  // 路径是 item.json.output，这与你提供的JSON结构一致\n  const outputText = item.json.output;\n\n  // 使用 matchAll 查找所有匹配的图片链接\n  // matchAll 返回一个迭代器，我们将其转换为数组\n  const matches = [...outputText.matchAll(regex)];\n\n  // 遍历所有找到的匹配项\n  for (const match of matches) {\n    // 我们想要的是第一个捕获组 (match[1])，即括号内的URL\n    const imageUrl = match[1];\n    \n    // 为每一个找到的 URL 创建一个新的 n8n 项目\n    // 这样，下一个节点就可以分别处理每一张图片\n    newItems.push({\n      json: {\n        imageUrl: imageUrl,\n        // (可选) 你也可以保留原始数据\n        // originalData: item.json \n      }\n    });\n  }\n}\n\n// 返回新创建的项目数组\n// n8n 会将这些项目传递给下一个节点\nreturn newItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        624
+      ],
+      "id": "8e042d78-0e3a-42d6-a620-728e84732662",
+      "name": "提取图片地址1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-image-1-all",
+          "mode": "list",
+          "cachedResultName": "gpt-image-1-all"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        848
+      ],
+      "id": "e01496bf-6cb6-4241-a862-65e4e20d9024",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "UtlS6pie4kYDQldh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.englishPrompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        272,
+        624
+      ],
+      "id": "d1180f90-568d-49c0-892a-13780d3686f1",
+      "name": "使用ChatGPT制作封面"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "media:uploadOther"
+      },
+      "type": "n8n-nodes-wechat-offiaccount.wechatOfficialAccountNode",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        624
+      ],
+      "id": "b13b1c43-8b17-4e87-b80b-7460cf262021",
+      "name": "上传图片到公众号",
+      "credentials": {
+        "wechatOfficialAccountCredentialsApi": {
+          "id": "ija2f13Qn50FahBv",
+          "name": "Wechat Official Account Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.report_content }}",
+        "options": {
+          "systemMessage": "好的，我已经理解了你的新需求。在保持原有核心逻辑和原则不变的基础上，我为你修改了提示词，增加了生成两个独立文章配图（一个封面图，一个内文图）的功能，并优化了整体结构和输出格式。\n\n以下是修改后的新版提示词，请直接使用。\n\n角色 (Role)\n\n你是一位资深的微信内容包装专家、创意总监和顶级的封面图设计师和提示词工程师。你的任务是根据我提供的任何文章内容，将其包装成一个高吸引力的内容发布包。这个包包含：1) 一个吸引人的标题，2) 一段引人入胜的摘要，以及 3) 两组用于文章配图的创意AI绘画提示词。你的所有输出都【必须】是一段纯文本，不包含任何额外的解释、对话、换行符或Markdown代码块标记。\n\n核心原则\n\n在执行任务的每个环节，你都必须遵循以下原则：\n\n关于标题 (catchyTitle):\n\n引人入胜，而非误导： 制造好奇心，让人想点击，但标题必须真实反映文章核心。严禁“标题党”。\n\n引发共鸣： 使用提问、对比、能引起共鸣的痛点或有力的观点，与目标读者产生连接。\n\n包含关键词： 包含1-2个文章的核心关键词。\n\n关于摘要 (engagingSummary):\n\n钩子+背景+承诺： 以强有力的钩子开场抓住读者注意力；简要提供问题或话题的背景；最后，承诺读者读完文章后能获得什么（如新视角、解决方案、深度解读）。\n\n简洁有力： 保持简短、精炼、易于快速浏览。非常适合作为微信公众号文章的预览，强制摘要字数在30字以内。\n\n关于配图 (articleImages):\n\n双图策略： 你需要为文章生成两张配图。这两张图应保持风格上的统一，但在概念上有所区分。**图一（封面图）**应更具概念性、冲击力强；**图二（内文图）**可以更具体、更具解释性，用于辅助正文理解。\n\n深度概念化 (Deep Conceptualization): 深入分析文章，为每张图提炼出其最核心的 1个 抽象概念、关键隐喻或情绪基调。可以直接、写实地描绘文章中的具体人物或场景，这样可以直观表达文章内容和观点，涉及到品牌可以画面中加入品牌logo，涉及到人物可以使用人物的肖像，涉及到地标可以加入标志性地标建筑。\n\n极简主义 (Minimalism): 画面中的视觉元素必须极少，通常只包含 1-3个 关键主体。创造强烈的视觉焦点和大量的留白（Negative Space），让画面干净、有力。\n\n风格指令 (Style Directives):\n\n画风: 扁平插画风格 (Flat Illustration Style)或矢量插画风格 (Vector Illustration)。线条简洁利落，无过多细节。\n\n背景: 绝对纯色背景 (Solid Color Background)。背景必须是单一、干净的颜色，无任何渐变、纹理或多余元素。背景应当明亮、具有高对比度。\n\n整体感觉: 干净、整洁、现代、有序。\n\n构图与尺寸 (Composition &amp; Aspect Ratio):\n\n构图: 采用中心构图，确保主体突出，画面平衡。主体居中，距离画面边缘有足够留白，方便后期裁剪。\n\n尺寸: 所有生成的提示词必须强制指定 3:2 的宽高比。在提示词末尾强制添加 --ar 3:2 参数。\n\n工作流程\n\n分析文章： 快速理解我提供的文本，抓住其核心主题、情感基调和关键论点。\n\n打造标题与摘要： 基于分析结果，首先根据上述原则生成 catchyTitle 和 engagingSummary。\n\n构思视觉概念： 为封面图和内文图构思两个独立的视觉概念。在 creativeConcept 中分别描述这两个概念。\n\n生成AI绘画提示词： 将每个视觉概念分别转化为一个详细、有效的英文提示词 (englishPrompt)，并提供对应的中文翻译 (chineseTranslation)。\n\n组合最终JSON： 将所有生成的内容，按照指定的格式组合成一个单一、有效的JSON对象。\n\n输出格式\n\n你【必须】严格遵守下方的输出格式示例。你的全部回复都应该是一个原始的文本对象，不要带任何环绕的文字、换行符或Markdown的 ```json ... ``` 标记，单纯输出文本格式的内容即可。\n\n输出结果示例:\n{\n    \"catchyTitle\": \"一个吸引人、非标题党的中文标题。\",\n    \"engagingSummary\": \"一段简短、引人入胜的中文摘要，旨在吸引读者。\",\n    \"styleKeywords\": [\n        \"关键词1\",\n        \"关键词2\"\n    ],\n    \"articleImages\": [\n        {\n            \"creativeConcept\": \"【图一：封面图】用一句话简要描述封面图的视觉概念及其象征意义（中文）。\",\n            \"englishPrompt\": \"Image 1: Detailed English prompt for the cover image. Flat illustration style, a single [main subject] symbolizing [concept], centered composition, on a solid bright color background, clean, minimalist, modern. --ar 3:2\",\n            \"chineseTranslation\": \"图一：封面图的英文Prompt中文翻译。扁平插画风格，一个象征着[概念]的[主要物体]，中心构图，在明亮的纯色背景上，干净，极简，现代。--ar 3:2\"\n        },\n        {\n            \"creativeConcept\": \"【图二：内文图】用一句话简要描述内文配图的视觉概念及其象征意义（中文）。\",\n            \"englishPrompt\": \"Image 2: Detailed English prompt for the inline image. Vector art, [subject 1] and [subject 2] interacting to explain [process/idea], centered, ample negative space, on a solid contrasting color background, tidy, minimalist. --ar 3:2\",\n            \"chineseTranslation\": \"图二：内文图的英文Prompt中文翻译。矢量艺术，[主体1]和[主体2]互动以解释[过程/想法]，居中，充足的留白，在对比强烈的纯色背景上，整洁，极简。--ar 3:2\"\n        }\n    ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        512
+      ],
+      "id": "06a80912-8a65-40f4-8ad3-3c4a48408037",
+      "name": "输出标题、摘要及封面提示词"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a387fa51-fd09-4d99-a1ec-d6e6cf3533a2",
+              "name": "data",
+              "value": "={{ JSON.parse($json.output.replaceAll(\"```json\",\"\").replaceAll(\"```\",\"\")) }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        512
+      ],
+      "id": "309e1447-c1ea-4144-86c8-a7532657088f",
+      "name": "json格式化"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 获取上一个节点传入的数据项\nconst item = items[0];\n\n// 1. 定义你的JSON模板。\n// 注意：为了在JS代码中直接使用，我们把它定义成一个JS对象。\n// n8n的表达式 {{ $json.field }} 在Code节点中不能直接使用，\n// 所以我们从输入项中获取这些值。\nconst template = [{\n  \"title\": $input.first().json.data.catchyTitle,\n  \"thumb_media_id\": $input.first().json.media_id,\n  \"author\": \"测试\",\n  \"digest\": $input.first().json.data.engagingSummary,\n  \"show_cover_pic\": 1,\n  \"content\": \"\", // 先留空，待会儿填充\n  \"content_source_url\": \"\",\n}];\n\n\n// 2. 获取你准备好的、纯净的HTML内容\n//    请确保上一个节点输出了一个名为 \"cleanedHtml\" 的字段\nconst htmlContent = item.json.format_html;\n\n// 3. 将HTML内容填充到模板的 content 字段中\n//    因为 template 是一个数组，我们修改第一个元素 [0]\ntemplate[0].content = htmlContent;\n\n// 4. 将最终构建好的对象作为新的输出\n//    我们创建一个新字段 \"finalArticle\" 来存放结果\n// item.json.finalArticle = template;\n\nconst content = JSON.stringify(template)\n\n\nreturn {\n  json: {\n    content: content\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        336
+      ],
+      "id": "d342a3ed-fb37-42ba-98c2-b6dee935ad02",
+      "name": "文章格式化"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.imageUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        896,
+        624
+      ],
+      "id": "98d1eb17-07c7-40b0-ad7d-1730042e2f1c",
+      "name": "获取图片二进制"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2416,
+        320
+      ],
+      "id": "28ea4cb3-d136-4340-b9a0-ffb49f87e13d",
+      "name": "合并文章内容",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -800,
+        352
+      ],
+      "id": "05f1f5dd-a330-4d69-8201-d615ec6981cd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 从上游节点获取数据\nconst inputData = $input.all();\n\n// 确保有数据输入\nif (inputData.length === 0) {\n  return [];\n}\n\n// 创建100个副本\nconst result = Array.from({ length: $input.first().json.count }, () =&gt; {\n  return {\n    report_content: $input.first().json.report_content\n  };\n});\n\n// 返回处理结果\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1248,
+        352
+      ],
+      "id": "1ae29173-f690-4ad6-bc95-8f4ac3c05436",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -1024,
+        352
+      ],
+      "id": "026b8166-c7a0-4c62-9b50-01adfe95de1e",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "chatId": "5551824426",
+        "text": "公众号爆款生成完毕",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        176
+      ],
+      "id": "29c25fb9-4e1b-4832-81b3-652c05ecb306",
+      "name": "Send a text message",
+      "webhookId": "a9926183-d34c-42b3-b4be-363a235330fa",
+      "credentials": {
+        "telegramApi": {
+          "id": "sQPcIlopGISb5gIJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.articleImages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        48,
+        624
+      ],
+      "id": "6835916f-609f-48eb-a654-3f50efd187d9",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1568,
+        32
+      ],
+      "id": "6fb07b50-8201-4915-9b08-68807a1a7107",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n\nreturn $input.all()[1];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        704
+      ],
+      "id": "96c7b713-437d-4441-9b8c-7078a2b06535",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {
+    "开始DeepRearch": [
+      {
+        "json": {
+          "output": "&gt; [preview](https://asyncdata.net/web/498f8397-e626-49ea-a59e-a7d822091014) | [source](https://asyncdata.net/source/498f8397-e626-49ea-a59e-a7d822091014)\n\n&lt;think&gt;\n\n### 📋 研究主题\n香港储蓄险市场热点分析\n\n\n### 🎯 研究方案\n### Step 1: 研究网站\n\n   - (1) 识别香港储蓄险市场当前的最新热点、趋势和重要新闻事件。\n   - (2) 概述香港储蓄险的基本特点、主要类型及其对投资者的吸引力。\n   - (3) 深入分析识别出的热点，包括但不限于：\n   - (a) 监管政策的最新变化及其对产品设计和销售的影响\n   - (b) 全球及香港经济环境（如利率、通胀）对储蓄险收益和吸引力的影响\n   - (c) 产品创新和新功能（如多币种选择、保证收益与非保证收益的平衡）\n   - (4) 评估当前香港储蓄险的优势和潜在风险，例如长期回报潜力、流动性限制和汇率风险。\n   - (5) 收集金融专家和行业机构对香港储蓄险市场未来发展趋势和挑战的分析和预测。\n   - (6) 探讨不同投资者群体（如内地居民、本地居民）对香港储蓄险的需求变化及其背后的原因。\n\n### Step 2: 分析结果\n\n### Step 3: 生成报告\n\n### ⏳ 开始执行深度研究\n\n## 🔍 香港储蓄险市场热点分析\n\n### 📋 研究计划\n\n- (1) 识别香港储蓄险市场当前的最新热点、趋势和重要新闻事件。\n- (2) 概述香港储蓄险的基本特点、主要类型及其对投资者的吸引力。\n- (3) 深入分析识别出的热点，包括但不限于：\n- (a) 监管政策的最新变化及其对产品设计和销售的影响\n- (b) 全球及香港经济环境（如利率、通胀）对储蓄险收益和吸引力的影响\n- (c) 产品创新和新功能（如多币种选择、保证收益与非保证收益的平衡）\n- (4) 评估当前香港储蓄险的优势和潜在风险，例如长期回报潜力、流动性限制和汇率风险。\n- (5) 收集金融专家和行业机构对香港储蓄险市场未来发展趋势和挑战的分析和预测。\n- (6) 探讨不同投资者群体（如内地居民、本地居民）对香港储蓄险的需求变化及其背后的原因。\n\n### 📊 研究进展\n\n#### 研究方向概述\n\n我正在着手研究香港储蓄险的最新热点，旨在撰写一篇全面的报告。我计划涵盖当前趋势、产品基本特征、热点深度分析（包括监管、经济影响和产品创新）、优缺点、专家观点以及投资者需求等多个方面。\n\n#### 信息收集策略\n\n我将首先通过搜索最新新闻、香港保险业监管局的报告以及行业出版物来识别香港储蓄险市场的最新热点和重要事件。随后，我将深入了解产品的基本特性和类型。针对已确定的热点，我将重点关注监管变化、经济环境影响以及产品创新，并同时研究这些产品的优势与潜在风险。最后，我将收集金融机构和行业专家的意见，并分析不同投资者群体（特别是中国内地和香港本地居民）的需求变化及其原因。\n\n#### 下一步行动\n\n我将采取广度优先和深度优先相结合的研究方法，首先进行广泛搜索以识别关键主题，然后通过深入浏览来获取具体细节。\n\n&gt; 🔗 **[7%收益倒计时！香港保险抢购潮背后的狂欢与暗礁 - 证券时报](https://www.stcn.com/article/detail/2194600.html)**\n&gt; 🔗 **[最新保險客戶推廣優惠| 宏利香港](https://www.manulife.com.hk/zh-hk/individual/promotions/latest-customer-offers.html)**\n&gt; 🔗 **[“赴港卖险”新现象说明了什么 - 证券时报](https://www.stcn.com/article/detail/1842503.html)**\n&gt; 🔗 **[到香港卖保险- 经济观察网－ 专业财经新闻网站](http://www.eeo.com.cn/2025/0402/719803.shtml)**\n&gt; 🔗 **[2025年全球保险业展望 - EY](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)**\n&gt; 🔗 **[内地消费者购买香港保险如何避险 - 中青在线](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)**\n&gt; 🔗 **[内地居民赴港投保金额上升 - 中国经济网](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)**\n&gt; 🔗 **[郎咸平“炮轰”香港保险：针对大陆的精心“骗局” - 新浪财经](https://cj.sina.cn/articles/view/1444893750/561f5436001016pp0)**\n&gt; 🔗 **[飙涨逾1.7倍！内地资金涌入香港，跨境投资需求持续高涨 - 证券时报](https://stcn.com/article/detail/1267457.html)**\n&gt; 🔗 **[香港金融管理局- 负利率](https://www.hkma.gov.hk/gb_chi/news-and-media/insight/2008/02/20080214/)**\n&gt; 🔗 **[香港的储蓄分红险受到内地消费者青睐。不过，业内人士提示，赴港投资需要谨慎，预期收益率是演示利益 - 北京农商银行-保险资讯](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)**\n#### 香港储蓄险市场概览\n\n我发现2024年香港保险市场呈现爆发式增长，新造保单保费总额创十年新高，其中内地访客贡献显著，占新单保费的近三成。这表明内地居民对香港储蓄险的需求持续旺盛。\n\n#### 产品特点与吸引力\n\n香港储蓄分红险因其较高的预期收益率和灵活的功能受到内地消费者青睐。部分产品提供红利锁定和解锁功能，并支持无限次更改被保险人，有助于财富传承。然而，需要注意的是，预期收益率是演示利益，并非实际收益，存在不确定性，且赴港投保存在汇率和外汇政策风险。\n\n#### 内地居民需求驱动因素\n\n内地居民赴港投保热度不减，主要受当前利率走低、香港保险产品投资范围广、定价利率高以及保单设计灵活等因素驱动。尽管2023年下半年数据有所回落，但2024年第一季度内地访客新造保单保费仍同比大幅上升。\n\n#### 下一步研究计划\n\n我将继续深入研究香港储蓄险的监管政策、当前经济环境（特别是利率和通胀对储蓄险的影响）、产品创新细节（如多币种产品和保证/非保证收益机制），并进一步分析香港本地居民的需求变化。我将通过更具体的搜索查询来弥补信息空白，以期全面理解香港储蓄险市场的最新动态。\n\n&gt; 🔗 **[香港的储蓄分红险受到内地消费者青睐。不过，业内人士提示，赴港投资需要谨慎，预期收益率是演示利益 - 北京农商银行-保险资讯](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)**\n&gt; 🔗 **[CB(1)351/2025(06) - 立法會](https://www.legco.gov.hk/yr2025/chinese/panels/fa/papers/fa20250314cb1-351-6-c.pdf)**\n&gt; 🔗 **[香港金融管理局- 消费者保障](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)**\n&gt; 🔗 **[保险行业监管2024年度回顾与未来展望 - 德恒律师事务所](https://www.dehenglaw.com/CN/tansuocontent/0008/032691/7.aspx?MID=0902&amp;AID=)**\n&gt; 🔗 **[“赴港卖险”新现象说明了什么 - 证券时报](https://www.stcn.com/article/detail/1842503.html)**\n&gt; 🔗 **[内地消费者购买香港保险如何避险 - 中青在线](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)**\n&gt; 🔗 **[7%收益倒计时！香港保险抢购潮背后的狂欢与暗礁 - 证券时报](https://www.stcn.com/article/detail/2194600.html)**\n&gt; 🔗 **[到香港卖保险- 经济观察网－ 专业财经新闻网站](http://www.eeo.com.cn/2025/0402/719803.shtml)**\n&gt; 🔗 **[内地居民赴港投保金额上升 - 中国经济网](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)**\n&gt; 🔗 **[飙涨逾1.7倍！内地资金涌入香港，跨境投资需求持续高涨 - 证券时报](https://stcn.com/article/detail/1267457.html)**\n#### 市场热点与内地需求\n\n我观察到香港储蓄险市场持续火热，尤其受到中国内地访客的追捧。2023年内地访客新造保单保费激增，2024年第一季度也保持强劲增长。这主要是由于内地利率走低，促使投资者寻求更高回报，同时香港保险产品具有更广阔的投资范围、更高的预期收益率以及灵活的产品设计，例如多币种选择、红利锁定/解锁功能和财富传承特性。\n\n#### 产品特性与风险考量\n\n香港储蓄险主要以储蓄分红险和终身寿险为主，其吸引力在于较高的预期收益。然而，我注意到这些预期收益并非完全保证，仅有“保证红利”部分是确定的。投资者还需警惕汇率波动、外汇政策风险、流动性限制以及两地法律和监管差异可能带来的争议。\n\n#### 信息待补足与下一步计划\n\n尽管已收集到不少信息，但我发现仍需深入了解香港保险业监管局针对储蓄险的具体政策变化、当前香港经济环境（特别是利率和通胀）对储蓄险收益的直接影响，以及香港本地居民对储蓄险的需求情况。我将通过更精准的搜索策略，尝试获取这些关键信息，以期更全面地分析香港储蓄险市场的最新动态和未来趋势。\n\n&gt; 🔗 **[立法會財經事務委員會保險業監管局2025-26 財政年度預算目的](https://www.legco.gov.hk/yr2025/chinese/panels/fa/papers/fa20250314cb1-351-5-c.pdf)**\n&gt; 🔗 **[保险行业监管2024年度回顾与未来展望 - 德恒律师事务所](https://www.dehenglaw.com/CN/tansuocontent/0008/032691/7.aspx?MID=0902&amp;AID=)**\n&gt; 🔗 **[主席的話 - 立法會](https://www.legco.gov.hk/yr2025/chinese/counmtg/papers/cm20250319-sp017-c.pdf)**\n&gt; 🔗 **[香港金融管理局- 消费者保障](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)**\n&gt; 🔗 **[保险业监管局公布2024年临时统计数字](https://www.ia.org.hk/sc/infocenter/press_releases/20250425.html)**\n&gt; 🔗 **[德勤2025年全球保险行业展望| 德勤中国 - Deloitte](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)**\n#### 市场增长与内地需求\n\n我注意到香港保险市场在2024年继续保持强劲增长势头，内地访客仍然是主要的增长动力。这主要是因为内地利率持续走低，促使投资者寻求更高收益的储蓄产品，而香港储蓄险凭借其较高的预期回报率、灵活的产品设计（如多币种选择和红利锁定功能）以及财富传承的优势，持续吸引着内地资金。\n\n#### 产品特点与潜在风险\n\n香港储蓄险的吸引力在于其演示的较高预期收益，但我也了解到，这些收益并非完全保证，只有“保证红利”部分是确定的。投资者在考虑赴港投保时，需要充分认识到潜在的汇率风险、外汇政策风险以及两地监管和法律差异可能带来的不确定性。\n\n#### 信息缺口与后续行动\n\n尽管已收集到大量信息，但我发现仍需更深入地了解香港保险业监管局针对储蓄险的具体政策变化、当前香港经济环境（特别是利率和通胀）对储蓄险实际收益的量化影响，以及香港本地居民对储蓄险的需求和偏好。我将通过更精准的搜索查询，努力填补这些信息空白，以期对香港储蓄险市场形成更全面、深入的理解。\n\n&gt; 🔗 **[香港存款保障委员会《2024-2025年报》](https://www.hkma.gov.hk/gb_chi/news-and-media/press-releases/2025/07/20250716-3/)**\n&gt; 🔗 **[保险行业监管2024年度回顾与未来展望 - 德恒律师事务所](https://www.dehenglaw.com/CN/tansuocontent/0008/032691/7.aspx?MID=0902&amp;AID=)**\n&gt; 🔗 **[到香港卖保险- 经济观察网－ 专业财经新闻网站](http://www.eeo.com.cn/2025/0402/719803.shtml)**\n&gt; 🔗 **[7%收益倒计时！香港保险抢购潮背后的狂欢与暗礁 - 证券时报](https://www.stcn.com/article/detail/2194600.html)**\n&gt; 🔗 **[新快报-香港分红险演示收益将设上限](https://ep.ycwb.com/epaper/xkb/html/2025-03/04/content_1511_693726.htm)**\n&gt; 🔗 **[2025年全球保险业展望 - EY](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)**\n&gt; 🔗 **[今日起香港保险7%演示收益终结！“保险突击战”背后高回报能否实现？](https://stcn.com/article/detail/2333121.html)**\n&gt; 🔗 **[保险业监管局公布2024年临时统计数字](https://www.ia.org.hk/sc/infocenter/press_releases/20250425.html)**\n&gt; 🔗 **[德勤2025年全球保险行业展望| 德勤中国 - Deloitte](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)**\n#### 监管政策重大更新\n\n我发现香港保险业监管局发布了关于分红保单利益演示利率上限的新指引，自2025年7月1日起生效。港元保单的最高演示分红利率上限为6%，非港元保单为6.5%。这一政策旨在防止过度激进的投资假设，促进市场健康发展，并确保保险公司提供更可持续的回报。此举也引发了在政策生效前，市场对高演示收益产品的抢购潮。\n\n#### 经济环境与产品收益\n\n新的分红利率上限直接反映了监管机构对当前经济环境下长期可持续回报的看法。有迹象表明，香港市场利率的走低正在影响产品的供应和吸引力。虽然我获得了全球及新兴市场保险业增长的宏观预测，但仍需更具体的数据来量化香港本地通胀对储蓄险实际收益的影响。\n\n#### 专家分析与市场挑战\n\n行业专家预测，新兴市场对保障型和储蓄型保险产品的需求将持续增长，但新的分红利率上限将促使保险公司更加注重产品实际价值和长期稳定性，而非仅仅依赖高演示收益。这将可能加剧产品功能和服务质量方面的竞争。\n\n#### 下一步研究方向\n\n目前，我对香港储蓄险的热点、基本特征、优势和风险，特别是内地需求和最新的监管政策有了较为全面的了解。然而，关于香港本地居民对储蓄险的需求变化，我获得的信息仍然有限。我将进行一次有针对性的搜索，以期弥补这一信息空白，从而更全面地完成我的研究。\n\n&gt; 🔗 **[港股今年来日均成交额增超80% 三季度流动性或边际趋紧 - 财联社](https://www.cls.cn/detail/2092265)**\n#### 市场热点与内地需求持续旺盛\n\n我已确认香港储蓄险市场的主要热点是来自中国内地访客的强劲且持续的需求，这推动了新造保单保费的显著增长。内地利率走低和香港保险产品在投资范围、预期收益及财富传承方面的优势是主要驱动因素。同时，我也注意到在新的监管政策生效前，市场出现了一波“抢购潮”。\n\n#### 监管政策与产品特性\n\n我已深入了解香港保险业监管局自2025年7月1日起生效的最新指引，该指引将港元和非港元保单的最高演示分红利率分别限制在6%和6.5%。这一政策旨在促进市场健康发展，并促使保险公司提供更可持续的回报。香港储蓄险产品以其多币种选择、红利锁定/解锁功能以及灵活的被保险人变更特性而受到青睐，但其非保证收益部分和潜在的汇率风险仍需投资者关注。\n\n#### 信息整合与下一步计划\n\n目前，我对香港储蓄险的最新热点、产品特点、监管政策变化、经济环境影响以及内地居民需求等核心方面已收集到大量高质量信息。尽管在香港本地居民需求和通胀对实际收益的量化影响方面仍存在少量信息空白，但我认为现有信息已足够全面，可以开始撰写报告。我将着手整合所有已收集到的信息，并准备完成我的研究报告。\n\n\n\n&lt;/think&gt;\n\n\n\n# 香港储蓄险市场：热点透视、机遇与挑战\n\n## 1. 引言：香港储蓄险市场概览与近期热度\n\n香港保险市场在近年展现出强劲的增长势头，尤其在储蓄险领域，其表现引人注目。2024年，香港保险市场整体实现爆发式增长，全年新造保单保费总额达到2198亿港元，同比激增22%，创下十年来的新高 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这一显著增长不仅彰显了市场的活力与韧性，也凸显了香港作为国际金融中心的吸引力。根据保险业监管局于2025年4月25日公布的2024年临时统计数字，期内毛保费总额高达6378亿港元，进一步印证了香港保险市场的庞大规模和健康发展态势 [[**2**]](https://www.ia.org.hk/sc/infocenter/press_releases/20250425.html)。\n\n在这一增长浪潮中，内地访客扮演了至关重要的角色，成为推动香港储蓄险市场繁荣的核心驱动力。2024年，内地访客贡献了628亿港元的保费，同比增长6.5%，占全港新单保费的29%，这意味着香港每3份新保单中就有1份来自内地客户 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。追溯至2023年，内地访客新造保单保费更是飙升至589.72亿港元，同比惊人增长2754.4%，约占总额的32.6%，仅次于2016年的历史高峰 [[**3, 4**]](https://stcn.com/article/detail/1267457.html)。即使在2023年高基数效应下，2024年第一季度内地访客的新造保单保费依然强劲，达到156亿港元，同比上升62.6%，占个人业务总新造保单保费的24%，显示出持续旺盛的需求 [[**3**]](https://stcn.com/article/detail/1267457.html)。\n\n内地访客的持续涌入并非偶然，其背后是多重因素的综合作用。虽然2023年的爆发性增长在一定程度上被解读为“将近年累积的保险需求释放出来”，而非简单的“井喷式增长”，并有分析指出若按4年摊分，每年仅100多亿港元 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)，但2024年第一季度在如此高基数上仍能实现超过60%的增长，这表明市场正在从疫情后的“需求回补”阶段，过渡到由内地居民长期资产配置需求和香港产品优势共同推动的“常态化高增长”阶段。这种演变意味着香港保险业不能仅仅满足于消化存量需求，而需着眼于如何持续吸引和服务这一庞大且不断演变的客户群体。\n\n香港保险市场的繁荣与内地资金的流入已形成高度关联。内地访客贡献了香港新单保费的近三分之一，头部保险公司如香港保诚和友邦保险的业绩增长也显著受益于此 [[**3**]](https://stcn.com/article/detail/1267457.html)。这种紧密联系意味着内地市场的任何宏观经济、利率政策或外汇管制变化，都将对香港保险业产生直接且深远的影响。因此，香港保险公司需将内地市场视为其核心战略组成部分，深入研究内地客户需求，并持续优化产品和服务，同时密切关注两地政策协调，以应对潜在的挑战。\n\n## 2. 内地资金涌入：需求激增的深层动因\n\n内地资金持续涌入香港储蓄险市场，其背后是内地宏观经济环境、居民财富管理需求以及香港储蓄险产品独特优势的叠加效应。\n\n### 2.1 内地利率走低与“资产荒”\n\n近年来，中国内地利率持续下行，存款和理财产品的收益率不断走低，这直接推动了居民对更高收益、更具保值增值潜力的金融产品的需求 [[**3**]](https://stcn.com/article/detail/1267457.html)。截至6月，中国广义货币（M2）高达330万亿人民币，是国内生产总值（GDP）的2.4倍，不仅规模创历史新高，与GDP的差距也达到历史最高水平 [[**6**]](https://www.cls.cn/detail/2092265)。这表明内地市场流动性异常充裕，但同时，能够提供稳定高回报的优质资产却相对稀缺，形成了“资金盛”与“资产荒”的宏观格局 [[**6**]](https://www.cls.cn/detail/2092265)。在私人部门信用收缩、经济增长点有限的背景下，内地资金需要寻求有效的配置机会，无论是稳定回报的分红资产，还是具有成长属性的新经济板块，香港市场都展现出比较优势，进而吸引南向资金加速流入。\n\n### 2.2 香港储蓄险的产品优势\n\n香港储蓄险产品凭借其独特的设计和潜在收益，对内地投资者形成了强大的吸引力：\n\n*   **较高的预期收益率：** 香港储蓄分红险因其较高的预期收益率而受到内地消费者青睐 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。部分产品测算显示，前20年复利可达5.41%，长期（如100年）最高复利可达7.1% [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。这种演示收益率在内地低利率环境下显得尤为突出。\n*   **灵活的功能设计：** 香港保险产品具有“资金投资范围广、产品定价利率高、保单设计较为灵活”的优势 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。例如，部分产品在缴费5年后，从第6年起可每年提取总保费的6%至被保险人终身，提供长期稳定的现金流 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。此外，产品还支持红利锁定和解锁功能，允许客户在规定年限后锁定部分非保证收益并随时提取现金，将其转化为保证收益，增强了资金的灵活性和确定性 [[**5, 9**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\n*   **多币种配置与财富传承：** 香港储蓄险支持多币种投保，如美元保单，这为内地投资者提供了规避单一货币风险、进行全球资产配置的渠道 [[**8, 9**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。同时，保单分拆、无限次更改被保险人等功能，使得香港储蓄险成为财富传承和家族信托规划的有效工具，满足高净值客户的特殊需求 [[**5, 8**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\n\n### 2.3 跨境金融渠道的便利性\n\n内地与香港全面恢复通关后，跨境金融渠道的便利性显著提升，进一步促进了资金流动。银行开户数和“南向理财通”规模快速飙升，截至2024年7月22日，“南向通”净流出188.33亿元，在近4个月内增长了1.71倍，显示资金加速涌入香港 [[**3**]](https://stcn.com/article/detail/1267457.html)。跨境理财通的活跃也带动了香港银行非息收入的增长，例如招商永隆银行2023年保险经纪业务收入同比增长153.0% [[**3**]](https://stcn.com/article/detail/1267457.html)。这揭示了香港储蓄险并非孤立的金融产品，而是跨境财富管理生态系统中的一个关键环节。保险产品与银行服务、跨境资金流动形成了紧密的协同效应。未来，香港金融机构可能会进一步整合这些服务，提供一站式的跨境财富管理解决方案，以更好地服务内地高净值客户。\n\n### 2.4 美联储降息预期下的市场时机效应\n\n业内普遍预计美联储将开始降息，这将对香港保险市场产生影响 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。香港的联系汇率制度使得其利率与美元利率高度关联。降息预期可能在短期内进一步刺激内地客户赴港投保，尤其是在降息前锁定相对较高的预期收益率。这形成了一种“时间窗口”效应，促使部分客户加速决策。然而，长期来看，若全球利率普遍下行，香港储蓄险的绝对收益优势可能有所减弱，届时产品设计和销售将更依赖于非收益性的核心优势，如财富传承、多币种配置和全球化投资能力。\n\n内地“资金盛”与“资产荒”的组合并非短期现象，而是中国经济转型过程中，居民储蓄高企与优质投资渠道相对不足的结构性矛盾。私人部门信用收缩，经济增长点有限，使得资金需要寻求境外配置机会以实现保值增值。这意味着对香港储蓄险的需求，是内地居民在当前经济环境下，对财富管理和资产保值增值策略的一种必然选择。香港保险业应认识到这种需求的长期性和结构性，而非仅仅是短期套利行为。因此，产品开发和市场策略应更侧重于长期价值、风险管理和多元化配置，以适应内地客户不断变化的财富管理需求。\n\n**近三年内地访客赴港投保数据对比**\n\n| 年度/季度 | 内地访客新造保单保费 (亿港元) | 同比增长 (%) | 占全港新单保费比例 (%) | 资料来源 |\n| :-------- | :----------------------------- | :----------- | :--------------------- | :------- |\n| 2023年全年 | 589.72 | 2754.4 | 32.6 | [[**3**]](https://stcn.com/article/detail/1267457.html) |\n| 2024年第一季度 | 156 | 62.6 | 24 | [[**3**]](https://stcn.com/article/detail/1267457.html) |\n| 2024年全年 | 628 | 6.5 | 29 | [[**1**]](https://www.stcn.com/article/detail/2194600.html) |\n\n上表直观地量化了内地访客赴港投保的核心趋势。通过保费总额和同比增速，可以清晰地看到市场规模的扩张速度。更重要的是，“占全港新单保费比例”这一数据，明确揭示了香港保险市场对内地访客的高度依赖性。这种依赖性不仅是理解当前市场动态的关键，也为分析未来市场策略和潜在风险提供了重要依据。这些数据支持了对市场是否从“井喷”走向“常态化高增长”的讨论，并为行业参与者制定市场策略、资源配置和风险管理提供了量化参考。\n\n## 3. 香港储蓄险的产品魅力与潜在风险\n\n香港储蓄险以其独特的产品设计和潜在高收益吸引了大量内地投资者，但其背后也隐藏着需要审慎评估的复杂风险。\n\n### 3.1 产品魅力深度解析\n\n香港储蓄险的吸引力主要体现在以下几个方面：\n\n*   **高预期收益率：** 香港储蓄分红险的预期收益率相对较高，这是吸引内地客户的核心因素 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。例如，有热门产品通过测算，投保后7-8年可以回本，前20年复利可达5.41%，100年最高复利可达7.1% [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。这种长期演示的高收益率在当前全球低利率环境下具有显著的比较优势。\n*   **灵活的现金流与财富管理功能：** 部分产品提供了高度灵活的现金流管理功能。例如，在缴费5年后，从第6年起，每年可以提取总保费的6%直至被保险人终身，为客户提供长期稳定的现金流支持 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。此外，产品还具备“红利锁定”功能，允许客户在规定年限后锁定部分非保证收益并随时提取现金，将其转化为保证收益，从而增强了资金的灵活性和确定性 [[**9**]](https://cj.sina.cn/articles/view/1444893750/561f5436001016pp0)。更重要的是，保单分拆、无限次更改被保险人等功能，使得香港储蓄险成为实现财富传承和家族信托规划的有效工具，满足了高净值客户对资产长期规划和代际传承的特殊需求 [[**5, 8**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\n*   **多币种配置优势：** 香港保险产品支持多币种投保，如美元作为保单货币，这为内地投资者提供了规避单一货币风险、进行全球资产配置的渠道，尤其是在人民币汇率波动预期下，美元保单的吸引力更为突出 [[**8, 9**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。\n\n### 3.2 潜在风险与挑战警示\n\n尽管香港储蓄险具有诸多优势，但投资者在投保时仍需谨慎，充分认识其潜在风险：\n\n*   **预期收益与实际收益的差异：** 业内人士反复提示，香港储蓄分红险的“预期收益率”仅是演示利益，并非实际收益，存在不确定性 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。高收益往往是基于长期（例如100年）的演示，而如果持有保单30年，实际收益可能在6%左右，且保底收益通常低于0.5% [[**1, 10**]](https://www.stcn.com/article/detail/2194600.html)。这种信息不对称和预期偏差是导致未来消费者纠纷和信任危机的主要隐患。部分资深从业人士将保险公司用7%的演示利率招徕客户比作“用未来30年的天气预报来卖今天的雨伞” [[**10**]](https://stcn.com/article/detail/2333121.html)，这形象地揭示了演示收益的非保证性。\n*   **分红结构与实现率的复杂性：** 香港储蓄型保险的分红通常分为三层：“保证红利”（位于最底层，100%会支付）、“归原红利”（源自债券和固定收益类资产的投资回报，非保证但公布后即获保证）和“终期红利”（只有在退保或去世时才能最终知晓） [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。客户高度关注的“分红实现率”是核心指标，部分保险公司会启动“风险平滑机制”动用储备资金填补差额，以确保分红实现率数据保持良好，从而有利于未来业务发展 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。尽管风险平滑机制旨在稳定分红并维护客户信心，但其运作模式也可能引发对保险公司财务稳健性和投资策略的深层思考。过度依赖该机制可能掩盖实际投资表现的波动性，或在极端市场条件下对公司储备金造成压力。\n*   **汇率与外汇政策风险：** 赴港购买保险存在汇率波动风险，以及后期理赔资金无法顺利流入内地的外汇政策风险 [[**4, 5, 8**]](https://www.stcn.com/article/detail/1842503.html)。投资者需要充分考虑货币兑换成本和未来资金回流的潜在不确定性。\n*   **两地法律与监管差异：** 投资者需了解两地在法律、监管环境方面的差异。一旦出现保单纠纷或利益受损，投保人可能无法得到内地政策和法律的支持，这增加了跨境维权的复杂性 [[**4, 7**]](https://www.stcn.com/article/detail/1842503.html)。\n*   **交易与服务成本：** 赴港投保涉及交通、换汇成本，以及两地不同的承保门槛可能耗费的时间成本 [[**4, 5**]](https://www.stcn.com/article/detail/1842503.html)。这些隐性成本也需要纳入投资考量。\n\n这种信息不对称和预期偏差是导致未来消费者纠纷和信任危机的主要隐患。行业和监管机构亟需加强对“演示收益”的透明度管理和消费者教育，确保客户充分理解分红险的非保证特性和长期性。对于保险公司而言，过度依赖高演示收益进行营销将不再可持续，需要转向更注重产品本质价值、风险揭示和长期客户关系维护的策略。\n\n在分红险之外，部分客户也赶在监管新政生效前抢购固定收益类产品。例如，某款产品在5年供款、15年期满后，到期收益保证为保费的151%，若一次性交齐5年保费，到期收益可达保费的178%，对应的收益率为3.8% [[**1**]](https://www.stcn.com/article/detail/2194600.html)。然而，随着香港市场利率走低，这类产品也宣布销售期截止。这反映了市场中对确定性收益的强烈需求，尤其是在利率高企时期。固定收益产品的停售，预示着在利率下行周期中，纯粹依靠保证收益率吸引客户的产品将面临挑战。这可能促使更多资金回流至分红险市场，但同时也对分红险的非保证部分提出了更高的要求，因为投资者将更看重其在低利率环境下的潜在增值能力。\n\n## 4. 监管新政：演示利率上限的深远影响\n\n为应对市场中过度竞争和潜在的风险积聚，香港保险业监管局（保监局）及时介入，出台了新的监管指引，对香港储蓄险市场产生了深远影响。\n\n### 4.1 新政核心内容与出台背景\n\n香港保监局于2025年2月公布了《分红保单利益演示利率上限指引》，该指引将自2025年7月1日起生效 [[**1, 11, 12**]](https://www.stcn.com/article/detail/2194600.html)。根据指引，港元分红保单的最高演示收益率限制在6%以内，而非港元分红保单的最高演示收益率则限制在6.5%以内 [[**1, 11**]](https://www.stcn.com/article/detail/2194600.html)。\n\n这一新政的出台并非空穴来风。近年来，香港保险公司为争夺市场份额，竞相抬高储蓄险产品的演示收益率，普遍从疫情前的6%左右攀升至7%以上 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这种激进的营销策略，虽然短期内吸引了大量客户，但也带来了潜在的风险，包括可能误导消费者对实际收益的预期，以及促使保险公司采取过于激进的投资假设。保监局推行演示利率上限，旨在防止这种不健康的竞争，促进授权保险公司之间的健康发展，并推动保险业的可持续发展 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。此举也是为了调整客户对于分红险收益的合理预期，在“低保证、高浮动”的特点下引导客户形成更合理的收益预期 [[**11**]](https://ep.ycwb.com/epaper/xkb/html/2025-03/04/content_1511_693726.htm)。\n\n### 4.2 对市场与客户的影响\n\n新政对香港储蓄险市场产生了多方面的影响：\n\n*   **短期“抢购潮”：** 新政生效前，引发了客户“临门一脚”的抢购热潮，希望在演示利率下调前锁定更高的预期收益 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这种短期市场波动是为实现长期市场稳定和消费者保护所付出的必要代价。\n*   **长期收益预期调整：** 新政意味着香港保险代理人在向客户推销产品时，不能再以过高的预期收益来吸引客户，而是需要更加注重产品的实际价值和长期稳定性 [[**12**]](http://www.eeo.com.cn/2025/0402/719803.shtml)。这有助于纠正市场对“高演示收益”的过度关注，引导客户形成更理性的投资预期。\n*   **产品设计与竞争格局重塑：** 保险公司将被迫重新审视其产品设计和投资策略，更注重产品的内在价值和稳健性，而非单纯追求高演示收益。这可能促使行业竞争从“收益率竞赛”转向“服务质量和产品创新竞赛”，加速香港保险业的成熟化进程。保险公司需要重新定位其竞争优势，例如加强产品创新（如结合科技、健康管理）、提升客户体验、优化财富传承方案等，以差异化战略吸引客户。对于代理人而言，销售模式将从“讲收益”转向“讲价值”，这对代理人的专业素养和综合服务能力提出了更高要求。\n*   **监管范围的潜在扩大：** 据悉，未来香港保监局将因应市场情况，考虑将这一指引的适用范围扩大至其他保险产品 [[**12**]](http://www.eeo.com.cn/2025/0402/719803.shtml)。这表明监管机构正采取更加积极主动的姿态，通过政策工具引导市场走向更稳健、更负责任的发展模式。这预示着未来可能会有更多针对销售行为、产品透明度和风险披露的细化监管措施出台。行业参与者必须将合规性提升到战略高度，将其视为业务发展的基石而非障碍。\n\n**香港分红险演示收益率新旧指引对比**\n\n| 保单货币 | 2025年7月1日前普遍演示收益率 (%) | 2025年7月1日起演示收益率上限 (%) | 影响 |\n| :------- | :----------------------------- | :----------------------------- | :--- |\n| 港元 | 6% - 7% 以上 | 6% | 限制了高演示收益的营销空间，促使产品设计更趋理性。 |\n| 非港元 | 6% - 7% 以上 | 6.5% | 同样限制了非港元保单的演示收益，但考虑到外币投资的潜在收益，上限略高。 |\n\n上表清晰地呈现了监管新政最核心的量化变化，即演示收益率的上限。通过对比新旧数据，可以直观地看到政策对保险公司产品演示和市场营销策略的直接限制，这解释了为何市场会出现短期的“抢购潮”。这一量化对比为分析新政对市场竞争、产品设计以及消费者预期的深远影响提供了具体的数据依据，是理解监管意图和市场反应的关键。\n\n## 5. 市场展望与未来趋势\n\n香港储蓄险市场的未来发展将是一个多因素交织的复杂过程，既面临宏观经济环境的挑战，也拥有科技创新和监管优化的机遇。\n\n### 5.1 寿险市场稳健增长\n\n展望2025年，全球成熟市场的寿险保费收入预计将增长1.5%，而中国等新兴市场的销售势头虽然有所放缓，但预计在2024年和2025年仍将分别提升7.2%和5.7% [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。这表明寿险市场，包括储蓄险，在全球范围内仍有增长空间。整体保险业预计将保持稳步增长，但非寿险市场因整体趋于疲软，增长步伐可能相对温和 [[**14**]](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)。\n\n### 5.2 宏观经济环境影响\n\n业内普遍预计美联储将开始降息，这将对香港保险市场产生影响 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。香港的联系汇率制度使得其利率与美元利率高度关联，美联储降息预期和香港金管局大量投放流动性导致港币流动性异常宽松（Hibor骤降至零附近） [[**6**]](https://www.cls.cn/detail/2092265)，预示着香港市场利率可能进一步走低。虽然这在短期内可能刺激部分“抢跑”需求，但长期而言，较低的利率环境将削弱储蓄险产品在绝对收益率上的优势。保险公司需要重新评估其投资策略和产品定价模型，以适应低利率环境。未来的竞争将更多地转向非收益性因素，如产品灵活性、财富传承功能、多币种配置能力以及卓越的客户服务。这可能促使行业更加注重“保障”与“储蓄”的平衡，而非单纯的“高收益”。\n\n### 5.3 行业韧性与创新方向\n\n面对不断变化的风险和市场机遇，保险公司必须优先提升企业韧性，以实现长期稳定发展 [[**14**]](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)。\n\n*   **产品创新：** 面对寿险与年金险产品需求的不断攀升，保险业需加速产品创新步伐，以满足市场需求，并优化客户引导流程和提升服务质量，以更好地契合年轻中产阶层的需求 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\n*   **科技赋能：** 人工智能（AI）和生成式AI被视为变革性力量。德勤对200多名保险业高管的调研显示，76%的受访者已在业务中部署AI，尽管多数尚处于概念验证阶段，但已部分企业先行一步，将该技术应用于理赔和客户服务等重点领域 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。AI在分销、运营、理赔和客户服务等领域有广泛应用潜力，预计到2032年，全球AI相关保费规模有望达到每年近47亿美元 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。科技不再仅仅是辅助工具，而是驱动保险业转型升级的核心动力。香港保险公司若要保持竞争力，必须加大对科技的投入，特别是AI和数据分析能力，以实现个性化产品定制、精准营销、自动化理赔和风险管理。这将导致行业内部的数字化分化，那些能有效利用科技的公司将获得显著优势，而传统运营模式的公司则可能面临被淘汰的风险。\n*   **数据治理：** 稳健的数据治理是AI策略成功的关键。保险公司需赋能其数据生态系统，支持和扩展AI应用，实现实时和批处理数据融合，开发数据产品用于定价优化、欺诈检测、市场细分、客户流失防范和客户终身价值评估等用例 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\n*   **嵌入式保险与生态圈合作：** 预计到2030年，全球嵌入式保险市场保费收入将突破7220亿美元，显示出新的增长潜力 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。同时，保险公司应探索与行业生态圈中具备先进管理平台服务能力的企业建立战略伙伴关系，以及与拥有独特技术专长、能力及数据资源的保险科技企业携手合作 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\n\n### 5.4 消费者保护与监管强化\n\n香港金融管理局（HKMA）和保监局（IA）致力于持续强化消费者保护措施。金管局通过《公平待客约章》和加强资料披露与透明度，确保银行向消费者提供重要信息，并推动金融服务消费者教育 [[**15**]](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)。金管局也是国际金融消费者保护组织（FinCoNet）的成员，并持续优化存款保障计划，现时每名存款人补偿上限为50万港元 [[**15, 16**]](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)。\n\n监管机构将进一步强化全面监管、严格监管，切实防范化解风险，并强调深化改革、推进开放，提升服务实体经济质效 [[**17**]](https://www.dehenglaw.com/CN/tansuocontent/0008/032691/7.aspx?MID=0902&amp;AID=)。保监局在财政上独立于政府，通过征费、授权费和牌照费等收入抵销开支，其2025-26年度预算总收入预计增长7.7%，总营运开支预计增长13.6%，其中包括用于全面更新保险系统 [[**18, 19, 20**]](https://www.legco.gov.hk/yr2025/chinese/panels/fa/papers/fa20250314cb1-351-6-c.pdf)。这种独立且全面的监管框架，对于提升香港保险市场的国际声誉和吸引力至关重要。它不仅能够有效防范和化解风险，还能增强消费者对市场的信任，为行业的长期可持续发展奠定坚实基础。对于保险公司而言，这意味着必须将合规和消费者保护内化为企业文化和经营策略的核心，而非仅仅是外部要求。\n\n## 6. 结论：机遇与挑战并存下的理性选择\n\n香港储蓄险市场正经历由内地资金驱动的强劲增长，其核心吸引力在于相对较高的预期收益、灵活的产品设计和多币种配置能力。在内地利率持续走低和“资产荒”的背景下，香港储蓄险为内地居民提供了重要的财富保值增值和全球资产配置渠道。\n\n然而，市场也面临诸多挑战，包括预期收益与实际收益的差异、复杂的红利结构、汇率风险、两地监管差异以及潜在的理赔争议。香港保监局出台的演示利率上限新政，旨在引导行业回归理性，防止过度激进的营销，提升市场透明度，并促进可持续发展。这标志着行业将从单纯的“收益率竞赛”转向更注重产品本质价值、服务质量和客户体验的竞争。\n\n展望未来，香港储蓄险市场将继续受到宏观经济环境（如美联储降息预期）的影响，同时也将加速科技赋能（如AI和大数据应用）、产品创新和消费者保护的步伐。监管机构将持续强化监管，确保市场的稳健运行和消费者权益的有效保障。\n\n在机遇与挑战并存的市场环境下，投资者和行业参与者都需要采取更为理性、审慎的策略：\n\n**对投资者而言：**\n\n*   **审慎评估风险：** 充分理解香港储蓄险“低保证、高浮动”的特性，区分演示收益与实际收益，不应盲目追求高回报。对产品的长期性、流动性限制以及潜在的汇率和政策风险应有清晰认知。\n*   **多元化配置：** 将香港储蓄险作为全球资产配置组合的一部分，而非单一的投资选项。结合自身的财务状况、风险偏好和长期目标，进行合理的资产分散。\n*   **关注长期价值：** 除了收益率，更应重视产品的财富传承、多币种配置、保单灵活性以及保险公司自身的稳健性、服务质量和分红实现率等非收益性优势。\n*   **寻求专业建议：** 在做出投保决策前，务必咨询持牌的香港保险经纪人或财富管理顾问，确保充分了解产品条款、风险和两地合规要求。\n\n**对行业参与者（保险公司与代理人）而言：**\n\n*   **回归产品本质：** 在新的监管环境下，将重心从高演示收益的竞争转向产品创新、服务质量和客户体验的提升。开发更符合客户实际需求、更具长期价值的产品。\n*   **强化透明度与教育：** 加强对客户的风险揭示和金融知识普及，确保客户对产品有清晰、准确的认知，避免误导性宣传，从而建立长期的信任关系。\n*   **拥抱科技转型：** 积极投资人工智能、大数据等前沿技术，提升运营效率、风险管理能力和个性化服务水平，以适应数字化时代的竞争格局。\n*   **深化合规管理：** 严格遵守两地监管要求，尤其是在跨境销售、信息披露和消费者保护方面，将合规视为业务发展的基石，确保业务的稳健和可持续发展。\n\n香港储蓄险市场正步入一个更加成熟和规范的发展阶段。对于所有市场参与者而言，理解并适应这些变化，将是抓住机遇、应对挑战的关键。\n\n---\n\n"
+        }
+      }
+    ],
+    "获取报告正文内容": [
+      {
+        "json": {
+          "report_content": "{\"content\":\"\\n\\n\\n\\n# 香港储蓄险市场：热点透视、机遇与挑战\\n\\n## 1. 引言：香港储蓄险市场概览与近期热度\\n\\n香港保险市场在近年展现出强劲的增长势头，尤其在储蓄险领域，其表现引人注目。2024年，香港保险市场整体实现爆发式增长，全年新造保单保费总额达到2198亿港元，同比激增22%，创下十年来的新高 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这一显著增长不仅彰显了市场的活力与韧性，也凸显了香港作为国际金融中心的吸引力。根据保险业监管局于2025年4月25日公布的2024年临时统计数字，期内毛保费总额高达6378亿港元，进一步印证了香港保险市场的庞大规模和健康发展态势 [[**2**]](https://www.ia.org.hk/sc/infocenter/press_releases/20250425.html)。\\n\\n在这一增长浪潮中，内地访客扮演了至关重要的角色，成为推动香港储蓄险市场繁荣的核心驱动力。2024年，内地访客贡献了628亿港元的保费，同比增长6.5%，占全港新单保费的29%，这意味着香港每3份新保单中就有1份来自内地客户 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。追溯至2023年，内地访客新造保单保费更是飙升至589.72亿港元，同比惊人增长2754.4%，约占总额的32.6%，仅次于2016年的历史高峰 [[**3, 4**]](https://stcn.com/article/detail/1267457.html)。即使在2023年高基数效应下，2024年第一季度内地访客的新造保单保费依然强劲，达到156亿港元，同比上升62.6%，占个人业务总新造保单保费的24%，显示出持续旺盛的需求 [[**3**]](https://stcn.com/article/detail/1267457.html)。\\n\\n内地访客的持续涌入并非偶然，其背后是多重因素的综合作用。虽然2023年的爆发性增长在一定程度上被解读为“将近年累积的保险需求释放出来”，而非简单的“井喷式增长”，并有分析指出若按4年摊分，每年仅100多亿港元 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)，但2024年第一季度在如此高基数上仍能实现超过60%的增长，这表明市场正在从疫情后的“需求回补”阶段，过渡到由内地居民长期资产配置需求和香港产品优势共同推动的“常态化高增长”阶段。这种演变意味着香港保险业不能仅仅满足于消化存量需求，而需着眼于如何持续吸引和服务这一庞大且不断演变的客户群体。\\n\\n香港保险市场的繁荣与内地资金的流入已形成高度关联。内地访客贡献了香港新单保费的近三分之一，头部保险公司如香港保诚和友邦保险的业绩增长也显著受益于此 [[**3**]](https://stcn.com/article/detail/1267457.html)。这种紧密联系意味着内地市场的任何宏观经济、利率政策或外汇管制变化，都将对香港保险业产生直接且深远的影响。因此，香港保险公司需将内地市场视为其核心战略组成部分，深入研究内地客户需求，并持续优化产品和服务，同时密切关注两地政策协调，以应对潜在的挑战。\\n\\n## 2. 内地资金涌入：需求激增的深层动因\\n\\n内地资金持续涌入香港储蓄险市场，其背后是内地宏观经济环境、居民财富管理需求以及香港储蓄险产品独特优势的叠加效应。\\n\\n### 2.1 内地利率走低与“资产荒”\\n\\n近年来，中国内地利率持续下行，存款和理财产品的收益率不断走低，这直接推动了居民对更高收益、更具保值增值潜力的金融产品的需求 [[**3**]](https://stcn.com/article/detail/1267457.html)。截至6月，中国广义货币（M2）高达330万亿人民币，是国内生产总值（GDP）的2.4倍，不仅规模创历史新高，与GDP的差距也达到历史最高水平 [[**6**]](https://www.cls.cn/detail/2092265)。这表明内地市场流动性异常充裕，但同时，能够提供稳定高回报的优质资产却相对稀缺，形成了“资金盛”与“资产荒”的宏观格局 [[**6**]](https://www.cls.cn/detail/2092265)。在私人部门信用收缩、经济增长点有限的背景下，内地资金需要寻求有效的配置机会，无论是稳定回报的分红资产，还是具有成长属性的新经济板块，香港市场都展现出比较优势，进而吸引南向资金加速流入。\\n\\n### 2.2 香港储蓄险的产品优势\\n\\n香港储蓄险产品凭借其独特的设计和潜在收益，对内地投资者形成了强大的吸引力：\\n\\n*   **较高的预期收益率：** 香港储蓄分红险因其较高的预期收益率而受到内地消费者青睐 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。部分产品测算显示，前20年复利可达5.41%，长期（如100年）最高复利可达7.1% [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。这种演示收益率在内地低利率环境下显得尤为突出。\\n*   **灵活的功能设计：** 香港保险产品具有“资金投资范围广、产品定价利率高、保单设计较为灵活”的优势 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。例如，部分产品在缴费5年后，从第6年起可每年提取总保费的6%至被保险人终身，提供长期稳定的现金流 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。此外，产品还支持红利锁定和解锁功能，允许客户在规定年限后锁定部分非保证收益并随时提取现金，将其转化为保证收益，增强了资金的灵活性和确定性 [[**5, 9**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\\n*   **多币种配置与财富传承：** 香港储蓄险支持多币种投保，如美元保单，这为内地投资者提供了规避单一货币风险、进行全球资产配置的渠道 [[**8, 9**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。同时，保单分拆、无限次更改被保险人等功能，使得香港储蓄险成为财富传承和家族信托规划的有效工具，满足高净值客户的特殊需求 [[**5, 8**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\\n\\n### 2.3 跨境金融渠道的便利性\\n\\n内地与香港全面恢复通关后，跨境金融渠道的便利性显著提升，进一步促进了资金流动。银行开户数和“南向理财通”规模快速飙升，截至2024年7月22日，“南向通”净流出188.33亿元，在近4个月内增长了1.71倍，显示资金加速涌入香港 [[**3**]](https://stcn.com/article/detail/1267457.html)。跨境理财通的活跃也带动了香港银行非息收入的增长，例如招商永隆银行2023年保险经纪业务收入同比增长153.0% [[**3**]](https://stcn.com/article/detail/1267457.html)。这揭示了香港储蓄险并非孤立的金融产品，而是跨境财富管理生态系统中的一个关键环节。保险产品与银行服务、跨境资金流动形成了紧密的协同效应。未来，香港金融机构可能会进一步整合这些服务，提供一站式的跨境财富管理解决方案，以更好地服务内地高净值客户。\\n\\n### 2.4 美联储降息预期下的市场时机效应\\n\\n业内普遍预计美联储将开始降息，这将对香港保险市场产生影响 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。香港的联系汇率制度使得其利率与美元利率高度关联。降息预期可能在短期内进一步刺激内地客户赴港投保，尤其是在降息前锁定相对较高的预期收益率。这形成了一种“时间窗口”效应，促使部分客户加速决策。然而，长期来看，若全球利率普遍下行，香港储蓄险的绝对收益优势可能有所减弱，届时产品设计和销售将更依赖于非收益性的核心优势，如财富传承、多币种配置和全球化投资能力。\\n\\n内地“资金盛”与“资产荒”的组合并非短期现象，而是中国经济转型过程中，居民储蓄高企与优质投资渠道相对不足的结构性矛盾。私人部门信用收缩，经济增长点有限，使得资金需要寻求境外配置机会以实现保值增值。这意味着对香港储蓄险的需求，是内地居民在当前经济环境下，对财富管理和资产保值增值策略的一种必然选择。香港保险业应认识到这种需求的长期性和结构性，而非仅仅是短期套利行为。因此，产品开发和市场策略应更侧重于长期价值、风险管理和多元化配置，以适应内地客户不断变化的财富管理需求。\\n\\n**近三年内地访客赴港投保数据对比**\\n\\n| 年度/季度 | 内地访客新造保单保费 (亿港元) | 同比增长 (%) | 占全港新单保费比例 (%) | 资料来源 |\\n| :-------- | :----------------------------- | :----------- | :--------------------- | :------- |\\n| 2023年全年 | 589.72 | 2754.4 | 32.6 | [[**3**]](https://stcn.com/article/detail/1267457.html) |\\n| 2024年第一季度 | 156 | 62.6 | 24 | [[**3**]](https://stcn.com/article/detail/1267457.html) |\\n| 2024年全年 | 628 | 6.5 | 29 | [[**1**]](https://www.stcn.com/article/detail/2194600.html) |\\n\\n上表直观地量化了内地访客赴港投保的核心趋势。通过保费总额和同比增速，可以清晰地看到市场规模的扩张速度。更重要的是，“占全港新单保费比例”这一数据，明确揭示了香港保险市场对内地访客的高度依赖性。这种依赖性不仅是理解当前市场动态的关键，也为分析未来市场策略和潜在风险提供了重要依据。这些数据支持了对市场是否从“井喷”走向“常态化高增长”的讨论，并为行业参与者制定市场策略、资源配置和风险管理提供了量化参考。\\n\\n## 3. 香港储蓄险的产品魅力与潜在风险\\n\\n香港储蓄险以其独特的产品设计和潜在高收益吸引了大量内地投资者，但其背后也隐藏着需要审慎评估的复杂风险。\\n\\n### 3.1 产品魅力深度解析\\n\\n香港储蓄险的吸引力主要体现在以下几个方面：\\n\\n*   **高预期收益率：** 香港储蓄分红险的预期收益率相对较高，这是吸引内地客户的核心因素 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。例如，有热门产品通过测算，投保后7-8年可以回本，前20年复利可达5.41%，100年最高复利可达7.1% [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。这种长期演示的高收益率在当前全球低利率环境下具有显著的比较优势。\\n*   **灵活的现金流与财富管理功能：** 部分产品提供了高度灵活的现金流管理功能。例如，在缴费5年后，从第6年起，每年可以提取总保费的6%直至被保险人终身，为客户提供长期稳定的现金流支持 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。此外，产品还具备“红利锁定”功能，允许客户在规定年限后锁定部分非保证收益并随时提取现金，将其转化为保证收益，从而增强了资金的灵活性和确定性 [[**9**]](https://cj.sina.cn/articles/view/1444893750/561f5436001016pp0)。更重要的是，保单分拆、无限次更改被保险人等功能，使得香港储蓄险成为实现财富传承和家族信托规划的有效工具，满足了高净值客户对资产长期规划和代际传承的特殊需求 [[**5, 8**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。\\n*   **多币种配置优势：** 香港保险产品支持多币种投保，如美元作为保单货币，这为内地投资者提供了规避单一货币风险、进行全球资产配置的渠道，尤其是在人民币汇率波动预期下，美元保单的吸引力更为突出 [[**8, 9**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。\\n\\n### 3.2 潜在风险与挑战警示\\n\\n尽管香港储蓄险具有诸多优势，但投资者在投保时仍需谨慎，充分认识其潜在风险：\\n\\n*   **预期收益与实际收益的差异：** 业内人士反复提示，香港储蓄分红险的“预期收益率”仅是演示利益，并非实际收益，存在不确定性 [[**7**]](https://www.bjrcb.com/pc/cn/touzilicai/zixun/bxzx/20240605/76959.shtml)。高收益往往是基于长期（例如100年）的演示，而如果持有保单30年，实际收益可能在6%左右，且保底收益通常低于0.5% [[**1, 10**]](https://www.stcn.com/article/detail/2194600.html)。这种信息不对称和预期偏差是导致未来消费者纠纷和信任危机的主要隐患。部分资深从业人士将保险公司用7%的演示利率招徕客户比作“用未来30年的天气预报来卖今天的雨伞” [[**10**]](https://stcn.com/article/detail/2333121.html)，这形象地揭示了演示收益的非保证性。\\n*   **分红结构与实现率的复杂性：** 香港储蓄型保险的分红通常分为三层：“保证红利”（位于最底层，100%会支付）、“归原红利”（源自债券和固定收益类资产的投资回报，非保证但公布后即获保证）和“终期红利”（只有在退保或去世时才能最终知晓） [[**8**]](http://m.cyol.com/gb/articles/2023-12/04/content_mOlmqJIVvx.html)。客户高度关注的“分红实现率”是核心指标，部分保险公司会启动“风险平滑机制”动用储备资金填补差额，以确保分红实现率数据保持良好，从而有利于未来业务发展 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。尽管风险平滑机制旨在稳定分红并维护客户信心，但其运作模式也可能引发对保险公司财务稳健性和投资策略的深层思考。过度依赖该机制可能掩盖实际投资表现的波动性，或在极端市场条件下对公司储备金造成压力。\\n*   **汇率与外汇政策风险：** 赴港购买保险存在汇率波动风险，以及后期理赔资金无法顺利流入内地的外汇政策风险 [[**4, 5, 8**]](https://www.stcn.com/article/detail/1842503.html)。投资者需要充分考虑货币兑换成本和未来资金回流的潜在不确定性。\\n*   **两地法律与监管差异：** 投资者需了解两地在法律、监管环境方面的差异。一旦出现保单纠纷或利益受损，投保人可能无法得到内地政策和法律的支持，这增加了跨境维权的复杂性 [[**4, 7**]](https://www.stcn.com/article/detail/1842503.html)。\\n*   **交易与服务成本：** 赴港投保涉及交通、换汇成本，以及两地不同的承保门槛可能耗费的时间成本 [[**4, 5**]](https://www.stcn.com/article/detail/1842503.html)。这些隐性成本也需要纳入投资考量。\\n\\n这种信息不对称和预期偏差是导致未来消费者纠纷和信任危机的主要隐患。行业和监管机构亟需加强对“演示收益”的透明度管理和消费者教育，确保客户充分理解分红险的非保证特性和长期性。对于保险公司而言，过度依赖高演示收益进行营销将不再可持续，需要转向更注重产品本质价值、风险揭示和长期客户关系维护的策略。\\n\\n在分红险之外，部分客户也赶在监管新政生效前抢购固定收益类产品。例如，某款产品在5年供款、15年期满后，到期收益保证为保费的151%，若一次性交齐5年保费，到期收益可达保费的178%，对应的收益率为3.8% [[**1**]](https://www.stcn.com/article/detail/2194600.html)。然而，随着香港市场利率走低，这类产品也宣布销售期截止。这反映了市场中对确定性收益的强烈需求，尤其是在利率高企时期。固定收益产品的停售，预示着在利率下行周期中，纯粹依靠保证收益率吸引客户的产品将面临挑战。这可能促使更多资金回流至分红险市场，但同时也对分红险的非保证部分提出了更高的要求，因为投资者将更看重其在低利率环境下的潜在增值能力。\\n\\n## 4. 监管新政：演示利率上限的深远影响\\n\\n为应对市场中过度竞争和潜在的风险积聚，香港保险业监管局（保监局）及时介入，出台了新的监管指引，对香港储蓄险市场产生了深远影响。\\n\\n### 4.1 新政核心内容与出台背景\\n\\n香港保监局于2025年2月公布了《分红保单利益演示利率上限指引》，该指引将自2025年7月1日起生效 [[**1, 11, 12**]](https://www.stcn.com/article/detail/2194600.html)。根据指引，港元分红保单的最高演示收益率限制在6%以内，而非港元分红保单的最高演示收益率则限制在6.5%以内 [[**1, 11**]](https://www.stcn.com/article/detail/2194600.html)。\\n\\n这一新政的出台并非空穴来风。近年来，香港保险公司为争夺市场份额，竞相抬高储蓄险产品的演示收益率，普遍从疫情前的6%左右攀升至7%以上 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这种激进的营销策略，虽然短期内吸引了大量客户，但也带来了潜在的风险，包括可能误导消费者对实际收益的预期，以及促使保险公司采取过于激进的投资假设。保监局推行演示利率上限，旨在防止这种不健康的竞争，促进授权保险公司之间的健康发展，并推动保险业的可持续发展 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。此举也是为了调整客户对于分红险收益的合理预期，在“低保证、高浮动”的特点下引导客户形成更合理的收益预期 [[**11**]](https://ep.ycwb.com/epaper/xkb/html/2025-03/04/content_1511_693726.htm)。\\n\\n### 4.2 对市场与客户的影响\\n\\n新政对香港储蓄险市场产生了多方面的影响：\\n\\n*   **短期“抢购潮”：** 新政生效前，引发了客户“临门一脚”的抢购热潮，希望在演示利率下调前锁定更高的预期收益 [[**1**]](https://www.stcn.com/article/detail/2194600.html)。这种短期市场波动是为实现长期市场稳定和消费者保护所付出的必要代价。\\n*   **长期收益预期调整：** 新政意味着香港保险代理人在向客户推销产品时，不能再以过高的预期收益来吸引客户，而是需要更加注重产品的实际价值和长期稳定性 [[**12**]](http://www.eeo.com.cn/2025/0402/719803.shtml)。这有助于纠正市场对“高演示收益”的过度关注，引导客户形成更理性的投资预期。\\n*   **产品设计与竞争格局重塑：** 保险公司将被迫重新审视其产品设计和投资策略，更注重产品的内在价值和稳健性，而非单纯追求高演示收益。这可能促使行业竞争从“收益率竞赛”转向“服务质量和产品创新竞赛”，加速香港保险业的成熟化进程。保险公司需要重新定位其竞争优势，例如加强产品创新（如结合科技、健康管理）、提升客户体验、优化财富传承方案等，以差异化战略吸引客户。对于代理人而言，销售模式将从“讲收益”转向“讲价值”，这对代理人的专业素养和综合服务能力提出了更高要求。\\n*   **监管范围的潜在扩大：** 据悉，未来香港保监局将因应市场情况，考虑将这一指引的适用范围扩大至其他保险产品 [[**12**]](http://www.eeo.com.cn/2025/0402/719803.shtml)。这表明监管机构正采取更加积极主动的姿态，通过政策工具引导市场走向更稳健、更负责任的发展模式。这预示着未来可能会有更多针对销售行为、产品透明度和风险披露的细化监管措施出台。行业参与者必须将合规性提升到战略高度，将其视为业务发展的基石而非障碍。\\n\\n**香港分红险演示收益率新旧指引对比**\\n\\n| 保单货币 | 2025年7月1日前普遍演示收益率 (%) | 2025年7月1日起演示收益率上限 (%) | 影响 |\\n| :------- | :----------------------------- | :----------------------------- | :--- |\\n| 港元 | 6% - 7% 以上 | 6% | 限制了高演示收益的营销空间，促使产品设计更趋理性。 |\\n| 非港元 | 6% - 7% 以上 | 6.5% | 同样限制了非港元保单的演示收益，但考虑到外币投资的潜在收益，上限略高。 |\\n\\n上表清晰地呈现了监管新政最核心的量化变化，即演示收益率的上限。通过对比新旧数据，可以直观地看到政策对保险公司产品演示和市场营销策略的直接限制，这解释了为何市场会出现短期的“抢购潮”。这一量化对比为分析新政对市场竞争、产品设计以及消费者预期的深远影响提供了具体的数据依据，是理解监管意图和市场反应的关键。\\n\\n## 5. 市场展望与未来趋势\\n\\n香港储蓄险市场的未来发展将是一个多因素交织的复杂过程，既面临宏观经济环境的挑战，也拥有科技创新和监管优化的机遇。\\n\\n### 5.1 寿险市场稳健增长\\n\\n展望2025年，全球成熟市场的寿险保费收入预计将增长1.5%，而中国等新兴市场的销售势头虽然有所放缓，但预计在2024年和2025年仍将分别提升7.2%和5.7% [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。这表明寿险市场，包括储蓄险，在全球范围内仍有增长空间。整体保险业预计将保持稳步增长，但非寿险市场因整体趋于疲软，增长步伐可能相对温和 [[**14**]](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)。\\n\\n### 5.2 宏观经济环境影响\\n\\n业内普遍预计美联储将开始降息，这将对香港保险市场产生影响 [[**5**]](http://m.ce.cn/cj/202402/24/t20240224_38910096.shtml)。香港的联系汇率制度使得其利率与美元利率高度关联，美联储降息预期和香港金管局大量投放流动性导致港币流动性异常宽松（Hibor骤降至零附近） [[**6**]](https://www.cls.cn/detail/2092265)，预示着香港市场利率可能进一步走低。虽然这在短期内可能刺激部分“抢跑”需求，但长期而言，较低的利率环境将削弱储蓄险产品在绝对收益率上的优势。保险公司需要重新评估其投资策略和产品定价模型，以适应低利率环境。未来的竞争将更多地转向非收益性因素，如产品灵活性、财富传承功能、多币种配置能力以及卓越的客户服务。这可能促使行业更加注重“保障”与“储蓄”的平衡，而非单纯的“高收益”。\\n\\n### 5.3 行业韧性与创新方向\\n\\n面对不断变化的风险和市场机遇，保险公司必须优先提升企业韧性，以实现长期稳定发展 [[**14**]](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-cn/insights/insurance/documents/ey-gl-global-insurance-outlook-01-2025-zh.pdf)。\\n\\n*   **产品创新：** 面对寿险与年金险产品需求的不断攀升，保险业需加速产品创新步伐，以满足市场需求，并优化客户引导流程和提升服务质量，以更好地契合年轻中产阶层的需求 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\\n*   **科技赋能：** 人工智能（AI）和生成式AI被视为变革性力量。德勤对200多名保险业高管的调研显示，76%的受访者已在业务中部署AI，尽管多数尚处于概念验证阶段，但已部分企业先行一步，将该技术应用于理赔和客户服务等重点领域 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。AI在分销、运营、理赔和客户服务等领域有广泛应用潜力，预计到2032年，全球AI相关保费规模有望达到每年近47亿美元 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。科技不再仅仅是辅助工具，而是驱动保险业转型升级的核心动力。香港保险公司若要保持竞争力，必须加大对科技的投入，特别是AI和数据分析能力，以实现个性化产品定制、精准营销、自动化理赔和风险管理。这将导致行业内部的数字化分化，那些能有效利用科技的公司将获得显著优势，而传统运营模式的公司则可能面临被淘汰的风险。\\n*   **数据治理：** 稳健的数据治理是AI策略成功的关键。保险公司需赋能其数据生态系统，支持和扩展AI应用，实现实时和批处理数据融合，开发数据产品用于定价优化、欺诈检测、市场细分、客户流失防范和客户终身价值评估等用例 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\\n*   **嵌入式保险与生态圈合作：** 预计到2030年，全球嵌入式保险市场保费收入将突破7220亿美元，显示出新的增长潜力 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。同时，保险公司应探索与行业生态圈中具备先进管理平台服务能力的企业建立战略伙伴关系，以及与拥有独特技术专长、能力及数据资源的保险科技企业携手合作 [[**13**]](https://www.deloitte.com/cn/zh/Industries/insurance/perspectives/2025-insurance-industry-outlook.html)。\\n\\n### 5.4 消费者保护与监管强化\\n\\n香港金融管理局（HKMA）和保监局（IA）致力于持续强化消费者保护措施。金管局通过《公平待客约章》和加强资料披露与透明度，确保银行向消费者提供重要信息，并推动金融服务消费者教育 [[**15**]](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)。金管局也是国际金融消费者保护组织（FinCoNet）的成员，并持续优化存款保障计划，现时每名存款人补偿上限为50万港元 [[**15, 16**]](https://www.hkma.gov.hk/gb_chi/key-functions/banking/banking-conduct-supervision/consumer-protection/)。\\n\\n监管机构将进一步强化全面监管、严格监管，切实防范化解风险，并强调深化改革、推进开放，提升服务实体经济质效 [[**17**]](https://www.dehenglaw.com/CN/tansuocontent/0008/032691/7.aspx?MID=0902&amp;AID=)。保监局在财政上独立于政府，通过征费、授权费和牌照费等收入抵销开支，其2025-26年度预算总收入预计增长7.7%，总营运开支预计增长13.6%，其中包括用于全面更新保险系统 [[**18, 19, 20**]](https://www.legco.gov.hk/yr2025/chinese/panels/fa/papers/fa20250314cb1-351-6-c.pdf)。这种独立且全面的监管框架，对于提升香港保险市场的国际声誉和吸引力至关重要。它不仅能够有效防范和化解风险，还能增强消费者对市场的信任，为行业的长期可持续发展奠定坚实基础。对于保险公司而言，这意味着必须将合规和消费者保护内化为企业文化和经营策略的核心，而非仅仅是外部要求。\\n\\n## 6. 结论：机遇与挑战并存下的理性选择\\n\\n香港储蓄险市场正经历由内地资金驱动的强劲增长，其核心吸引力在于相对较高的预期收益、灵活的产品设计和多币种配置能力。在内地利率持续走低和“资产荒”的背景下，香港储蓄险为内地居民提供了重要的财富保值增值和全球资产配置渠道。\\n\\n然而，市场也面临诸多挑战，包括预期收益与实际收益的差异、复杂的红利结构、汇率风险、两地监管差异以及潜在的理赔争议。香港保监局出台的演示利率上限新政，旨在引导行业回归理性，防止过度激进的营销，提升市场透明度，并促进可持续发展。这标志着行业将从单纯的“收益率竞赛”转向更注重产品本质价值、服务质量和客户体验的竞争。\\n\\n展望未来，香港储蓄险市场将继续受到宏观经济环境（如美联储降息预期）的影响，同时也将加速科技赋能（如AI和大数据应用）、产品创新和消费者保护的步伐。监管机构将持续强化监管，确保市场的稳健运行和消费者权益的有效保障。\\n\\n在机遇与挑战并存的市场环境下，投资者和行业参与者都需要采取更为理性、审慎的策略：\\n\\n**对投资者而言：**\\n\\n*   **审慎评估风险：** 充分理解香港储蓄险“低保证、高浮动”的特性，区分演示收益与实际收益，不应盲目追求高回报。对产品的长期性、流动性限制以及潜在的汇率和政策风险应有清晰认知。\\n*   **多元化配置：** 将香港储蓄险作为全球资产配置组合的一部分，而非单一的投资选项。结合自身的财务状况、风险偏好和长期目标，进行合理的资产分散。\\n*   **关注长期价值：** 除了收益率，更应重视产品的财富传承、多币种配置、保单灵活性以及保险公司自身的稳健性、服务质量和分红实现率等非收益性优势。\\n*   **寻求专业建议：** 在做出投保决策前，务必咨询持牌的香港保险经纪人或财富管理顾问，确保充分了解产品条款、风险和两地合规要求。\\n\\n**对行业参与者（保险公司与代理人）而言：**\\n\\n*   **回归产品本质：** 在新的监管环境下，将重心从高演示收益的竞争转向产品创新、服务质量和客户体验的提升。开发更符合客户实际需求、更具长期价值的产品。\\n*   **强化透明度与教育：** 加强对客户的风险揭示和金融知识普及，确保客户对产品有清晰、准确的认知，避免误导性宣传，从而建立长期的信任关系。\\n*   **拥抱科技转型：** 积极投资人工智能、大数据等前沿技术，提升运营效率、风险管理能力和个性化服务水平，以适应数字化时代的竞争格局。\\n*   **深化合规管理：** 严格遵守两地监管要求，尤其是在跨境销售、信息披露和消费者保护方面，将合规视为业务发展的基石，确保业务的稳健和可持续发展。\\n\\n香港储蓄险市场正步入一个更加成熟和规范的发展阶段。对于所有市场参与者而言，理解并适应这些变化，将是抓住机遇、应对挑战的关键。\\n\\n---\\n\\n\"}",
+          "count": 100
+        }
+      }
+    ],
+    "输出标题、摘要及封面提示词": [
+      {
+        "json": {
+          "output": "```json\n{\n    \"catchyTitle\": \"香港储蓄险：监管降温后，还值得“抢”吗？\",\n    \"engagingSummary\": \"深度剖析香港储蓄险，揭秘机遇、风险与监管新规。\",\n    \"styleKeywords\": [\n        \"香港储蓄险\",\n        \"内地资金\",\n        \"监管新规\"\n    ],\n    \"articleImages\": [\n        {\n            \"creativeConcept\": \"【图一：封面图】一条由金色钱币组成的河流，从一端涌入一个发光的、形似香港地标建筑的保险柜，象征内地资金涌入香港寻求财富保值。\",\n            \"englishPrompt\": \"Image 1: A river of golden coins flows into a glowing, secure vault shaped like the modern Hong Kong skyline. Centered composition, minimalist, on a solid deep blue background, symbolizing capital flowing to a safe harbor for growth. Flat illustration style, clean, modern. --ar 3:2\",\n            \"chineseTranslation\": \"图一：一条由金色钱币组成的河流，流向一个发光的、形似现代香港天际线的保险柜。中心构图，极简主义，在深蓝色纯色背景上，象征着资本流向安全的港湾以求增长。扁平插画风格，干净，现代。--ar 3:2\"\n        },\n        {\n            \"creativeConcept\": \"【图二：内文图】一只巨大的手向下按住一个正在图表上攀升的百分比符号（%），直观地解释了监管机构为演示收益率设置上限的新规。\",\n            \"englishPrompt\": \"Image 2: A giant, stylized hand firmly presses down on a rising percentage symbol (%) on a simple graph line. Centered, clean lines, on a solid light gray background, visually explaining the concept of a regulatory cap on yields. Vector art, minimalist, explanatory. --ar 3:2\",\n            \"chineseTranslation\": \"图二：一只巨大的、风格化的手，用力按住一个在简单图表线上正在上升的百分比符号（%）。中心构图，线条干净，在浅灰色纯色背景上，直观地解释了监管为收益率设置上限的概念。矢量艺术，极简，解释性。--ar 3:2\"\n        }\n    ]\n}\n```"
+        }
+      }
+    ],
+    "使用ChatGPT制作封面": [
+      {
+        "json": {
+          "output": "```json\n{\n  \"prompt\": \"A river of golden coins flows into a glowing, secure vault shaped like the modern Hong Kong skyline. Centered composition, minimalist, on a solid deep blue background, symbolizing capital flowing to a safe harbor for growth. Flat illustration style, clean, modern.\",\n  \"ratio\": \"3:2\",\n  \"n\": 1\n}\n```\n\n&gt;🕐 Queuing.\n\n&gt;⚡ Generating...\n\n&gt;🏃 Progress 13....55...[100](https://videos.openai.com/vg-assets/assets%2Ftask_01k0s8aeebfmeagjkd70pgn3s3%2F1753194279_src_0.png?st=2025-07-22T13%3A04%3A58Z&amp;se=2025-07-28T14%3A04%3A58Z&amp;sks=b&amp;skt=2025-07-22T13%3A04%3A58Z&amp;ske=2025-07-28T14%3A04%3A58Z&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skoid=8ebb0df1-a278-4e2e-9c20-f2d373479b3a&amp;skv=2019-02-02&amp;sv=2018-11-09&amp;sr=b&amp;sp=r&amp;spr=https%2Chttp&amp;sig=cM7zEppEYX%2B5rigQl4qu4qR8F1olYQqcoWeszhyOANs%3D&amp;az=oaivgprodscus)\n\n&gt; ✅ Generation complete\n\n\n![gen_01k0s8afbpf8fbtmyvp78x1s6r](https://filesystem.site/cdn/20250722/LSgOhJqlAxBb0s5LVRzs0L3Ah4khNj.png)\n\n[Click to download](https://filesystem.site/cdn/download/20250722/LSgOhJqlAxBb0s5LVRzs0L3Ah4khNj.png)"
+        }
+      },
+      {
+        "json": {
+          "output": "```json\n{\n    \"prompt\": \"Image 2: A giant, stylized hand firmly presses down on a rising percentage symbol (%) on a simple graph line. Centered, clean lines, on a solid light gray background, visually explaining the concept of a regulatory cap on yields. Vector art, minimalist, explanatory. --ar 3:2\",\n    \"size\": \"1080x720\",\n    \"n\": 1\n}\n```\n\n&gt; ⌛️ 任务正在队列中，请耐心等待...\n\n&gt; 🏃 进度：6.3%\n\n&gt; 🏃 进度：29.4%\n\n&gt; 🏃 进度：44.8%\n\n&gt; 🏃 进度：63.0%\n\n&gt; ✅ 图片绘制成功，[点击这里](https://midjourney-plus.oss-us-west-1.aliyuncs.com/sora/d3196dbf-3f63-45fc-b984-6b8174cefb08.png) 下载图片~~~\n\n![图片](https://midjourney-plus.oss-us-west-1.aliyuncs.com/sora/d3196dbf-3f63-45fc-b984-6b8174cefb08.png)\n\n"
+        }
+      }
+    ],
+    "整理报告格式": [
+      {
+        "json": {
+          "output": "&lt;section id=\"nice\" style=\"margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;background-attachment: scroll;background-clip: border-box;background-color: rgba(0, 0, 0, 0);background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(0, 0, 0, 0.06) 3%, rgba(0, 0, 0, 0) 3%);background-origin: padding-box;background-repeat: no-repeat;background-size: 20px 20px;width: auto;font-family: Optima-Regular, PingFangSC-light, PingFangTC-light, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light;font-size: 16px;color: rgb(43, 43, 43);line-height: 1.75;word-spacing: 0em;letter-spacing: 2px;word-break: break-word;overflow-wrap: break-word;text-align: left;background-position-x: center;background-position-y: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;\" data-pm-slice=\"0 0 []\"&gt;\n&lt;h2 style=\"margin: 20px 0px 0px;\"&gt;&lt;span style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"&gt;一场财富大迁徙：香港储蓄险，是“避风港”还是“温柔陷阱”？&lt;/span&gt;&lt;/h2&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;一场席卷全国的财富大迁徙，正在香港这片热土上悄然上演！当无数家庭还在为银行存款利率跌破2%、理财收益苦苦挣扎在3%的边缘时，一扇通往更高收益世界的大门，似乎在对岸轰然敞开。香港保险市场，特别是储蓄险，正以一种近乎滚烫的热度，吸引着成千上万内地访客的目光。2024年，新造保单保费总额飙升至2198亿港元，创下十年新高，这背后，是无数个家庭对财富保值的深切渴望，和对未来的焦虑与期盼。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;数据是冰冷的，但背后的故事却充满了温度与挣扎。内地访客贡献的保费高达628亿港元，占据了香港新单保费的近三分之一。这意味着，&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「香港每卖出三份新保单，就有一份属于我们内地同胞。」&lt;/span&gt;&lt;/strong&gt; 这股浪潮，从2023年疫情后“报复性”的27倍惊人暴增，到2024年第一季度在高基数上依然实现超过60%的强劲增长，一切迹象都表明，这早已不是短暂的“需求回补”。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;这背后，是一场深刻的结构性转变。它关乎每一个中产家庭的财富焦虑，关乎我们在一个低利率时代如何安放我们辛苦积攒的血汗钱。这究竟是通往财富自由的阶梯，还是一场精心包装的甜蜜陷阱？在我们踏上这趟赴港投保的列车之前，必须睁大双眼，看清迷雾中的机遇与挑战。&lt;/p&gt;\n&lt;p style=\"text-align: center; margin: 20px 0px;\"&gt;\n  &lt;img src=\"http://mmbiz.qpic.cn/mmbiz_png/Q0zXdzjeKVaiciclhDFEVFFlibg29YiaTfU2StQMVibese45TbRzib5sS3jBlP07btoAVltnCia4YkRSQoKZoduknzRiaA/0?wx_fmt=png\" style=\"max-width: 100%; display: block; margin: 0 auto;\" alt=\"文章配图\"&gt;\n&lt;/p&gt;\n&lt;h2 style=\"margin: 20px 0px 0px;\"&gt;&lt;span style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"&gt;内地资金的“出埃及记”：为何我们别无选择？&lt;/span&gt;&lt;/h2&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;内地资金如潮水般涌入香港，这并非一时冲动，而是无数个普通人在宏观经济大背景下的理性，甚至可以说是无奈的选择。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;被“资产荒”围困的财富&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;近年来，一个冰冷的现实摆在所有人面前：我们手里的钱，找不到好的去处了。内地的利率持续走低，银行存款跑不赢通胀，理财产品收益率一降再降。与此同时，广义货币（M2）规模却突破330万亿人民币，是GDP的2.4倍，创下历史新高。这意味着&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「市场上流动着海量的资金，却找不到能够提供稳定高回报的优质资产。」&lt;/span&gt;&lt;/strong&gt; 这就是“资金盛”与“资产荒”的残酷现实。我们的财富，正在被无声地稀释。在这种巨大的焦虑感驱动下，寻找新的投资洼地，成为了一种本能。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;香港储蓄险：那根“救命稻草”？&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;就在此时，香港储蓄险如同一道耀眼的光，照进了这片迷雾。它所展现出的产品优势，对内地投资者构成了几乎无法抗拒的吸引力：&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;首先是&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「令人心动的预期收益率。」&lt;/span&gt;&lt;/strong&gt; 当内地产品还在为3%挣扎时，香港储蓄分红险的演示收益率可以做到长期复利高达7.1%，前20年复利也能达到5.41%。这不仅仅是数字上的差异，更是对财富增长想象力的彻底颠覆。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;其次是&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「无与伦比的灵活性。」&lt;/span&gt;&lt;/strong&gt; 想象一下，一份保单，缴费5年后，从第6年开始每年可以提取总保费的6%作为现金流，直到生命终结。这不仅是储蓄，更是一台可以终身领钱的“提款机”。更有“红利锁定”功能，让你可以把浮动的非保证收益，一键转化为板上钉钉的保证收益，随时提取，进可攻退可守。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;更重要的是，它打开了一扇&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「全球资产配置和财富传承的大门。」&lt;/span&gt;&lt;/strong&gt; 通过美元保单，你可以轻松对冲单一货币风险。通过保单分拆、无限次更改被保险人等功能，一份保单可以像传家宝一样，守护几代人的财富。这已经超越了普通理财的范畴，成为高净值家庭进行家族规划的顶级工具。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;再加上全面通关后日益便捷的跨境金融渠道，以及美联储降息预期下抢占高收益“末班车”的窗口效应，所有因素都指向同一个方向：去香港，配置保险。这不仅是投资，更像是一场为了家庭未来的防御战。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;数据背后的依赖与警示&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;下面的数据表格，赤裸裸地揭示了这场财富迁徙的规模，以及香港保险市场对我们的“高度依赖”。&lt;/p&gt;\n&lt;table style=\"width: 100%; border-collapse: collapse;\"&gt;\n&lt;tbody&gt;\n&lt;tr&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;年度/季度&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;内地访客新造保单保费 (亿港元)&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;同比增长 (%)&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;占全港新单保费比例 (%)&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;资料来源&lt;/th&gt;\n&lt;/tr&gt;\n&lt;tr style=\"background-color: rgb(248, 248, 248);\"&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;2023年全年&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;589.72&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;2754.4&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;32.6&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;公开数据&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr style=\"background-color: rgb(255, 255, 255);\"&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;2024年第一季度&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;156&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;62.6&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;24&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;公开数据&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr style=\"background-color: rgb(248, 248, 248);\"&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;2024年全年&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;628&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;6.5&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;29&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;公开数据&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;这些数字不仅证明了市场的火爆，更揭示了一个关键事实：香港保险业的繁荣与内地资金的流向息息相关。这也意味着，任何关于内地宏观经济、利率或外汇政策的风吹草动，都将直接牵动香港保险业的神经。我们既是市场的驱动者，也身处风险的风暴眼之中。&lt;/p&gt;\n&lt;h2 style=\"margin: 20px 0px 0px;\"&gt;&lt;span style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"&gt;甜蜜的诱惑与魔鬼的细节：你真的看懂了吗？&lt;/span&gt;&lt;/h2&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;香港储蓄险如同一枚诱人的果实，果皮鲜亮，果肉甘甜，但果核深处，却可能隐藏着不为人知的复杂性与风险。在你被那高达7.1%的演示收益冲昏头脑之前，请务必冷静下来，看看魔鬼都藏在哪些细节里。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;风险一：预期收益 ≠ 你的收益&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;这是所有风险中最大、也最容易被忽视的一点。&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「所有宣传材料上那个亮闪闪的“预期收益率”，都只是一个基于美好假设的“演示”数字，它不是承诺，更不是保证！」&lt;/span&gt;&lt;/strong&gt; 业内人士一针见血地指出，用7%的演示利率招徕客户，无异于“用未来30年的天气预报来卖今天的雨伞”。这多么形象，又多么残酷！7%的高收益，往往是基于持有保单长达100年的测算，而如果你只持有30年，实际收益可能只有6%左右。更重要的是，保单的保底收益通常低得可怜，甚至不到0.5%。这种巨大的信息差和预期偏差，正是未来可能爆发消费者纠纷和信任危机的最大火药桶。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;风险二：分红结构，一场复杂的“黑箱游戏”&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;你以为的分红就是给你钱？太天真了。香港储蓄险的分红结构极其复杂，通常分为三层：“保证红利”（这是唯一100%能拿到的）、“归原红利”（非保证，但公布后就确定了）和“终期红利”（最神秘的部分，只有在你退保或身故时才揭晓）。你最关心的“分红实现率”，看似是一个客观指标，但背后可能还有保险公司的“风险平滑机制”在运作。&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「为了维持漂亮的数据，保险公司可能会在投资表现不佳的年份，动用储备金来填补差额，让你看到一个看似稳健的分红率。」&lt;/span&gt;&lt;/strong&gt; 这背后隐藏的是保险公司真实的投资能力和财务健康状况，普通消费者很难看穿。&lt;/p&gt;\n&lt;h3 style=\"margin: 20px 0px; font-size: 17px; font-weight: bold;\"&gt;&lt;span style=\"font-size: 17px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 5px solid rgba(53, 148, 247, 0.8);\"&gt;风险三：汇率与政策，两只“看不见的手”&lt;/span&gt;&lt;/h3&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;你用人民币换成美元去投保，未来几十年，汇率如何波动？这是一个巨大的未知数。更关键的是，未来的外汇政策会如何变化？&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「当你需要理赔金或提取大额现金时，这笔钱能否顺利、足额地回到内地账户，同样存在不确定性。」&lt;/span&gt;&lt;/strong&gt; 此外，两地法律和监管环境的差异，意味着一旦发生纠纷，你的维权之路可能会异常艰难和漫长。&lt;/p&gt;\n&lt;h2 style=\"margin: 20px 0px 0px;\"&gt;&lt;span style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"&gt;监管重拳出击：为“发烧”的市场降温&lt;/span&gt;&lt;/h2&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;面对日益激进、甚至有些失控的市场竞争，香港保监局终于出手了。这一记“重拳”，旨在为整个行业挤掉泡沫，回归理性。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;自2025年7月1日起，&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「分红保单的最高演示收益率被戴上了“紧箍咒”：港元保单不得超过6%，非港元保单不得超过6.5%。」&lt;/span&gt;&lt;/strong&gt; 这个政策的出台，直接终结了保险公司之间以7%以上高演示收益率互相“内卷”的野蛮生长时代。这背后，是监管层对消费者的深切保护，他们不希望看到普通人被不切实际的“画饼”所误导，最终导致期望落空。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;新政之下，市场短期内掀起了一波“抢购潮”，但这正是为实现长期稳定所付出的必要代价。从长远看，这一举措将深刻地重塑整个行业生态。保险公司和代理人再也不能只靠“讲收益”来卖产品，而必须回归本源，&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「真正去“讲价值”、“讲保障”、“讲服务”。」&lt;/span&gt;&lt;/strong&gt; 竞争的赛道将从虚无缥缈的收益率竞赛，转向实实在在的产品创新和服务质量的比拼。这对于整个行业的健康发展，以及对我们每一个消费者而言，无疑是巨大的利好。&lt;/p&gt;\n&lt;table style=\"width: 100%; border-collapse: collapse;\"&gt;\n&lt;tbody&gt;\n&lt;tr&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;保单货币&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;2025年7月1日前普遍演示收益率 (%)&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;2025年7月1日起演示收益率上限 (%)&lt;/th&gt;\n&lt;th style=\"border: 1px solid rgb(64, 184, 250); color: rgb(89, 89, 89); font-size: 14px; background-color: rgb(240, 240, 240); font-weight: bold; padding: 5px 10px; text-align: center;\"&gt;影响&lt;/th&gt;\n&lt;/tr&gt;\n&lt;tr style=\"background-color: rgb(248, 248, 248);\"&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;港元&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;6% - 7% 以上&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;6%&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;限制了高演示收益的营销空间，促使产品设计更趋理性。&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr style=\"background-color: rgb(255, 255, 255);\"&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;非港元&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;6% - 7% 以上&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;6.5%&lt;/td&gt;\n&lt;td style=\"font-size: 14px; color: rgb(89, 89, 89); border: 1px solid rgb(64, 184, 250); padding: 5px 10px; text-align: center;\"&gt;同样限制了非港元保单的演示收益，但考虑到外币投资的潜在收益，上限略高。&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n&lt;h2 style=\"margin: 20px 0px 0px;\"&gt;&lt;span style=\"font-size: 18px; color: rgb(53, 148, 247); font-weight: bold; padding-left: 10px; border-left: 10px solid rgb(53, 148, 247);\"&gt;未来已来：在十字路口，我们该如何抉择？&lt;/span&gt;&lt;/h2&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;站在新的历史十字路口，香港储蓄险市场的未来充满了变数与机遇。全球低利率环境将成为新常态，这意味着单纯依靠高收益吸引客户的时代一去不复返。未来的竞争，将是一场关于科技、服务和智慧的全面战争。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;人工智能（AI）将不再是科幻概念，而是实实在在的生产力。它将被用于精准地为客户量身定制产品、优化理赔流程、甚至预测客户需求。那些能够拥抱科技、善用数据的保险公司将脱颖而出，而固守传统模式的公司则可能被无情淘汰。对于我们投资者而言，这意味着我们将可能享受到更个性化、更高效的服务。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;在这场机遇与挑战并存的财富博弈中，无论是作为投资者，还是行业的一份子，我们都必须做出更理性的选择：&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「对投资者而言，」&lt;/span&gt;&lt;/strong&gt; 清醒远比贪婪重要。请务必审慎评估风险，弄懂“低保证、高浮动”的本质，不要被演示收益的浮华所迷惑。将香港储蓄险视为你全球资产配置的一环，而非全部赌注。更多地去关注产品背后的长期价值——财富传承、全球配置、保单灵活性，以及保险公司自身的信誉和服务。最重要的是，在做决定前，找到一位真正专业且值得信赖的顾问，为你拨开迷雾。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;&lt;strong style=\"color: rgb(53, 148, 247); font-weight: bold; background: none; padding: 0px; border: none;\"&gt;&lt;span leaf=\"\"&gt;「对行业而言，」&lt;/span&gt;&lt;/strong&gt; 回归初心是唯一的出路。在监管的新规下，是时候抛弃虚高的数字游戏，真正沉下心来做产品创新、提升服务质量。加强对客户的风险教育，用透明和真诚去建立长久的信任关系。积极拥抱科技，将合规刻入骨髓，才能在这场变革的浪潮中行稳致远。&lt;/p&gt;\n&lt;p style=\"margin: 5px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: justify; word-spacing: 0.5px;\"&gt;香港储蓄险市场，正步入一个更加成熟、也更加考验智慧的新阶段。在这场财富的迷雾中，你是选择盲目跟风，还是做那个清醒的掌舵人？答案，就在我们每一个人的认知和选择里。&lt;/p&gt;\n&lt;!-- 末尾引导加好友模块 --&gt;\n&lt;p style=\"margin: 30px 0px 10px 0px; line-height: 2; color: rgb(43, 43, 43); font-family: 'PingFangTC-Light', '苹方-繁-细体', sans-serif; letter-spacing: 0.1px; font-size: 15px; text-align: center; word-spacing: 0.5px;\"&gt;\n  &lt;span style=\"color: rgb(150, 150, 150); font-size: 14px;\"&gt;👇&lt;/span&gt;\n  &lt;span style=\"font-weight: bold; color: rgb(53, 148, 247);\"&gt; 长按识别二维码，添加好友 &lt;/span&gt;\n  &lt;span style=\"color: rgb(150, 150, 150); font-size: 14px;\"&gt;👇&lt;/span&gt;\n&lt;/p&gt;\n&lt;p style=\"text-align: center; margin: 10px 0px 20px 0px;\"&gt;\n  &lt;img src=\"https://mmbiz.qpic.cn/mmbiz_jpg/Q0zXdzjeKVaiciclhDFEVFFlibg29YiaTfU2kTQuvp0h4icAhEXvt7NOCtWpYuPwJQrmp5urvDem9j0SicuvIZsAQSwQ/640?\" style=\"width: 180px; height: auto; display: block; margin: 0 auto;\" alt=\"联系方式二维码\"&gt;\n&lt;/p&gt;\n&lt;/section&gt;"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "整理报告格式",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "开始DeepRearch",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "开始DeepRearch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取报告正文内容": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取完整报告": {
+      "main": [
+        [
+          {
+            "node": "获取报告正文内容",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "匹配报告地址": {
+      "main": [
+        [
+          {
+            "node": "获取完整报告",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "开始DeepRearch": {
+      "main": [
+        [
+          {
+            "node": "匹配报告地址",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "整理报告格式": {
+      "main": [
+        [
+          {
+            "node": "格式化后的微信文章html",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "格式化后的微信文章html": {
+      "main": [
+        [
+          {
+            "node": "合并文章内容",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "输出标题、摘要及封面提示词",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "提取图片地址1": {
+      "main": [
+        [
+          {
+            "node": "获取图片二进制",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "使用ChatGPT制作封面",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "使用ChatGPT制作封面": {
+      "main": [
+        [
+          {
+            "node": "提取图片地址1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "输出标题、摘要及封面提示词": {
+      "main": [
+        [
+          {
+            "node": "json格式化",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json格式化": {
+      "main": [
+        [
+          {
+            "node": "合并文章内容",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "文章格式化": {
+      "main": [
+        [
+          {
+            "node": "保存文章草稿2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "合并文章内容": {
+      "main": [
+        [
+          {
+            "node": "文章格式化",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取图片二进制": {
+      "main": [
+        [
+          {
+            "node": "上传图片到公众号",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "上传图片到公众号": {
+      "main": [
+        [
+          {
+            "node": "合并文章内容",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "输出标题、摘要及封面提示词",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "保存文章草稿2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "使用ChatGPT制作封面",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "整理报告格式",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6a6297ce-6c75-4f0c-b685-9263d91ff77b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8aa1d3273bc3e73813e667934737d3c4fd2735f5c91c84e56d8f0b26ccae0ea8"
+  },
+  "id": "V5B3QOHU0Uc1yN15",
+  "tags": []
+}&lt;/pre&gt;
+
+&lt;h1&gt;搭建准备：&lt;/h1&gt;
+&lt;ol&gt;&lt;li&gt;最好电脑可以翻墙，推荐使用https://a.zxm.cc/ 或者其它能翻墙的也行（非必须）&lt;/li&gt;&lt;/ol&gt;
+&lt;ol&gt;&lt;li&gt;Github 账户 https://github.com/ 注册登录&lt;/li&gt;&lt;/ol&gt;
+&lt;ol&gt;&lt;li&gt;注册登录zeabur 使用github账户， zeabur平台使用充值5美元，支持支付宝和微信，完成账户的升级，、&lt;/li&gt;&lt;/ol&gt;
+&lt;ol&gt;&lt;li&gt;按量计费，比服务器便宜很多。创建项目的时候选择美国&lt;/li&gt;&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QbAmbD3a9oADAbxzlA8cEcAxnwf/" /&gt;&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;注册云雾AI ，可以不需翻墙使用国外多个AI大模型 云雾AI 需要自定义充值，api代理地址为 https://yunwu.ai/v1&lt;/li&gt;&lt;/ol&gt;
+&lt;ol&gt;&lt;li&gt;Google gemini chat的国内代理地址为：https://ai-proxy.chatwise.app/generativelanguage API key 建议去官方网站 https://aistudio.google.com/prompts/new_chat 自行申请。&lt;/li&gt;&lt;/ol&gt;
+
+&lt;h1&gt;n8n 社区节点安装&lt;/h1&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/EblubcyjdozztOxDMptcppzan3e/" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/G6AJbSJGrogvsNxMd8mc3IlMnSe/" /&gt;&lt;/p&gt;
+&lt;p&gt;最后祝大家学习愉快！有需要交流的可以找鱼丸进行链接一起交流。&lt;/p&gt;
+&lt;h1&gt;关于导入遇到的问题&lt;/h1&gt;
+&lt;ul&gt;&lt;li&gt;Deep research 模型使用 ,在云雾中申请 apikey 用逆向通道&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/QrGsbo5XhovLFOxvrB3ce2UInBc/" /&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;生图模型使用 gpt-4o，在云雾中申请 apikey 用default通道&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/LbFcbzNzsoxgZpxLjHmcCMtunUe/" /&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;输出标题、摘要、提示词使用的官方的google gemini，去官方申请API key即可&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/v2/cover/RhUNbmQnzohZ0nxY9fvcdjZUnpe/" /&gt;&lt;/p&gt;
+</style></section></p></section></p></section></think></pre>
